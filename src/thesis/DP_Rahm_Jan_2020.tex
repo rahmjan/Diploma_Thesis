@@ -12,14 +12,17 @@
 \documentclass[thesis=M,english]{FITthesis}[2019/12/23]
 
 \usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
-% \usepackage[latin2]{inputenc} % LaTeX source encoded as ISO-8859-2
-% \usepackage[cp1250]{inputenc} % LaTeX source encoded as Windows-1250
 
-% \usepackage{subfig} %subfigures
-% \usepackage{amsmath} %advanced maths
-% \usepackage{amssymb} %additional math symbols
-\usepackage{pdfpages}
+\usepackage{graphicx} %graphics files inclusion
+\usepackage{amsmath} %advanced maths
+\usepackage{amssymb} %additional math symbols 
+
 \usepackage{dirtree} %directory tree visualisation
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage{float}
+\usepackage{svg}
+\usepackage{graphicx}
 
 % % list of acronyms
 % \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
@@ -38,13 +41,13 @@
 \authorWithDegrees{Bc. Jan Rahm} %author's name with academic degrees
 \supervisor{Ing. Jiří Buček, Ph.D.}
 \acknowledgements{I would like to thank Ing. Jiří Buček, Ph.D. for the willingness, consultation and valuable advice he gave me.}
-\abstractEN{Summarize the contents and contribution of your work in a few sentences in English language.}
-\abstractCS{V n{\v e}kolika v{\v e}t{\' a}ch shr{\v n}te obsah a p{\v r}{\' i}nos t{\' e}to pr{\' a}ce v {\v c}esk{\' e}m jazyce.}
+\abstractEN{The diploma thesis deals with selected algorithms of multivariate cryptography, especially Unbalanced Oil and Vintage. The aim of this work is implementation of algorithms in Wolfram Mathematica, investigation of existing solutions and their implementation on ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.}
+\abstractCS{Diplomová práce se zabývá vybranými algoritmy multivariační kryptografie, zejména Unbalanced Oil and Vintage. Cílem práce je implementace algoritmů ve Wolfram Mathematica, prozkoumání již existujících řešeních a jejich implementace na mikrokontroleru ESP32. Algoritmy jsou otestovány a změřeny vůči algoritmům RSA a ECDSA.}
 \placeForDeclarationOfAuthenticity{Prague}
-\keywordsCS{Replace with comma-separated list of keywords in Czech.}
-\keywordsEN{Replace with comma-separated list of keywords in English.}
+\keywordsCS{Multivariační kryptografie, Unbalanced Oil and Vintage, Wolfram Mathematica, ESP32}
+\keywordsEN{Multivariate cryptography, Unbalanced Oil and Vintage, Wolfram Mathematica, ESP32}
 \declarationOfAuthenticityOption{1} %select as appropriate, according to the desired license (integer 1-6)
-% \website{http://site.example/thesis} %optional thesis URL
+\website{https://github.com/rahmjan/Diploma_Thesis} %optional thesis URL
 
 \begin{document}
 
@@ -55,21 +58,79 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Introduction}
+Cryptography is one of the most needed part of modern informatics because almost everyone has something they wish to stay private. But today we can see uprise of the quantum computers which are able to decipher the conventional algorithms for cryptology. That is why a new category of post-quantum cryptography was created and one of its candidates is multivariate cryptography.
 
+The objective of this work is to describe principles of multivariate cryptography for educational purpose with creation of simple example in Wolfram Mathematica. The focus is on Unbalanced Oil and Vintage algorithm with examination of reference implementation. Further focusing on possible implementation on ESP32 and possible use in IoT.
+
+The final part belongs to comparison with conventional algorithms which are RSA and ECDSA.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{all}
 \chapter{Basic terms and definitions}
-Description; How it works
+The chapter describes concepts and algorithms used in the thesis.
 
+\section{Basic terms}
+\subsection{Polynomial}
+Polynomial $p$ is function to which applies
+\[
+	p(x) = \sum\limits_{i=0}^n {\alpha_ix^i} = \alpha_0 + \alpha_1x + \alpha_2x^2 + ... + \alpha_nx^n,
+\]
+where $n \in N_0$ and $\alpha_0, \alpha_1, ..., \alpha_n \in R$. Values $\alpha_0, \alpha_1, ..., \alpha_n$ we calls polynomial coefficients of $p$.  
+
+\subsection{Degree of a polynomial}
+The degree of a polynomial is the highest index $i \in N_0$ to which applies that coefficient $\alpha_i \ne 0$. If all coefficients are zero, then the degree of the polynomial is -1.
+
+\subsection{Post-quantum cryptography}
+It refers to algorithms that are thought to be secure against an attack by a quantum computer.
+
+But today it is not true for the most used cryptographic algorithms, which are based on mathematical problems of integer factorization, discrete logarithm or elliptic-curve discrete logarithm. These problems can be solved by Shor's algorithm on quantum computer.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Multivariate cryptography}
+\subsection{Definition}
+"Multivariate cryptography is the generic term for asymmetric cryptographic primitives based on multivariate polynomials over a finite field $\mathbb{F}$."\cite{L-WIKI1}
+
+It means it is system of nonlinear polynomial equations with variables over a finite filed $\mathbb{F} = \mathbb{F}_q$ with $q$ elements:
+\[
+	p^{(1)}(x_1,\ldots,x_n) = \sum\limits_{i=1}^{n} {\sum\limits_{j=1}^{n} {p_{ij}^{(1)} \cdot x_ix_j}} + \sum\limits_{i=1}^{n} {p_{i}^{(1)} \cdot x_i} + p_0^{(1)}
+\]
+\[
+	p^{(2)}(x_1,\ldots,x_n) = \sum\limits_{i=1}^{n} {\sum\limits_{j=1}^{n} {p_{ij}^{(2)} \cdot x_ix_j}} + \sum\limits_{i=1}^{n} {p_{i}^{(2)} \cdot x_i} + p_0^{(2)}
+\]
+\[
+	\vdots
+\]
+\[
+	p^{(m)}(x_1,\ldots,x_n) = \sum\limits_{i=1}^{n} {\sum\limits_{j=1}^{n} {p_{ij}^{(m)} \cdot x_ix_j}} + \sum\limits_{i=1}^{n} {p_{i}^{(m)} \cdot x_i} + p_0^{(m)}
+\]
+ 
+If the polynomials are of degree two, they are called multivariate quadratics (MQ). Solving systems of multivariate polynomial equations is proven to be NP hard, so called MQ Problem. That is the reason why MC is often considered to be good candidate for post-quantum cryptography.
+
+\subsection{MQ Problem}
+Given $m$ quadratic polynomials $p^{(1)}(x),\ldots,p^{(m)}(x)$ in the $n$ variables $x_1,\ldots,x_n$, find a vector $\bar{x} = (\bar{x}_1,\ldots,\bar{x}_n)$ such that $p^{(1)}(\bar{x}) = \ldots = p^{(m)}(\bar{x}) = 0$.
+
+
+\subsection{History}
+\subsection{Encryption}
+\subsection{Signature}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{UOV}
+\subsection{Definition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Realisation}
 Mathematica; Specific implementation + difference on IoT; (presentation for teaching)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Testing and discussion}
-On what was tested (PC and EPS32/ARM); Comparasition with RSA,ECDSA; Time and memory complexity;
+On what was tested (PC and EPS32/ARM); Comparison with RSA,ECDSA; Time and memory complexity;
 Usability in an embedded enviroment;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Conclusion}
@@ -77,18 +138,45 @@ How good I was...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \bibliographystyle{iso690}
 \bibliography{mybibliographyfile}
 
+\begin{thebibliography}{9}
+\bibitem{L-CZYP}
+CZYPEK, P.: \textit{Implementing Multivariate Quadratic Public Key Signature Schemes on
+Embedded Devices.}  Ruhr-Universit\"{a}t Bochum, 2012.
+
+\bibitem{L-PET1}
+PETZOLDT, A.: \textit{Multivariate Cryptography Part 1: Basics} [online]. 2017, [cit. 2020-04-1]. At: \url{https://2017.pqcrypto.org/school/slides/1-Basics.pdf}
+
+\bibitem{L-PET2}
+PETZOLDT, A.: \textit{Multivariate Cryptography Part 2: UOV and Rainbow} [online]. 2017, [cit. 2020-04-1]. At: \url{https://2017.pqcrypto.org/school/slides/2-UOV+Rainbow.pdf}
+
+\bibitem{L-GEOV}
+GEOVANDRO, C.C.F.P.: \textit{Introduction to Multivariate Public Key Cryptography} [online]. 2013, [cit. 2020-04-1]. At: \url{http://www.ic.unicamp.br/ascrypto2013/slides/ascrypto2013_geovandropereira.pdf}
+
+\bibitem{L-MC0}
+GOUBIN, L.; PATARIN, J.; YANG, BY.: \textit{Multivariate Cryptography.} In: van Tilborg H.C.A., Jajodia S. \textit{Encyclopedia of Cryptography and Security.} 2011, Springer, Boston, MA
+
+\bibitem{L-MC1}
+DING, J.; PETZOLDT, A.: \textit{Current State of Multivariate Cryptography.} In: \textit{IEEE Security \& Privacy.}, vol. 15, no. 4, pp. 28-36, 2017.
+
+\bibitem{L-WIKI1}
+\textit{Multivariate cryptography} [online]. 2020, [cit. 2020-04-1]. At: \url{https://en.wikipedia.org/wiki/Multivariate_cryptography}
+
+\end{thebibliography}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{all}
 \appendix
 
 \chapter{Acronyms}
 % \printglossaries
 \begin{description}
-	\item[GUI] Graphical user interface
-	\item[XML] Extensible markup language
+	\item[MC] Multivariate cryptography
+	\item[IoT] Internet of Things
+	\item[UOV] Unbalanced Oil and Vintage
+	\item[MQ] Multivariate quadratics
 \end{description}
 
 
