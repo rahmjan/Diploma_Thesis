@@ -23,6 +23,7 @@
 \usepackage{float}
 \usepackage{svg}
 \usepackage{graphicx}
+\usepackage{mathtools,amscd}
 
 % % list of acronyms
 % \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
@@ -89,9 +90,9 @@ But today it is not true for the most used cryptographic algorithms, which are b
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multivariate cryptography}
 \subsection{Definition}
-"Multivariate cryptography is the generic term for asymmetric cryptographic primitives based on multivariate polynomials over a finite field $\mathbb{F}$."\cite{L-WIKI1}
+"Multivariate cryptography (MC) is the generic term for asymmetric cryptographic primitives based on multivariate polynomials over a finite field $\mathbb{F}$."\cite{L-WIKI1}
 
-It means it is system of nonlinear polynomial equations with variables over a finite filed $\mathbb{F} = \mathbb{F}_q$ with $q$ elements:
+It means it is system of nonlinear polynomial equations with coefficients over a finite filed $\mathbb{F} = \mathbb{F}_q$ with $q$ elements:
 \[
 	p^{(1)}(x_1,\ldots,x_n) = \sum\limits_{i=1}^{n} {\sum\limits_{j=1}^{n} {p_{ij}^{(1)} \cdot x_ix_j}} + \sum\limits_{i=1}^{n} {p_{i}^{(1)} \cdot x_i} + p_0^{(1)}
 \]
@@ -110,8 +111,28 @@ If the polynomials are of degree two, they are called multivariate quadratics (M
 \subsection{MQ Problem}
 Given $m$ quadratic polynomials $p^{(1)}(x),\ldots,p^{(m)}(x)$ in the $n$ variables $x_1,\ldots,x_n$, find a vector $\bar{x} = (\bar{x}_1,\ldots,\bar{x}_n)$ such that $p^{(1)}(\bar{x}) = \ldots = p^{(m)}(\bar{x}) = 0$.
 
+\subsection{Public key}
+The public key of MC is system of MC polynomials. To build this system based on MQ Problem, it needs an easily invertible quadratic map $\mathcal{F}: \mathbb{F}^n \rightarrow \mathbb{F}^m$, so called \textit{central map}. Because it is easily invertible, it needs to be hidden in public key by invertible affine maps: $\mathcal{S}: \mathbb{F}^m \rightarrow \mathbb{F}^m$ and $\mathcal{T}: \mathbb{F}^n \rightarrow \mathbb{F}^n$.
 
-\subsection{History}
+The public key of this system is composed map:
+\[
+	\mathcal{P} = \mathcal{S} \circ \mathcal{F} \circ \mathcal{T} : \mathbb{F}^n \rightarrow \mathbb{F}^m
+\]
+and the private key consists of the tree maps $\mathcal{S}$, $\mathcal{F}$ and $\mathcal{T}$, also known as \textit{trapdoor}.
+
+Public key should be hard to invert without the knowledge of the \textit{trapdoor}.
+
+\begin{figure}
+\begin{equation*}
+  \begin{CD}
+     z \in \mathbb{F}^n @>  \mathcal{P} >> w \in \mathbb{F}^m \\
+    @V\mathcal{T}VV  @A\mathcal{S}AA \\
+  y \in \mathbb{F}^n @> \mathcal{F} >> x \in \mathbb{F}^m
+  \end{CD}
+\end{equation*}
+\caption{Workflow of multivariate public key cryptosystems}
+\end{figure}
+
 \subsection{Encryption}
 \subsection{Signature}
 
