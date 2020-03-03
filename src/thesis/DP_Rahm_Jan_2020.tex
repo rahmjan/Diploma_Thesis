@@ -42,11 +42,11 @@
 \authorWithDegrees{Bc. Jan Rahm} %author's name with academic degrees
 \supervisor{Ing. Jiří Buček, Ph.D.}
 \acknowledgements{I would like to thank Ing. Jiří Buček, Ph.D. for the willingness, consultation and valuable advice he gave me.}
-\abstractEN{The diploma thesis deals with selected algorithms of multivariate cryptography, especially Unbalanced Oil and Vintage. The aim of this work is implementation of algorithms in Wolfram Mathematica, investigation of existing solutions and their implementation on ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.}
-\abstractCS{Diplomová práce se zabývá vybranými algoritmy multivariační kryptografie, zejména Unbalanced Oil and Vintage. Cílem práce je implementace algoritmů ve Wolfram Mathematica, prozkoumání již existujících řešeních a jejich implementace na mikrokontroleru ESP32. Algoritmy jsou otestovány a změřeny vůči algoritmům RSA a ECDSA.}
+\abstractEN{The diploma thesis deals with selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vintage and Rainbow. The aim of this work is implementation of algorithms in Wolfram Mathematica, investigation of existing solutions and their implementation on ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.}
+\abstractCS{Diplomová práce se zabývá vybranými algoritmy multivariační kryptografie, zejména Unbalanced Oil \& Vintage a Rainbow. Cílem práce je implementace algoritmů ve Wolfram Mathematica, prozkoumání již existujících řešeních a jejich implementace na mikrokontroleru ESP32. Algoritmy jsou otestovány a změřeny vůči algoritmům RSA a ECDSA.}
 \placeForDeclarationOfAuthenticity{Prague}
-\keywordsCS{Multivariační kryptografie, Unbalanced Oil and Vintage, Wolfram Mathematica, ESP32}
-\keywordsEN{Multivariate cryptography, Unbalanced Oil and Vintage, Wolfram Mathematica, ESP32}
+\keywordsCS{Multivariační kryptografie, Unbalanced Oil \& Vintage, Rainbow, Wolfram Mathematica, ESP32}
+\keywordsEN{Multivariate cryptography, Unbalanced Oil \& Vintage, Rainbow, Wolfram Mathematica, ESP32}
 \declarationOfAuthenticityOption{1} %select as appropriate, according to the desired license (integer 1-6)
 \website{https://github.com/rahmjan/Diploma_Thesis} %optional thesis URL
 
@@ -61,7 +61,7 @@
 \chapter{Introduction}
 Cryptography is one of the most needed part of modern informatics because almost everyone has something they wish to stay private. But today we can see uprise of the quantum computers which are able to decipher the conventional algorithms for cryptology. That is why a new category of post-quantum cryptography was created and one of its candidates is multivariate cryptography.
 
-The objective of this work is to describe principles of multivariate cryptography for educational purpose with creation of simple example in Wolfram Mathematica. The focus is on Unbalanced Oil and Vintage algorithm with examination of reference implementation. Further focusing on possible implementation on ESP32 and possible use in IoT.
+The objective of this work is to describe principles of multivariate cryptography for educational purpose with creation of simple example in Wolfram Mathematica. The focus is on Unbalanced Oil \& Vintage and Rainbow algorithms with examination of reference implementation. Further focusing on possible implementation on ESP32 and possible use in IoT.
 
 The final part belongs to comparison with conventional algorithms which are RSA and ECDSA.
 
@@ -86,6 +86,23 @@ The degree of a polynomial is the highest index $i \in N_0$ to which applies tha
 It refers to algorithms that are thought to be secure against an attack by a quantum computer.
 
 But today it is not true for the most used cryptographic algorithms, which are based on mathematical problems of integer factorization, discrete logarithm or elliptic-curve discrete logarithm. These problems can be solved by Shor's algorithm on quantum computer.
+
+\subsection{Finite field}
+A finite field is a finite set which is a field. This means that multiplication, addition, subtraction and division (excluding division by zero) are defined and satisfy the rules of arithmetic known as the field axioms.
+
+The simplest examples of finite fields are the fields of prime order: $\mathbb {F}_{p}$ may be constructed as the integers modulo p.
+
+\subsection{Translation}
+In Euclidean geometry, a translation is a geometric transformation that moves every point of a figure or a space by the same distance in a given direction.
+
+\subsection{Linear map}
+In mathematics, a linear map is a mapping $V \rightarrow W$ between two modules (for example, two vector spaces) that preserves the operations of addition and scalar multiplication.
+
+\subsection{Affine map}
+An affine map is the composition of two functions: a translation and a linear map. Ordinary vector algebra uses matrix multiplication to represent linear maps, and vector addition to represent translations. Formally, in the finite-dimensional case, if the linear map is represented as a multiplication by a matrix $A$ and the translation as the addition of a vector $\vec {b}$, an affine map $f$ acting on a vector ${\vec {x}}$ can be represented as:
+\[
+{\vec {y}}=f({\vec {x}})=A{\vec {x}}+{\vec {b}}
+\]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multivariate cryptography}
@@ -122,7 +139,7 @@ and the private key consists of the tree maps $\mathcal{S}$, $\mathcal{F}$ and $
 
 Public key should be hard to invert without the knowledge of the \textit{trapdoor}.
 
-\begin{figure}
+\begin{figure}[h]
 \begin{equation*}
   \begin{CD}
      z \in \mathbb{F}^n @>  \mathcal{P} >> w \in \mathbb{F}^m \\
@@ -132,18 +149,113 @@ Public key should be hard to invert without the knowledge of the \textit{trapdoo
 \end{equation*}
 \caption{Workflow of multivariate public key cryptosystems}
 \end{figure}
+\smallskip
 
 \subsection{Encryption}
+To get a ciphertext $w$, message $z \in \mathbb{F}^n$ can by easily encrypted by evaluation of the public key $\mathcal{P}$:
+\[
+	w = \mathcal{P}(z) \in \mathbb{F}^m
+\]
+For decryption of ciphertext, it needs to be evaluated by private key in tree steps: 
+\[
+	x = \mathcal{S}^{-1}(w) \in \mathbb{F}^m, \, y = \mathcal{F}^{-1}(x) \in \mathbb{F}^n, \, z = \mathcal{T}^{-1}(y) \in \mathbb{F}^n
+\]
+There is a condition that requires to be $m \geq n$, this way the public key $\mathcal{P}$ will be injective and decryption will output a unique plaintext.
+
 \subsection{Signature}
+To generate a signature for a message $m$, it needs to use a hash function:
+\[
+	\mathcal{H}: \{0,1\}^{*} \rightarrow \mathbb{F}^m
+\]
+to compute the hash value:
+\[
+	w = \mathcal{H}(m) \in \mathbb{F}^m
+\]
+After this step it can be evaluated by:
+\[
+	x = \mathcal{S}^{-1}(w) \in \mathbb{F}^m, \, y = \mathcal{F}^{-1}(x) \in \mathbb{F}^n, \, z = \mathcal{T}^{-1}(y) \in \mathbb{F}^n
+\]
+where $z$ is the signature of message $m$. As can be seen, it is similar to decription of ciphertext.
+
+The verification of signature $z$ is done by computing the hash value:
+\[
+	w = \mathcal{H}(m) \in \mathbb{F}^m
+\]
+and by evaluation of public key $\mathcal{P}$:
+\[
+	w' = \mathcal{P}(z) \in \mathbb{F}^m
+\]
+If $w' = w$ is true, the signature is valid, otherwise not.
+
+There is also condition that requires to be $m \leq n$, this way the public key $\mathcal{P}$ will be surjective and private key can sign any message.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{UOV}
+The Unbalanced Oil and Vinegar's name comes from the fact that the variables of the polynomials are grouped into two groups: the vintegar and the oil. These two groups are mixed in the polynomials and the unbalanced attribute refers to the ratio of the variables, where is always more vinegar than oil variables. The signature scheme was proposed by Kipnis and Patarin in 1999.
+
 \subsection{Definition}
+Let $\mathbb{F}$ be a finite field, $v,o \in \mathbb{N}$ and $n=v+o$, $V=\{1, \ldots, v\}$, $O=\{v+1, \ldots, n\}$. The variables $x_1, \ldots, x_v$ are Vinegar variables and $x_{v+1}, \ldots, x_n$ are Oil variables. If $v=o$ the scheme is called balanced Oil \& Vinegar (OV), for $v>o$ it is UOV.
+
+\bigskip
+\noindent
+The \textit{central map} $\mathcal{F}:\mathbb{F}^n \rightarrow \mathbb{F}^o$ consist of $o$ quadratic polynomials $f^{(1)}, \ldots, f^{(o)}$:
+\[
+	f^{(k)} = \sum\limits_{i=1}^{v} {\sum\limits_{j=1}^{v} {\alpha_{ij}^{(k)} \cdot x_ix_j}} +  \sum\limits_{i=1}^{v} {\sum\limits_{j=v+1}^{n} {\beta_{ij}^{(k)} \cdot x_ix_j}}+ \sum\limits_{i=1}^{n} {\gamma_{i}^{(k)} \cdot x_i} + \delta^{(k)}
+\]
+where $\alpha_{ij}^{(k)}$, $\beta_{ij}^{(k)}$, $\gamma_{i}^{(k)}$, $\delta^{(k)} \in \mathbb{F}$ and $1 \leq k \leq o$.
+
+\bigskip
+\noindent
+To hide $\mathcal{F}$ in the public key, it is combined with one invertible affine map $\mathcal{T}: \mathbb{F}^n \rightarrow \mathbb{F}^n$. The public key of the scheme is in the form:
+\[
+	\mathcal{P} = \mathcal{F} \circ \mathcal{T} : \mathbb{F}^n \rightarrow \mathbb{F}^o
+\]
+and the private key consist of $\mathcal{F}$ and $\mathcal{T}$. The second affine map $\mathcal{S}$ is not needed for the security of UOV.
+
+\subsection{Security}
+For the security of UOV is required $v \geq 2o$ because of the attack of Kipnis and Shamir on balanced OV.\cite{L-KS98} Besides of that, the UOV scheme resisted (for suitable parameter sets) cryptanalysis for over 20 years now and is therefore believed to be of high security.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Rainbow}
+The Rainbow is a multi layer version of UOV. The layers are not independent from each other but there is a hierarchy which uses the results from the layer above to compute additional variables. The name comes from the link to the layers of a rainbow and the scheme was introduced by Ding and Schmid in 2005.
+
+The main avantage compared to UOV should be in better performance, smaller key sizes and smaller signatures.
+
+\subsection{Definition}
+Let $\mathbb{F}$ be a finite field, $0<v_1<v_2<\ldots<v_{u+1} = n$ be a sequence of integers and $V_i=\{1, \ldots, v_i\}$, $O_i=\{v_i+1, \ldots, v_{i+1}\}$ and $o_i = v_{i+1} - v_i \,\, (i=1,\ldots,u)$.
+
+\bigskip
+\noindent
+The \textit{central map} $\mathcal{F}:\mathbb{F}^n \rightarrow \mathbb{F}^m$ consist of $m = n - v_1$ quadratic polynomials $f^{(v_1+1)}, \ldots, f^{(n)}$:
+\[
+	f^{(k)} = \sum\limits_{i,j \in V_l}{\alpha_{ij}^{(k)} \cdot x_ix_j} +  \sum\limits_{i \in V_l,j \in O_l}{\beta_{ij}^{(k)} \cdot x_ix_j}+ \sum\limits_{i \in V_l \cup O_l}{\gamma_{i}^{(k)} \cdot x_i} + \delta^{(k)}
+\]
+where $l \in \{1, \ldots, u\}$ is the only integer such that $k \in O_l$.
+
+\bigskip
+\noindent
+To hide $\mathcal{F}$ in the public key, it is combined with two invertible affine maps $\mathcal{T}: \mathbb{F}^n \rightarrow \mathbb{F}^n$ and $\mathcal{S}: \mathbb{F}^m \rightarrow \mathbb{F}^m$. The public key of the scheme is in the form:
+\[
+	\mathcal{P} = \mathcal{S} \circ \mathcal{F} \circ \mathcal{T} : \mathbb{F}^n \rightarrow \mathbb{F}^m
+\]
+and the private key consist of $\mathcal{S}$, $\mathcal{F}$ and $\mathcal{T}$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Realisation}
 Mathematica; Specific implementation + difference on IoT; (presentation for teaching)
+\section{Wolfram Mathematica}
+This section describes implementation in Wolfram Mathematica and step by step description of algorithms.
+
+\subsection{UOV}
+
+
+\subsection{Rainbow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reference implementation}
+\subsection{UOV}
+\subsection{Rainbow}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -185,6 +297,9 @@ DING, J.; PETZOLDT, A.: \textit{Current State of Multivariate Cryptography.} In:
 \bibitem{L-WIKI1}
 \textit{Multivariate cryptography} [online]. 2020, [cit. 2020-04-1]. At: \url{https://en.wikipedia.org/wiki/Multivariate_cryptography}
 
+\bibitem{L-KS98}
+KIPNIS, A.; SHAMIR, A.: \textit{Cryptanalysis of the oil and vinegar signature scheme}. In \textit{CRYPTO 1998}, LNCS vol. 1462, pp. 257–266, Springer, 1998.
+
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -194,10 +309,11 @@ DING, J.; PETZOLDT, A.: \textit{Current State of Multivariate Cryptography.} In:
 \chapter{Acronyms}
 % \printglossaries
 \begin{description}
-	\item[MC] Multivariate cryptography
 	\item[IoT] Internet of Things
-	\item[UOV] Unbalanced Oil and Vintage
+	\item[MC] Multivariate cryptography
 	\item[MQ] Multivariate quadratics
+	\item[OV] Oil and Vinegar	
+	\item[UOV] Unbalanced Oil and Vinegar	
 \end{description}
 
 
