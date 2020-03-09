@@ -330,36 +330,36 @@ The results of $\mathcal{P} = \mathcal{F} \circ \mathcal{T}$ are:
   \{5+5x1+4\mmaSup{x1}{2}+5x2+3x1x2+5\mmaSup{x2}{2}+2x3+2x1x3+x2x3+2\mmaSup{x3}{2}+6x4+3x2x4+2\mmaSup{x4}{2}
 +x5+3x1x5+6x2x5+4x3x5+2\mmaSup{x5}{2}+2x6+x1x6+3x2x6+4x3x6+6x4x6+5x5x6+4\mmaSup{x6}{2}\}
 \end{mmaCell}
-From this place on it will only focus on computation of signature $z$ for message $w$. Be aware that in this example is not used hash function for the message because for the example it is not needed.
-\begin{mmaCell}[moredefined={w, x1, x2, x3}]{Input}
+From this place on it will only focus on computation of signature $z$ for message $w$. Be aware that in this example is not used hash function for the message because for the example purpose it is not needed.
+\begin{mmaCell}[moredefined={w, y1, y2, y3}]{Input}
   w=\{\{3\},\{6\},\{4\}\};
-  x1= 1;
-  x2= 0;
-  x3= 6;
+  y1= 1;
+  y2= 0;
+  y3= 6;
 \end{mmaCell}
-It sets the message to value $w = (3,6,4)$ and also it set values for $x = (x1,x2,x3)$. These values for $x$ are randomly chosen.
-\begin{mmaCell}[addtoindex=3,moredefined={f1, F1, x1, x2, x3, mod, f2, F2, f3, F3}]{Input}
-  f1 = PolynomialMod[F1[x1,x2,x3,x4,x5,x6],mod]
-  f2 = PolynomialMod[F2[x1,x2,x3,x4,x5,x6],mod]
-  f3 = PolynomialMod[F3[x1,x2,x3,x4,x5,x6],mod]
+It sets the message to value $w = (3,6,4)$ and also it set values for $y = (y1,y2,y3)$. These values for $y$ are randomly chosen.
+\begin{mmaCell}[addtoindex=3,moredefined={f1, F1, y1, y2, y3, mod, f2, F2, f3, F3}]{Input}
+  f1 = PolynomialMod[F1[y1,y2,y3,y4,y5,y6],mod]
+  f2 = PolynomialMod[F2[y1,y2,y3,y4,y5,y6],mod]
+  f3 = PolynomialMod[F3[y1,y2,y3,y4,y5,y6],mod]
 \end{mmaCell}
 Here are the results after minimalizing and use of modulo:
 \begin{mmaCell}{Output}
-  f1 = 6+x4+4x5+6x6
-  f2 = 4+x4+x5+4x6
-  f3 = 5+6x4+4x5+x6
+  f1 = 6+y4+4y5+6y6
+  f2 = 4+y4+y5+4y6
+  f3 = 5+6y4+4y5+y6
 \end{mmaCell}
-Next two steps solve linear system $f^{(1)} = w_1 = 3, f^{(2)} = w_2 = 6, f^{(3)} = w_3 = 4$, it can also use for solution the Gaussian elimination:
+Next two steps solve linear system $f^{(1)} = w_1 = 3, f^{(2)} = w_2 = 6, f^{(3)} = w_3 = 4$, it can also use for the solution the Gaussian elimination:
 \begin{mmaCell}[moredefined={res, f1, w, f2, f3, mod}]{Input}
   res = Solve[\{f1==w[[1]], f2==w[[2]], f3==w[[3]]\},Modulus \(\pmb{\to}\) mod];
 \end{mmaCell}
-\begin{mmaCell}[moredefined={x, x1, x2, x3, res}]{Input}
-  x=\{x1,x2,x3,x4,x5,x6\} /. res 
+\begin{mmaCell}[moredefined={y, y1, y2, y3, res}]{Input}
+  y=\{y1,y2,y3,y4,y5,y6\} /. res 
 \end{mmaCell}
 \begin{mmaCell}{Output}
   \{\{1,0,6,6,3,0\}\}
 \end{mmaCell}
-It will obtain results for $(x4,x5,x6) = (6,3,0)$. After combination it is $x = (1,0,6,6,3,0)$, so called \textit{pre-image} of $w$: $x =  \mathcal{F}^{-1}(w)$. If the solution for linear system do not exist, choose different values for $(x1,x2,x3)$ and repeat steps before.
+It will obtain results for $(y4,y5,y6) = (6,3,0)$. After combination it is $y = (1,0,6,6,3,0)$, so called \textit{pre-image} of $w$: $y =  \mathcal{F}^{-1}(w)$. If the solution for linear system do not exist, choose different values for $(y1,y2,y3)$ and repeat steps before.
 
 \bigskip
 \noindent
@@ -386,8 +386,8 @@ A_{-1} =
 \end{equation*}
 	\end{minipage}
 \end{figure}
-\begin{mmaCell}[moredefined={z, A, x, b, mod}]{Input}
-  z = Mod[\mmaSub{A}{-1}.(Transpose[x]-b),mod] 
+\begin{mmaCell}[moredefined={z, A, y, b, mod}]{Input}
+  z = Mod[\mmaSub{A}{-1}.(Transpose[y]-b),mod] 
 \end{mmaCell}
 \begin{mmaCell}{Output}
   \{\{4\},\{1\},\{5\},\{6\},\{3\},\{5\}\}
@@ -399,9 +399,9 @@ The value of the signature $z = (4,1,5,6,3,5)$.
 Last part is check if two hashes (in this example two messages $w$) are the same.
 \begin{mmaCell}[moredefined={w2, w, P1, z, P2, P3, mod}]{Input}
   w2=w;
-  w2= \{P1 @@ z[[All,1]],P2 @@ z[[All,1]],P3 @@ z[[All,1]]\};
+  w2=\{P1 @@ z[[All,1]],P2 @@ z[[All,1]],P3 @@ z[[All,1]]\};
   (* True? *)
-  Thread[Mod[w2,mod]==w ]
+  Mod[w2,mod]==w
 \end{mmaCell}
 \begin{mmaCell}[addtoindex=2]{Output}
   True
