@@ -7,35 +7,15 @@
 #include "LUOV.h"
 #include "api.h"
 
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_system.h"
-#include "esp_spi_flash.h"
-
-#define NUMBER_OF_KEYPAIRS 10     /* Number of keypairs that is generated during test */
-#define SIGNATURES_PER_KEYPAIR 100  /* Number of times each keypair is used to sign a random document, and verify the signature */
+#define NUMBER_OF_KEYPAIRS 1     /* Number of keypairs that is generated during test */
+#define SIGNATURES_PER_KEYPAIR 1  /* Number of times each keypair is used to sign a random document, and verify the signature */
 
 int app_main(void)
 {
-    printf("Hello world!\n");
-
-    /* Print chip information */
-    esp_chip_info_t chip_info;
-    esp_chip_info(&chip_info);
-    printf("This is ESP32 chip with %d CPU cores, WiFi%s%s, ",
-           chip_info.cores,
-           (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
-           (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
-
-    printf("silicon revision %d, ", chip_info.revision);
-
-    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
-           (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
-
     printf("SECRET - START!\n");
 
     int i, j, k;
-    int message_size = 10000;
+    int message_size = 100;
     unsigned long long smlen = 0;
     unsigned char *m  = malloc(sizeof(unsigned char[message_size]));
     unsigned char *m2 = malloc(sizeof(unsigned char[message_size]));
@@ -60,6 +40,7 @@ int app_main(void)
     float verifyTime = 0.0;
     for (i = 0; i < NUMBER_OF_KEYPAIRS ; i++) {
         printf("Cycle: %d!\n", i);
+
         // time key pair generation
         cl = clock();
         crypto_sign_keypair(pk, sk);
@@ -68,6 +49,7 @@ int app_main(void)
 
         for (j = 0; j < SIGNATURES_PER_KEYPAIR ; j++) {
             printf("SubCycle: %d!\n", j);
+
             // pick a random message to sign
             for (k = 0; k < message_size; k++) {
                 m[k] = (unsigned char)rand();

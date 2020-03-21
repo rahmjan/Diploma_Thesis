@@ -25,11 +25,21 @@ and Wherther or not we are using Message Recovery or not
 		#define FIRST_PART_TARGET 32 */
 
 	/* SMALL SIG */ 
+	#if (!defined(FIELD_SIZE))
 		#define FIELD_SIZE 7
+	#endif
+	#if (!defined(OIL_VARS))
 		#define OIL_VARS 57
-		#define VINEGAR_VARS 197 
-		#define SHAKENUM 128 
+	#endif
+	#if (!defined(VINEGAR_VARS))
+		#define VINEGAR_VARS 197
+	#endif
+	#if (!defined(SHAKENUM))
+		#define SHAKENUM 128
+	#endif
+	#if (!defined(FIRST_PART_TARGET))
 		#define FIRST_PART_TARGET 32
+	#endif
 
 /* SECURITY LEVEL 4 */
 	/* SMALL PK 
@@ -71,7 +81,10 @@ and Wherther or not we are using Message Recovery or not
 
 #define SALT_BYTES 16
 //#define PRNG_KECCAK 
-#define PRNG_CHACHA
+//#define PRNG_CHACHA
+#if (!defined(PRNG_KECCAK))&&(!defined(PRNG_CHACHA))
+	#define PRNG_CHACHA
+#endif
 
 /* derived parameters */
 #define VARS (OIL_VARS+VINEGAR_VARS)

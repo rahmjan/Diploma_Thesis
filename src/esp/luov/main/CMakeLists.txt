@@ -1,0 +1,10 @@
+idf_component_register(
+	SRCS 		test.c chacha.c Column.c F7Field.c F79Field.c F47Field.c F61Field.c LUOV.c LinearAlgebra.c buffer.c prng.c rng.c intermediateValues.c
+        INCLUDE_DIRS 	.
+			~/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/xtensa-esp32-elf/include #path to esp32 compiler
+			~/esp/XKCP/lib/high/Keccak/FIPS202
+	PRIV_REQUIRES	XKCP
+	)
+
+#target_compile_options(${COMPONENT_LIB} PUBLIC -Wno-error)
+#target_compile_options(${COMPONENT_LIB} PUBLIC -Wno-error=implicit-function-declaration)
