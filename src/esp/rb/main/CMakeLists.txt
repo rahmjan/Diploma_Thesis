@@ -6,6 +6,6 @@ idf_component_register(
 	PRIV_REQUIRES	wolfssl
 	)
 
-#target_compile_options(${COMPONENT_LIB} PUBLIC -Wno-error)
-#target_compile_options(${COMPONENT_LIB} PUBLIC -Wno-error=implicit-function-declaration)
+string(REPLACE " " ";" B2_FLAGS ${B_FLAGS})
+target_compile_options(${COMPONENT_LIB} PRIVATE ${B2_FLAGS})
 target_compile_options(${COMPONENT_LIB} PUBLIC -D"aligned_alloc(x,y)=malloc(y)")

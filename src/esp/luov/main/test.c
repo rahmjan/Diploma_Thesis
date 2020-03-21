@@ -15,7 +15,7 @@ int app_main(void)
     printf("SECRET - START!\n");
 
     int i, j, k;
-    int message_size = 100;
+    int message_size = 1000;
     unsigned long long smlen = 0;
     unsigned char *m  = malloc(sizeof(unsigned char[message_size]));
     unsigned char *m2 = malloc(sizeof(unsigned char[message_size]));
