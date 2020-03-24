@@ -287,13 +287,13 @@ void calculate_Q_from_F_cyclic_ref( cpk_t * Qs, const sk_t * Fs , const sk_t * T
 
 //  Q_pk.l1_F5s[i] = UT( T1tr* (F1 * T1 + F2) )
     const unsigned char * t2 = Ts->t4;
-    sk_t tempQ;
-    memcpy( tempQ.l1_F2 , Fs->l1_F2 , _O1_BYTE * _V1 * _O1 );
-    batch_trimat_madd( tempQ.l1_F2 , Fs->l1_F1 , Ts->t1 , _V1, _V1_BYTE , _O1, _O1_BYTE );      // F1*T1 + F2
-    memset( tempQ.l2_F1 , 0 , _O1_BYTE * _V1 * _O2 );
-    batch_matTr_madd( tempQ.l2_F1 , Ts->t1 , _V1, _V1_BYTE, _O1, tempQ.l1_F2, _O1, _O1_BYTE );  // T1tr*(F1*T1 + F2)
+    sk_t * tempQ = (sk_t *) aligned_alloc( 32 , sizeof(sk_t) );
+    memcpy( tempQ->l1_F2 , Fs->l1_F2 , _O1_BYTE * _V1 * _O1 );
+    batch_trimat_madd( tempQ->l1_F2 , Fs->l1_F1 , Ts->t1 , _V1, _V1_BYTE , _O1, _O1_BYTE );      // F1*T1 + F2
+    memset( tempQ->l2_F1 , 0 , _O1_BYTE * _V1 * _O2 );
+    batch_matTr_madd( tempQ->l2_F1 , Ts->t1 , _V1, _V1_BYTE, _O1, tempQ->l1_F2, _O1, _O1_BYTE );  // T1tr*(F1*T1 + F2)
     memset( Qs->l1_Q5 , 0 , _O1_BYTE * N_TRIANGLE_TERMS(_O1) );
-    UpperTrianglize( Qs->l1_Q5 , tempQ.l2_F1 , _O1, _O1_BYTE );                        // UT( ... )   // Q5
+    UpperTrianglize( Qs->l1_Q5 , tempQ->l2_F1 , _O1, _O1_BYTE );                        // UT( ... )   // Q5
 
 /*
     F1_T2     = F1 * t2
@@ -310,9 +310,9 @@ void calculate_Q_from_F_cyclic_ref( cpk_t * Qs, const sk_t * Fs , const sk_t * T
     batch_trimat_madd( Qs->l1_Q3 , Fs->l1_F1 , t2 , _V1, _V1_BYTE , _O2, _O1_BYTE );        // F1*T2
     batch_mat_madd( Qs->l1_Q3 , Fs->l1_F2 , _V1, Ts->t3 , _O1, _O1_BYTE , _O2, _O1_BYTE );  // F1_T2 + F2_T3
 
-    memset( tempQ.l1_F2 , 0 , _O1_BYTE * _V1 * _O2 );                                       // should be F3. assuming: _O1 >= _O2
-    batch_matTr_madd( tempQ.l1_F2 , t2 , _V1, _V1_BYTE, _O2, Qs->l1_Q3, _O2, _O1_BYTE );    // T2tr * ( F1_T2 + F2_T3 )
-    UpperTrianglize( Qs->l1_Q9 , tempQ.l1_F2 , _O2 , _O1_BYTE );                            // Q9
+    memset( tempQ->l1_F2 , 0 , _O1_BYTE * _V1 * _O2 );                                       // should be F3. assuming: _O1 >= _O2
+    batch_matTr_madd( tempQ->l1_F2 , t2 , _V1, _V1_BYTE, _O2, Qs->l1_Q3, _O2, _O1_BYTE );    // T2tr * ( F1_T2 + F2_T3 )
+    UpperTrianglize( Qs->l1_Q9 , tempQ->l1_F2 , _O2 , _O1_BYTE );                            // Q9
 
     batch_trimatTr_madd( Qs->l1_Q3 , Fs->l1_F1 , t2 , _V1, _V1_BYTE, _O2, _O1_BYTE );       // F1_F1T_T2 + F2_T3  // Q3
 
@@ -326,20 +326,23 @@ void calculate_Q_from_F_cyclic_ref( cpk_t * Qs, const sk_t * Fs , const sk_t * T
     F2_T3     = F2 * t3
     Q9 = UT( T2tr*( F1*T2 + F2*T3 + F3 )  +  T3tr*( F5*T3 + F6 ) )
 */
-    sk_t tempQ2;
-    memcpy( tempQ2.l2_F3 , Fs->l2_F3 , _O2_BYTE * _V1 * _O2 );  /// F3 actually.
-    batch_trimat_madd( tempQ2.l2_F3 , Fs->l2_F1 , t2 , _V1, _V1_BYTE , _O2, _O2_BYTE );       // F1*T2 + F3
-    batch_mat_madd( tempQ2.l2_F3 , Fs->l2_F2 , _V1, Ts->t3 , _O1, _O1_BYTE , _O2, _O2_BYTE ); // F1_T2 + F2_T3 + F3
+    sk_t * tempQ2 = (sk_t *) aligned_alloc( 32 , sizeof(sk_t) );
+    memcpy( tempQ2->l2_F3 , Fs->l2_F3 , _O2_BYTE * _V1 * _O2 );  /// F3 actually.
+    batch_trimat_madd( tempQ2->l2_F3 , Fs->l2_F1 , t2 , _V1, _V1_BYTE , _O2, _O2_BYTE );       // F1*T2 + F3
+    batch_mat_madd( tempQ2->l2_F3 , Fs->l2_F2 , _V1, Ts->t3 , _O1, _O1_BYTE , _O2, _O2_BYTE ); // F1_T2 + F2_T3 + F3
 
-    memset( tempQ.l2_F3 , 0 , _O2_BYTE * _V1 * _O2 );
-    batch_matTr_madd( tempQ.l2_F3 , t2 , _V1, _V1_BYTE, _O2, tempQ2.l2_F3, _O2, _O2_BYTE );   // T2tr * ( ..... )
+    memset( tempQ->l2_F3 , 0 , _O2_BYTE * _V1 * _O2 );
+    batch_matTr_madd( tempQ->l2_F3 , t2 , _V1, _V1_BYTE, _O2, tempQ2->l2_F3, _O2, _O2_BYTE );   // T2tr * ( ..... )
 
-    memcpy( tempQ.l2_F6 , Fs->l2_F6 , _O2_BYTE * _O1 *_O2 );
-    batch_trimat_madd( tempQ.l2_F6 , Fs->l2_F5 , Ts->t3 , _O1, _O1_BYTE, _O2, _O2_BYTE );     // F5*T3 + F6
+    memcpy( tempQ->l2_F6 , Fs->l2_F6 , _O2_BYTE * _O1 *_O2 );
+    batch_trimat_madd( tempQ->l2_F6 , Fs->l2_F5 , Ts->t3 , _O1, _O1_BYTE, _O2, _O2_BYTE );     // F5*T3 + F6
 
-    batch_matTr_madd( tempQ.l2_F3 , Ts->t3 , _O1, _O1_BYTE, _O2, tempQ.l2_F6, _O2, _O2_BYTE ); // T2tr*( ..... ) + T3tr*( ..... )
+    batch_matTr_madd( tempQ->l2_F3 , Ts->t3 , _O1, _O1_BYTE, _O2, tempQ->l2_F6, _O2, _O2_BYTE ); // T2tr*( ..... ) + T3tr*( ..... )
     memset( Qs->l2_Q9 , 0 , _O2_BYTE * N_TRIANGLE_TERMS(_O2) );
-    UpperTrianglize( Qs->l2_Q9 , tempQ.l2_F3 , _O2 , _O2_BYTE );                              // Q9
+    UpperTrianglize( Qs->l2_Q9 , tempQ->l2_F3 , _O2 , _O2_BYTE );                              // Q9
+
+    free(tempQ);
+    free(tempQ2);
 }
 
 

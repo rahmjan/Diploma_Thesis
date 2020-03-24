@@ -216,8 +216,7 @@ void generate_secretkey_cyclic( sk_t* sk, const unsigned char *pk_seed , const u
     calculate_t4( sk->t4 , sk->t1 , sk->t3 );
 
     // prng for pk
-    sk_t inst_Qs;
-    sk_t * Qs = &inst_Qs;
+    sk_t * Qs = (sk_t *) aligned_alloc( 32 , sizeof(sk_t) );
     prng_t prng1;
     prng_set( &prng1 , pk_seed , LEN_PKSEED );
     generate_B1_B2( Qs->l1_F1 , &prng1 );
@@ -230,6 +229,7 @@ void generate_secretkey_cyclic( sk_t* sk, const unsigned char *pk_seed , const u
 
     // clean prng for sk
     memset( &prng0 , 0 , sizeof(prng_t) );
+    free( Qs );
 }
 
 
@@ -251,8 +251,7 @@ void generate_keypair_cyclic( cpk_t * pk, sk_t* sk, const unsigned char *pk_seed
     calculate_t4( sk->t4 , sk->t1 , sk->t3 );    // t2 <- t4
 
     // prng for pk
-    sk_t inst_Qs;
-    sk_t * Qs = &inst_Qs;
+    sk_t * Qs = (sk_t *) aligned_alloc( 32 , sizeof(sk_t) );
     prng_t * prng1 = &prng;
     prng_set( prng1 , pk_seed , LEN_PKSEED );
     generate_B1_B2( Qs->l1_F1 , prng1 );  // generating l1_Q1, l1_Q2, l2_Q1, l2_Q2, l2_Q3, l2_Q5, l2_Q6
@@ -274,6 +273,7 @@ void generate_keypair_cyclic( cpk_t * pk, sk_t* sk, const unsigned char *pk_seed
     memset( &prng , 0 , sizeof(prng_t) );
     memset( t2 , 0 , sizeof(sk->t4) );
     free( t2 );
+    free( Qs );
 }
 
 
