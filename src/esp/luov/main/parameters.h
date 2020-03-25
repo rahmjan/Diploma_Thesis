@@ -47,7 +47,7 @@ and Wherther or not we are using Message Recovery or not
 		#define OIL_VARS 60
 		#define VINEGAR_VARS 261 
 		#define SHAKENUM 256 
-		#define FIRST_PART_TARGET 48 */
+		#define FIRST_PART_TARGET 48 */ 
 
 	/* SMALL SIG 
 		#define FIELD_SIZE 7
@@ -57,7 +57,7 @@ and Wherther or not we are using Message Recovery or not
 		#define FIRST_PART_TARGET 48 */
 
 /* SECURITY LEVEL 5 */
-	/* SMALL PK 
+	/* SMALL PK
 		#define FIELD_SIZE 79
 		#define OIL_VARS 76
 		#define VINEGAR_VARS 341 

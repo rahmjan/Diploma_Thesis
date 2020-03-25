@@ -281,7 +281,7 @@ void compress_vec(const FELT *data, unsigned char *out, int len){
 		int bits  = 0;
 		int half = 0;
 		uint64_t buf = 0;
-		uint64_t remainder;
+		uint64_t remainder = 0;
 		while(cur_in<len || bits>=8){
 			if(bits >= 8){
 				out[cur_out++] = (unsigned char) buf;

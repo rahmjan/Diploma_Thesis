@@ -54,6 +54,7 @@ int app_main(void)
             for (k = 0; k < message_size; k++) {
                 m[k] = (unsigned char)rand();
             }
+            
             // time signing algorithm
             cl = clock();
             crypto_sign(sm, &smlen, m, (unsigned long long) message_size, sk);
