@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include <string.h>
 
-
+#include "malloc.h"
 ////////////////////////////////////////////////////////////////
 
 
@@ -203,7 +203,7 @@ void calculate_Q_from_F_ref( ext_cpk_t * Qs, const sk_t * Fs , const sk_t * Ts )
     batch_matTr_madd( Qs->l2_Q6 , Ts->t1, _V1, _V1_BYTE, _O1, Qs->l2_Q3, _O2, _O2_BYTE );    // Q6
 
     memset( tempQ , 0 , size_tempQ + 32 );
-    free( tempQ );
+    my_ESP_free( tempQ );
 }
 
 
@@ -256,7 +256,7 @@ void calculate_F_from_Q_ref( sk_t * Fs , const sk_t * Qs , sk_t * Ts )
     memcpy( Fs->l2_F5, Qs->l2_F5, _O2_BYTE * N_TRIANGLE_TERMS(_O1) );                      // F5
     UpperTrianglize( Fs->l2_F5 , tempQ , _O1, _O2_BYTE );                                  // UT( ... )
     memset( tempQ , 0 , _O1*_O1*_O2_BYTE + 32);
-    free( tempQ );
+    my_ESP_free( tempQ );
 
     batch_trimatTr_madd( Fs->l2_F2 , Qs->l2_F1 , Ts->t1 , _V1, _V1_BYTE , _O1, _O2_BYTE );  // F2 = Q1_T1 + Q2 + Q1^tr*t1
 
@@ -341,8 +341,8 @@ void calculate_Q_from_F_cyclic_ref( cpk_t * Qs, const sk_t * Fs , const sk_t * T
     memset( Qs->l2_Q9 , 0 , _O2_BYTE * N_TRIANGLE_TERMS(_O2) );
     UpperTrianglize( Qs->l2_Q9 , tempQ->l2_F3 , _O2 , _O2_BYTE );                              // Q9
 
-    free(tempQ);
-    free(tempQ2);
+    my_ESP_free(tempQ);
+    my_ESP_free(tempQ2);
 }
 
 

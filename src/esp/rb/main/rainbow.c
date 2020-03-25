@@ -18,7 +18,7 @@
 
 #include "utils_prng.h"
 #include "utils_hash.h"
-
+#include "malloc.h"
 
 #define MAX_ATTEMPT_FRMAT  128
 
@@ -197,7 +197,7 @@ int rainbow_sign_cyclic( uint8_t * signature , const csk_t * csk , const uint8_t
     generate_secretkey_cyclic( sk, csk->pk_seed , csk->sk_seed );   // generating classic secret key.
 
     int r = rainbow_sign( signature , sk , digest );
-    free( sk );
+    my_ESP_free( sk );
     return r;
 }
 
@@ -208,7 +208,7 @@ int rainbow_verify_cyclic( const uint8_t * digest , const uint8_t * signature , 
     cpk_to_pk( pk , _pk );         // generating classic public key.
 
     int r = rainbow_verify( digest , signature , pk );
-    free( pk );
+    my_ESP_free( pk );
     return r;
 }
 

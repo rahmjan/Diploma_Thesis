@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 int prng_set(prng_t *ctx, const void *prng_seed, unsigned long prng_seedlen)
 {

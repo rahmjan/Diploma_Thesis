@@ -12,7 +12,7 @@
 #include <stdint.h>
 #include <string.h>
 
-
+#include "malloc.h"
 /////////////////////////////////////////////////////////////////
 
 
@@ -111,7 +111,7 @@ void cpk_to_pk( pk_t * rpk, const cpk_t * cpk )
     // convert from extcpk_t to pk_t
     extcpk_to_pk( rpk , pk );
 
-    free( pk );
+    my_ESP_free( pk );
 }
 
 
@@ -197,7 +197,7 @@ void generate_keypair( pk_t * rpk, sk_t* sk, const unsigned char *sk_seed )
     // so far, the pk contains the full pk but in ext_cpk_t format.
 
     extcpk_to_pk( rpk , pk );     // convert the public key from ext_cpk_t to pk_t.
-    free( pk );
+    my_ESP_free( pk );
 }
 
 
@@ -229,7 +229,7 @@ void generate_secretkey_cyclic( sk_t* sk, const unsigned char *pk_seed , const u
 
     // clean prng for sk
     memset( &prng0 , 0 , sizeof(prng_t) );
-    free( Qs );
+    my_ESP_free( Qs );
 }
 
 
@@ -272,8 +272,8 @@ void generate_keypair_cyclic( cpk_t * pk, sk_t* sk, const unsigned char *pk_seed
     // clean
     memset( &prng , 0 , sizeof(prng_t) );
     memset( t2 , 0 , sizeof(sk->t4) );
-    free( t2 );
-    free( Qs );
+    my_ESP_free( t2 );
+    my_ESP_free( Qs );
 }
 
 
@@ -286,7 +286,7 @@ void generate_compact_keypair_cyclic( cpk_t * pk, csk_t* rsk, const unsigned cha
     sk_t * sk = (sk_t *) aligned_alloc( 32 , sizeof(sk_t) );
     generate_keypair_cyclic( pk , sk , pk_seed , sk_seed );
     memset( sk , 0 , sizeof(sk_t) );
-    free( sk );    // dispose of sk. don't need to output.
+    my_ESP_free( sk );    // dispose of sk. don't need to output.
 }
 
 

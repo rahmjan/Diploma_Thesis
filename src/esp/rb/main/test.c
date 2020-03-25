@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "api.h"
+#include "malloc.h"
 
 #define NUMBER_OF_KEYPAIRS 1     /* Number of keypairs that is generated during test */
 #define SIGNATURES_PER_KEYPAIR 1  /* Number of times each keypair is used to sign a random document, and verify the signature */
@@ -15,11 +16,11 @@ int app_main(void)
     int i, j, k;
     int message_size = 1000;
     unsigned long long smlen = 0;
-    unsigned char *m  = malloc(sizeof(unsigned char[message_size]));
-    unsigned char *m2 = malloc(sizeof(unsigned char[message_size]));
-    unsigned char *pk = malloc(sizeof(unsigned char[CRYPTO_PUBLICKEYBYTES]));
-    unsigned char *sk = malloc(sizeof(unsigned char[CRYPTO_SECRETKEYBYTES]));
-    unsigned char *sm = malloc(sizeof(unsigned char[message_size + CRYPTO_BYTES]));
+    unsigned char *m  = aligned_alloc(32,sizeof(unsigned char[message_size]));
+    unsigned char *m2 = aligned_alloc(32,sizeof(unsigned char[message_size]));
+    unsigned char *pk = aligned_alloc(32,sizeof(unsigned char[CRYPTO_PUBLICKEYBYTES]));
+    unsigned char *sk = aligned_alloc(32,sizeof(unsigned char[CRYPTO_SECRETKEYBYTES]));
+    unsigned char *sm = aligned_alloc(32,sizeof(unsigned char[message_size + CRYPTO_BYTES]));
     clock_t cl;
 
     // Print key and signature sizes
@@ -91,11 +92,11 @@ int app_main(void)
     printf("Signing took %.4f seconds.\n", (signTime/NUMBER_OF_KEYPAIRS)/SIGNATURES_PER_KEYPAIR );
     printf("Verifying took %.4f seconds.\n\n", (verifyTime / NUMBER_OF_KEYPAIRS) / SIGNATURES_PER_KEYPAIR );
 
-    free(m);
-    free(m2);
-    free(pk);
-    free(sk);
-    free(sm);
+    my_ESP_free(m);
+    my_ESP_free(m2);
+    my_ESP_free(pk);
+    my_ESP_free(sk);
+    my_ESP_free(sm);
     printf("SECRET - END!\n");
 
     fflush(stdout);
