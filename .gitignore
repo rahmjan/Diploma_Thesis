@@ -9,3 +9,5 @@ src/thesis/DP_Rahm_Jan_2020.synctex.gz
 src/thesis/DP_Rahm_Jan_2020.toc
 
 .idea/
+.vscode/
+build/

@@ -6,6 +6,8 @@ idf_component_register(
 	PRIV_REQUIRES	XKCP
 	)
 
-string(REPLACE " " ";" B2_FLAGS ${B_FLAGS})
-target_compile_options(${COMPONENT_LIB} PRIVATE ${B2_FLAGS})
 
+if (B_FLAGS)
+	string(REPLACE " " ";" B2_FLAGS ${B_FLAGS})
+	target_compile_options(${COMPONENT_LIB} PRIVATE ${B2_FLAGS})
+endif()
