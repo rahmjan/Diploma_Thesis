@@ -14,8 +14,10 @@ When the monitoring starts: press restart button.
 | FIRST_PART_TARGET  | 32  | 32, 64 |
 | PRNG_CHACHA <br> PRNG_KECCAK  | PRNG_CHACHA ||
 | MESSAGE_RECOVERY | Not set ||
+| MEM_MEASUREMENT | Not set ||
 
-Find file `parameters.h` for more information.
+Find file `parameters.h` for more information.  
+The parameters need to be in `-DB_FLAGS="..."`.
 
 ### Example
 `idf.py -n -p /dev/ttyUSB0 build flash monitor`  

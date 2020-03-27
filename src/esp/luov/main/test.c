@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 
+#include "memory_measurement.h"
 #include "parameters.h"
 #include "LUOV.h"
 #include "api.h"
@@ -13,6 +14,7 @@
 int app_main(void)
 {
     printf("SECRET - START!\n");
+    startMemoryMeasurement();
 
     int i, j, k;
     int message_size = 1000;
@@ -23,6 +25,9 @@ int app_main(void)
     unsigned char *sk = malloc(sizeof(unsigned char[CRYPTO_SECRETKEYBYTES]));
     unsigned char *sm = malloc(sizeof(unsigned char[message_size + CRYPTO_BYTES]));
     clock_t cl;
+    float genTime = 0.0;
+    float signTime = 0.0;
+    float verifyTime = 0.0;
 
     // Print key and signature sizes
     printf("Public Key takes %d B\n", CRYPTO_PUBLICKEYBYTES );
@@ -35,20 +40,19 @@ int app_main(void)
 
     srand((unsigned int) time(NULL));
 
-    float genTime = 0.0;
-    float signTime = 0.0;
-    float verifyTime = 0.0;
     for (i = 0; i < NUMBER_OF_KEYPAIRS ; i++) {
-        printf("Cycle: %d!\n", i);
+        printf("Key pair: %d\n", i+1);
 
         // time key pair generation
+        printf("Generation - start\n");
         cl = clock();
         crypto_sign_keypair(pk, sk);
         cl = clock() - cl;
         genTime += ((float) cl)/CLOCKS_PER_SEC;
+        printf("Generation - end\n");
 
         for (j = 0; j < SIGNATURES_PER_KEYPAIR ; j++) {
-            printf("SubCycle: %d!\n", j);
+            printf("Signature: %d\n", j+1);
 
             // pick a random message to sign
             for (k = 0; k < message_size; k++) {
@@ -56,21 +60,25 @@ int app_main(void)
             }
             
             // time signing algorithm
+            printf("Signature - start\n");
             cl = clock();
             crypto_sign(sm, &smlen, m, (unsigned long long) message_size, sk);
             cl = clock() - cl;
             signTime += ((float)cl) / CLOCKS_PER_SEC;
             if(i+j == 0){
-                printf("signed message length : %lld Bytes\n", smlen);
+                printf("Signed message length : %lld Bytes\n", smlen);
             }
+            printf("Signature - end\n");
 
             // time verification algorithm
+            printf("Verification - start\n");
             cl = clock();
             if (crypto_sign_open(m2, &smlen, sm, smlen, pk) != 0) {
                 printf("Verification of signature Failed!\n");
             }
             cl = clock() - cl;
             verifyTime += ((float)cl) / CLOCKS_PER_SEC;
+            printf("Verification - end\n");
 
             // check if recovered message length is correct
             if (smlen != message_size){
@@ -97,8 +105,9 @@ int app_main(void)
     free(pk);
     free(sk);
     free(sm);
-    printf("SECRET - END!\n");
 
+    endMemoryMeasurement();
+    printf("SECRET - END!\n");
     fflush(stdout);
     return 0;
 }
