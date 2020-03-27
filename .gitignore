@@ -1,5 +1,3 @@
-src/mathematica/old/
-
 src/thesis/DP_Rahm_Jan_2020.aux
 src/thesis/DP_Rahm_Jan_2020.lof
 src/thesis/DP_Rahm_Jan_2020.log
@@ -11,6 +9,7 @@ src/thesis/DP_Rahm_Jan_2020.toc
 RB - kopie.nb
 UOV - kopie.nb
 sdkconfig.old
+sdkconfig
 
 .idea/
 .vscode/
