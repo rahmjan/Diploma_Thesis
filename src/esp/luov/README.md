@@ -6,7 +6,7 @@ When the monitoring starts: press restart button.
 
 ### Parameters
 | Name | Default value | Possible values |
-| ------------- | ------------- ||
+| ------------- | ------------- | ------------- |
 | FIELD_SIZE | 7  | 7, 47, 61, 79 |
 | OIL_VARS  | 57  ||
 | VINEGAR_VARS  | 197  ||
