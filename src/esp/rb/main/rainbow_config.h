@@ -41,6 +41,13 @@
 #define _O2 48
 #define _HASH_LEN 64
 
+#elif _RAINBOW256_92_47_47
+#define _GFSIZE 256
+#define _V1 92
+#define _O1 47
+#define _O2 47
+#define _HASH_LEN 64
+
 #else
 error here.
 #endif

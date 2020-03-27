@@ -1,3 +1,6 @@
+#undef malloc
+#undef free
+
 #include "malloc.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,7 +13,6 @@ typedef struct {
 #define ARR_SIZE 40
 static ptr_info ptr_arr[ARR_SIZE];
 static unsigned int init_arr = 1;
-
 static unsigned int total_malloc_size = 0;
 
 void initArr()

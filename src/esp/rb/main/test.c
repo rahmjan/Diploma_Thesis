@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "memory_measurement.h"
+#include "malloc.h"
 #include "api.h"
 
 #define NUMBER_OF_KEYPAIRS 1     /* Number of keypairs that is generated during test */
@@ -98,11 +99,11 @@ int app_main(void)
     printf("Signing took %.4f seconds.\n", (signTime/NUMBER_OF_KEYPAIRS)/SIGNATURES_PER_KEYPAIR );
     printf("Verifying took %.4f seconds.\n\n", (verifyTime / NUMBER_OF_KEYPAIRS) / SIGNATURES_PER_KEYPAIR );
 
-    my_ESP_free(m);
-    my_ESP_free(m2);
-    my_ESP_free(pk);
-    my_ESP_free(sk);
-    my_ESP_free(sm);
+    free(m);
+    free(m2);
+    free(pk);
+    free(sk);
+    free(sm);
 
     endMemoryMeasurement();
     printf("SECRET - END!\n");
