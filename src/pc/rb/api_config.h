@@ -11,8 +11,8 @@
 
 
 #if (!defined(_RAINBOW_CLASSIC))&&(!defined(_RAINBOW_CYCLIC))&&(!defined(_RAINBOW_CYCLIC_COMPRESSED))
-//#define _RAINBOW_CLASSIC
-#define _RAINBOW_CYCLIC
+#define _RAINBOW_CLASSIC
+//#define _RAINBOW_CYCLIC
 //#define _RAINBOW_CYCLIC_COMPRESSED
 #endif
 
