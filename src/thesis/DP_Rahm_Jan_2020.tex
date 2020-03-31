@@ -106,6 +106,10 @@ An affine map is the composition of two functions: a translation and a linear ma
 {\vec {y}}=f({\vec {x}})=A{\vec {x}}+{\vec {b}}
 \]
 
+\subsection{Wolfram Mathematica}
+\subsection{IoT}
+\subsection{ESP32}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multivariate cryptography}
 \subsection{Definition}
@@ -126,6 +130,8 @@ It means it is system of nonlinear polynomial equations with coefficients over a
 \]
  
 If the polynomials are of degree two, they are called multivariate quadratics (MQ). Solving systems of multivariate polynomial equations is proven to be NP hard, so called MQ Problem. That is the reason why MC is often considered to be good candidate for post-quantum cryptography.
+
+MC is very fast and requires only moderate computational resources, which makes it attractive for applications in low-cost devices.
 
 \subsection{MQ Problem}
 Given $m$ quadratic polynomials $p^{(1)}(x),\ldots,p^{(m)}(x)$ in the $n$ variables $x_1,\ldots,x_n$, find a vector $\bar{x} = (\bar{x}_1,\ldots,\bar{x}_n)$ such that $p^{(1)}(\bar{x}) = \ldots = p^{(m)}(\bar{x}) = 0$.
@@ -215,7 +221,9 @@ To hide $\mathcal{F}$ in the public key, it is combined with one invertible affi
 and the private key consist of $\mathcal{F}$ and $\mathcal{T}$. The second affine map $\mathcal{S}$ is not needed for the security of UOV.
 
 \subsection{Security}
-For the security of UOV is required $v \geq 2o$ because of the attack of Kipnis and Shamir on balanced OV.\cite{L-KS98} Besides of that, the UOV scheme resisted (for suitable parameter sets) cryptanalysis for over 20 years now and is therefore believed to be of high security.
+For the security of UOV is required $v \geq 2o$ because of the attack of Kipnis and Shamir on balanced OV.\cite{L-KS98} Besides of that, the UOV scheme resisted (for suitable parameter sets) cryptanalysis for over 20 years. Now it is one of the oldest and best studied cryptosystems and is therefore believed to be of high security.
+
+The UOV scheme is very simple, has small signatures and is fast. The main disadvantage is its public keys which are quite large.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Rainbow}
@@ -245,6 +253,8 @@ and the private key consist of $\mathcal{S}$, $\mathcal{F}$ and $\mathcal{T}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Realization}
+Add description...
+
 \section{Wolfram Mathematica}
 This section describes examples in Wolfram Mathematica and step by step description of algorithms.
 
@@ -562,20 +572,142 @@ The file with implementation can by find under name "RB.nb".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Reference implementation}
+The section describe reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implemetations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019,  and are written in language C or C++. 
+
+\bigskip
+\noindent
+The reference implementation contains several optimalized solutions. But for purpose of this Diploma thesis is only relevant solution in folder \textit{Reference\_Implementation}.
+
 \subsection{UOV}
+This implementation of UOV is in reality implementation of LUOV (Lifted UOV) which is a improvement of the UOV scheme that greatly reduces the size of the public keys. There are tree basic modification:
+
+\begin{itemize}
+\item	First modification changes the key generation algorithm. By using seed and pseudo-random number generator its output can correspond with the part of public key. This way one can replace large part of the public key with short seed for PRNG.
+
+This algorithm still produces the same distribution of key pairs, that means the security of the scheme is not affected, assuming that the output of the PRNG is indistinguishable from true randomness. Implementation uses SHAKE128 or Chacha8.
+
+\item	Second modification (\textit{"Lifting"}) is that the scheme uses $\mathcal{P}:\mathbb{F}_2^n \rightarrow \mathbb{F}_2^m$ over $\mathbb{F}_2$ as a public key over a extension field $\mathbb{F}_{2^r}$. That means the public key $\mathcal{P}:\mathbb{F}_2^n \rightarrow \mathbb{F}_2^m$ is \textit{lifted}/extended to $\mathcal{P}:\mathbb{F}_{2^r}^n \rightarrow \mathbb{F}_{2^r}^m$. This modification is where the name comes from and is the most important because the public key remains small, while solving the system $\mathcal{P}(x) = y$ for some $y$ in $\mathbb{F}_{2^r}^m$ becomes more diffcult compared to where $y$ is in $\mathbb{F}_{2}^m$.\cite{L-LIFTING}
+
+\item	Third modification is having linear map $\mathcal{P}$ in the form:
+\begin{equation*}
+\begin{pmatrix}
+1_v & T\\
+0 & 1_m
+\end{pmatrix}
+\end{equation*}
+where $T$ is a $v$-by-$m$ matrix. This solution makes the key generation and the signing much faster\cite{L-CZYP} but it does not affect the security.\cite{L-EQ-KEYS}
+\end{itemize}
+
+\subsubsection{Adjustment}
+
+Implementation can be found in folder \textit{src/pc/luov}. 
+
 \subsection{Rainbow}
+This implementation of Rainbow contains tree variants:
+\begin{itemize}
+\item	Classic - Typical/Classic implementation of Rainbow.
+\item	Cyclic - The variant is motivated by Petzoldt's cyclic Rainbow scheme\cite{L-RB-CYC} who developed technique to insert a matrix into public key and to compute a corresponding private key. It allows to create major parts of the public key from a seed using a PRNG.
+\item	Compressed - This variant is similar to Cyclic variant but the private key is stored in the form of bit seed.  
+\end{itemize}
+
+\subsubsection{Adjustment}
+Implementation can be found in folder \textit{src/pc/rb}.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{ESP32 implementation}
+\subsection{UOV}
+Implementation can be found in folder \textit{src/esp/luov}. 
+
+\subsection{Rainbow}
+Implementation can be found in folder \textit{src/esp/rb}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Testing and discussion}
-On what was tested (PC and EPS32/ARM); Comparison with RSA,ECDSA; Time and memory complexity;
-Usability in an embedded environment;
+\section{PC}
+Security cathegories...
+\subsection{Time complexity}
+
+%%%%%%%%%%%%%%%%%%%
+\subsection{Memory complexity}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{ESP32}
+\subsection{Time complexity}
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/time-luov.pdf}
+\caption{Porovnání naivních implementací}
+\label{time-luov}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/time-rb.pdf}
+\caption{Porovnání naivních implementací}
+\label{time-rb}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/time-both.pdf}
+\caption{Porovnání naivních implementací}
+\label{time-both}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%
+\subsection{Memory complexity}
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-luov0.pdf}
+\caption{Porovnání naivních implementací}
+\label{mem-luov0}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-luov.pdf}
+\caption{Porovnání naivních implementací}
+\label{mem-luov}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-rb.pdf}
+\caption{Porovnání naivních implementací}
+\label{mem-rb}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-both.pdf}
+\caption{Porovnání naivních implementací}
+\label{mem-both}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/sign-luov.pdf}
+\caption{Porovnání naivních implementací}
+\label{sign-luov}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/sign-rb.pdf}
+\caption{Porovnání naivních implementací}
+\label{sign-rb}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conventional algorithms}
+RSA, ECDSA
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Conclusion}
-How good I was...
+How good I was...; LOUV is much more better...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -608,6 +740,20 @@ DING, J.; PETZOLDT, A.: \textit{Current State of Multivariate Cryptography.} In:
 \bibitem{L-KS98}
 KIPNIS, A.; SHAMIR, A.: \textit{Cryptanalysis of the oil and vinegar signature scheme}. In \textit{CRYPTO 1998}, LNCS vol. 1462, pp. 257–266, Springer, 1998.
 
+\bibitem{L-NIST-2ND}
+\textit{NIST - Post-Quantum Cryptography, Round 2 Submissions} [online]. 2020, [cit. 2020-04-1]. At: \url{https://csrc.nist.gov/Projects/post-quantum-cryptography/round-2-submissions}
+
+\bibitem{L-EQ-KEYS}
+WOLF, CH.; PRENEEL, B.: \textit{Equivalent keys in multivariate quadratic public key systems}. In \textit{Journal of Mathematical Cryptology}, pp. 375–415, 2011.
+
+\bibitem{L-LIFTING}
+BEULLENS, W.; PRENEEL, B.: \textit{Field lifting for smaller UOV public keys}. In \textit{Progress
+in Cryptology INDOCRYPT 2017: 18th International Conference on Cryptology in India}, Springer, 2017.
+
+\bibitem{L-RB-CYC}
+PETZOLDT, A.; BULYGIN, S.; BUCHMANN, J.: \textit{Multivariate
+Signature Scheme with a Partially Cyclic Public Key.} In: \textit{INDOCRYPT.} 2010, vol. 6498, pp. 33 - 48. Springer, 2010.
+
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -618,9 +764,12 @@ KIPNIS, A.; SHAMIR, A.: \textit{Cryptanalysis of the oil and vinegar signature s
 % \printglossaries
 \begin{description}
 	\item[IoT] Internet of Things
+	\item[LUOV] Lifted Unbalanced Oil and Vinegar
 	\item[MC] Multivariate cryptography
 	\item[MQ] Multivariate quadratics
-	\item[OV] Oil and Vinegar	
+	\item[NIST] National Institute of Standards and Technology
+	\item[OV] Oil and Vinegar
+	\item[PRNG] Pseudo-random number generator
 	\item[UOV] Unbalanced Oil and Vinegar	
 \end{description}
 
@@ -634,7 +783,10 @@ KIPNIS, A.; SHAMIR, A.: \textit{Cryptanalysis of the oil and vinegar signature s
 		.1 readme.txt\DTcomment{the file with CD contents description}.
 		.1 exe\DTcomment{the directory with executables}.
 		.1 src\DTcomment{the directory of source codes}.
+		.2 esp\DTcomment{implementation for esp32 platform}.
 		.2 mathematica\DTcomment{implementation in Mathematica}.
+		.2 offline\DTcomment{offline reference materials}.
+		.2 esp\DTcomment{implementation for PC platform}.
 		.2 thesis\DTcomment{the directory of \LaTeX{} source codes of the thesis}.
 		.1 text\DTcomment{the thesis text directory}.
 		.2 thesis.pdf\DTcomment{the thesis text in PDF format}.

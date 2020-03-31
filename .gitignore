@@ -10,6 +10,7 @@ RB - kopie.nb
 UOV - kopie.nb
 sdkconfig.old
 sdkconfig
+*.svg
 
 .idea/
 .vscode/
