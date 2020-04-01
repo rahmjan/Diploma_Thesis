@@ -572,7 +572,7 @@ The file with implementation can by find under name "RB.nb".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Reference implementation}
-The section describe reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implemetations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019,  and are written in language C or C++. 
+The section describe reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implemetations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019, and are written in language C or C++. 
 
 \bigskip
 \noindent
@@ -586,6 +586,8 @@ This implementation of UOV is in reality implementation of LUOV (Lifted UOV) whi
 
 This algorithm still produces the same distribution of key pairs, that means the security of the scheme is not affected, assuming that the output of the PRNG is indistinguishable from true randomness. Implementation uses SHAKE128 or Chacha8.
 
+Private key is also generated from seed.
+
 \item	Second modification (\textit{"Lifting"}) is that the scheme uses $\mathcal{P}:\mathbb{F}_2^n \rightarrow \mathbb{F}_2^m$ over $\mathbb{F}_2$ as a public key over a extension field $\mathbb{F}_{2^r}$. That means the public key $\mathcal{P}:\mathbb{F}_2^n \rightarrow \mathbb{F}_2^m$ is \textit{lifted}/extended to $\mathcal{P}:\mathbb{F}_{2^r}^n \rightarrow \mathbb{F}_{2^r}^m$. This modification is where the name comes from and is the most important because the public key remains small, while solving the system $\mathcal{P}(x) = y$ for some $y$ in $\mathbb{F}_{2^r}^m$ becomes more diffcult compared to where $y$ is in $\mathbb{F}_{2}^m$.\cite{L-LIFTING}
 
 \item	Third modification is having linear map $\mathcal{P}$ in the form:
@@ -598,8 +600,34 @@ This algorithm still produces the same distribution of key pairs, that means the
 where $T$ is a $v$-by-$m$ matrix. This solution makes the key generation and the signing much faster\cite{L-CZYP} but it does not affect the security.\cite{L-EQ-KEYS}
 \end{itemize}
 
-\subsubsection{Adjustment}
+Source codes of version $2.1$ were obtained from GitHub repository.
 
+\subsubsection{Adjustments}
+For testing purpose I did few adjustments to source files of the LOUV. One is to simplify \textit{Makefile} for easy generation of testing application and setting up of \textit{path} to external library. Removed of some unneccessary files (\textit{PQCgenKAT\_sign.c}) and created \textit{README.md} with building information. The last change is grouping of the all different settings of LOUV into one folder with building flags:
+
+\begin{itemize}
+\item	FIELD\_SIZE - Size/degree of finite field.
+\item	OIL\_VARS - Number of oil variables.
+\item	VINEGAR\_VARS - Number of vinegar variables.
+\item	SHAKENUM - 
+\item	FIRST\_PART\_TARGET - 
+\item	PRNG\_CHACHA/PRNG\_KECCAK - If use Chacha8 or SHAKE128. 
+\item	MESSAGE\_RECOVERY - Enable message recovery.
+\end{itemize}
+
+For successful build on Ubuntu operating system is needed library \textit{Keccak Code Package} in \textit{home} folder:
+\begin{lstlisting}[frame=single]
+git clone https://github.com/XKCP/XKCP.git XKCP
+cd XKCP
+make generic64/libkeccak.a
+\end{lstlisting}
+Additionaly tool \textit{xsltproc}:
+\begin{lstlisting}[frame=single]
+sudo apt-get install xsltproc
+\end{lstlisting}
+
+\bigskip
+\noindent
 Implementation can be found in folder \textit{src/pc/luov}. 
 
 \subsection{Rainbow}
@@ -610,7 +638,7 @@ This implementation of Rainbow contains tree variants:
 \item	Compressed - This variant is similar to Cyclic variant but the private key is stored in the form of bit seed.  
 \end{itemize}
 
-\subsubsection{Adjustment}
+\subsubsection{Adjustments}
 Implementation can be found in folder \textit{src/pc/rb}.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
