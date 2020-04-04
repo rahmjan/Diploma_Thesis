@@ -7,7 +7,7 @@
 #include "api.h"
 
 #define NUMBER_OF_KEYPAIRS 1     /* Number of keypairs that is generated during test */
-#define SIGNATURES_PER_KEYPAIR 1  /* Number of times each keypair is used to sign a random document, and verify the signature */
+#define SIGNATURES_PER_KEYPAIR 10  /* Number of times each keypair is used to sign a random document, and verify the signature */
 
 int coap_prng_impl(void* ex, unsigned char *buf, size_t len)
 {

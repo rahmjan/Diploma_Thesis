@@ -7,10 +7,7 @@
 #include "api.h"
 
 #define NUMBER_OF_KEYPAIRS 1     /* Number of keypairs that is generated during test */
-#define SIGNATURES_PER_KEYPAIR 1  /* Number of times each keypair is used to sign a random document, and verify the signature */
-
-#define KEY_SIZE 2048
-#define EXPONENT 65537
+#define SIGNATURES_PER_KEYPAIR 10  /* Number of times each keypair is used to sign a random document, and verify the signature */
 
 int coap_prng_impl(void* ex, unsigned char *buf, size_t len)
 {
@@ -24,21 +21,20 @@ int app_main(void)
     printf("SECRET - START!\n");
     startMemoryMeasurement();
 
-    // Initialization
-    mbedtls_rsa_context ctx;
-    mbedtls_rsa_init(&ctx, MBEDTLS_RSA_PKCS_V21, 0);
-    srand((unsigned int) time(NULL));
-
     int i, j, k;
     int message_size = 1000;
-    size_t smlen = 0;
     unsigned char *m  = malloc(sizeof(unsigned char[message_size]));
+    unsigned char *hash  = malloc(sizeof(unsigned char[256/8]));
     unsigned char *sm = malloc(sizeof(unsigned char[(KEY_SIZE/8)+1]));
     clock_t cl;
     float genTime = 0.0;
     float signTime = 0.0;
     float verifyTime = 0.0;
-    
+
+    // Initialization
+    mbedtls_rsa_context ctx;
+    mbedtls_rsa_init(&ctx, MBEDTLS_RSA_PKCS_V15, 0);
+    srand((unsigned int) time(NULL));
 
     for (i = 0; i < NUMBER_OF_KEYPAIRS ; i++) {
         printf("Key pair: %d\n", i+1);
@@ -58,11 +54,14 @@ int app_main(void)
             for (k = 0; k < message_size; k++) {
                 m[k] = (unsigned char)rand();
             }
+
+            // hash
+            mbedtls_sha256(m, message_size, hash, 0);
             
             // time signing algorithm
             printf("Signature - start\n");
             cl = clock();
-            printf("TT: -0x%0x \n", -mbedtls_rsa_rsassa_pss_sign(&ctx, coap_prng_impl, NULL, MBEDTLS_RSA_PRIVATE, MBEDTLS_MD_NONE, message_size, m, sm));
+            mbedtls_rsa_pkcs1_sign(&ctx, coap_prng_impl, NULL, MBEDTLS_RSA_PRIVATE, MBEDTLS_MD_SHA256, 0, hash, sm);
             cl = clock() - cl;
             signTime += ((float)cl) / CLOCKS_PER_SEC;
             if(i+j == 0){
@@ -73,8 +72,7 @@ int app_main(void)
             // time verification algorithm
             printf("Verification - start\n");
             cl = clock();
-            printf("TT2: -0x%0x \n", -mbedtls_rsa_rsassa_pss_verify(&ctx, coap_prng_impl, NULL, MBEDTLS_RSA_PUBLIC, MBEDTLS_MD_NONE, message_size, m, sm));
-            if (mbedtls_rsa_rsassa_pss_verify(&ctx, coap_prng_impl, NULL, MBEDTLS_RSA_PUBLIC, MBEDTLS_MD_NONE, message_size, m, sm) != 0) {
+            if (mbedtls_rsa_pkcs1_verify(&ctx, coap_prng_impl, NULL, MBEDTLS_RSA_PUBLIC, MBEDTLS_MD_SHA256, 0, hash, sm) != 0) {
                 printf("Verification of signature Failed!\n");
             }
             cl = clock() - cl;
@@ -89,7 +87,7 @@ int app_main(void)
     printf("Signing took %.4f seconds.\n", (signTime/NUMBER_OF_KEYPAIRS)/SIGNATURES_PER_KEYPAIR );
     printf("Verifying took %.4f seconds.\n\n", (verifyTime / NUMBER_OF_KEYPAIRS) / SIGNATURES_PER_KEYPAIR );
 
-    printf("Size of the contex: %d B\n\n", ctx.len);
+    printf("Size of the contex: %d B\n\n", sizeof(ctx));
 
     free(m);
     free(sm);
