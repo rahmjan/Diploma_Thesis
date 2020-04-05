@@ -4,7 +4,6 @@
 #include <string.h>
 
 #include "parameters.h"
-
 #include "LUOV.h"
 
 #include "api.h"
