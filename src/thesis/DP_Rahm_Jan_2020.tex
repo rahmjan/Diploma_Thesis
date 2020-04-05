@@ -109,6 +109,8 @@ An affine map is the composition of two functions: a translation and a linear ma
 \subsection{Wolfram Mathematica}
 \subsection{IoT}
 \subsection{ESP32}
+\subsection{RSA}
+\subsection{ECDSA}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multivariate cryptography}
@@ -639,10 +641,30 @@ This implementation of Rainbow contains tree variants:
 \end{itemize}
 
 \subsubsection{Adjustments}
+
+
 Implementation can be found in folder \textit{src/pc/rb}.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ESP32 implementation}
+ESP32-LyraT-1.jpg
+
+\iffalse
+\begin{figure}[H]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-1.jpg}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-2.jpg}
+\end{minipage}
+\caption{ESP32-LyraT}
+\label{esp32-lyrat}
+\end{figure}
+\fi
+
 \subsection{UOV}
 Implementation can be found in folder \textit{src/esp/luov}. 
 
@@ -653,7 +675,7 @@ Implementation can be found in folder \textit{src/esp/rb}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Testing and discussion}
 \section{PC}
-Security cathegories...
+Security cathegories; graphs of times; memory from ref. pdf
 \subsection{Time complexity}
 
 %%%%%%%%%%%%%%%%%%%
@@ -731,6 +753,20 @@ Security cathegories...
 \section{Conventional algorithms}
 RSA, ECDSA
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/time-all.pdf}
+\caption{Porovnání naivních implementací}
+\label{time-all}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-all.pdf}
+\caption{Porovnání naivních implementací}
+\label{mem-all}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
@@ -791,6 +827,7 @@ Signature Scheme with a Partially Cyclic Public Key.} In: \textit{INDOCRYPT.} 20
 \chapter{Acronyms}
 % \printglossaries
 \begin{description}
+	\item[ECDSA] Elliptic Curve Digital Signature Algorithm
 	\item[IoT] Internet of Things
 	\item[LUOV] Lifted Unbalanced Oil and Vinegar
 	\item[MC] Multivariate cryptography
