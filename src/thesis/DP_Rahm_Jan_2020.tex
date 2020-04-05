@@ -255,7 +255,7 @@ and the private key consist of $\mathcal{S}$, $\mathcal{F}$ and $\mathcal{T}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Realization}
-Add description...
+Chapter describes implementation of algorithms on selected platforms which are Wolfram Mathematica, PC and microcontroller ESP32. For the last two specified the implementation is in language C++.
 
 \section{Wolfram Mathematica}
 This section describes examples in Wolfram Mathematica and step by step description of algorithms.
@@ -573,6 +573,7 @@ By the definition of RB, in this example is used $u=2, v_1=2, v_2=4, v_3=6=n$. B
 The file with implementation can by find under name "RB.nb".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstset{basicstyle=\footnotesize\ttfamily}
 \section{Reference implementation}
 The section describe reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implemetations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019, and are written in language C or C++. 
 
@@ -633,7 +634,7 @@ sudo apt-get install xsltproc
 Implementation can be found in folder \textit{src/pc/luov}. 
 
 \subsection{Rainbow}
-This implementation of Rainbow contains tree variants:
+This implementation of Rainbow is implementation with two layers and contains tree variants:
 \begin{itemize}
 \item	Classic - Typical/Classic implementation of Rainbow.
 \item	Cyclic - The variant is motivated by Petzoldt's cyclic Rainbow scheme\cite{L-RB-CYC} who developed technique to insert a matrix into public key and to compute a corresponding private key. It allows to create major parts of the public key from a seed using a PRNG.
@@ -641,35 +642,174 @@ This implementation of Rainbow contains tree variants:
 \end{itemize}
 
 \subsubsection{Adjustments}
+The adjustments are very similar to the adjustments of LUOV. I simplify the \textit{Makefile} for easy generation of testing application and removed redudant files. I added file \textit{README.md} with building information. This implementation can be now build with flags:
 
+\begin{itemize}
+\item	\_RAINBOW16\_32\_32\_32 
+\item	\_RAINBOW256\_68\_36\_36 
+\item	\_RAINBOW256\_92\_48\_48 
+\end{itemize}
+These flags can not be used together, only one at the time can be valid. It specify which setting will be used: finite filed $\mathbb{F}_{16}$ or $\mathbb{F}_{256}$ with 32/68/92 vinegar variables and two layers of 32/36/48 oil variables.
 
+\begin{itemize}
+\item	\_RAINBOW\_CLASSIC  
+\item	\_RAINBOW\_CYCLIC 
+\item	\_RAINBOW\_CYCLIC\_COMPRESSED 
+\end{itemize}
+Same as the flags above only one can be used at the time. It specify which variant of Rainbow to be used.
+
+\bigskip
+\noindent
 Implementation can be found in folder \textit{src/pc/rb}.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ESP32 implementation}
-ESP32-LyraT-1.jpg
+For the implementation of algorithms on microcontroller was selected ESP32-LyraT of version 4.3 from company Espressif Systems.
 
-\iffalse
+\iftrue
 \begin{figure}[H]
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-1.jpg}
+  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-1.pdf}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-2.jpg}
+  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-2.pdf}
 \end{minipage}
 \caption{ESP32-LyraT}
 \label{esp32-lyrat}
 \end{figure}
 \fi
 
+It is an audio development board built around ESP32 with additional hardware:
+\begin{itemize}
+\item	ESP32-WROVER Module
+\item	Audio Codec Chip
+\item	Dual Microphones on board
+\item	Headphone input
+\item	2x 3-watt Speaker output
+\item	Dual Microphones on board
+\item	Dual Auxiliary Input
+\item	MicroSD Card slot
+\item	Buttons
+\item	JTAG
+\item	Integrated USB-UART Bridge Chip
+\item	Li-ion Battery-Charge Management
+\end{itemize}
+
+The main reason for selecting this platform is inbuild external memory of the capacity 8MB. With this size of memory, it should be without any problems to implement selected algorithms. But in reality only 4MB are able to be used in the implementation, more information can be found at section \ref{esp-memory}. Added with excelent documentation at "docs.espressif.com" it was relatively easy to choose this platform for development.
+
+\bigskip
+\noindent
+The implementations are the same as reference implementations. What I did is that I tried to port them on ESP32 platform.
+
+\subsection{Setup of environment}
+Fisrt step of development on ESP32 is to set up of environment. This setting I did on Ubuntu 19.10 operating system, starting with downloading of tools:
+\begin{lstlisting}[frame=single]
+sudo apt-get install git wget libncurses-dev flex bison gperf \
+python python-pip python-setuptools python-serial python-click \
+python-cryptography python-future python-pyparsing  \
+python-pyelftools cmake ninja-build ccache libffi-dev libssl-dev
+\end{lstlisting}
+
+\bigskip
+\noindent
+Add current logged user to group \textit{dialout} because the user needs to get read and write access to the serial port over USB.
+\begin{lstlisting}[frame=single]
+sudo usermod -a -G dialout $USER
+\end{lstlisting}
+
+\bigskip
+\noindent
+Download software libraries provided by Espressif (esp-idf) to folder "\$HOME/esp". I used release version 4.1:
+\begin{lstlisting}[frame=single]
+cd $HOME/esp
+git clone -b release/v4.1 --recursive \
+https://github.com/espressif/esp-idf.git
+\end{lstlisting}
+Be \textbf{aware} that all of the setting is related to absolute path "\$HOME/esp". 
+
+\bigskip
+\noindent
+Install tools used by "esp-idf" to directory "\$HOME/.espressif":
+\begin{lstlisting}[frame=single]
+cd \$HOME/esp/esp-idf
+./install.sh
+\end{lstlisting}
+
+\bigskip
+\noindent
+Last step is to set up environment variables in the terminal where is going to be used "esp-idf":
+\begin{lstlisting}[frame=single]
+. $HOME/esp/esp-idf/export.sh
+\end{lstlisting}
+But I added it to file \textit{.bashrc}:
+\begin{lstlisting}[frame=single]
+echo ". $HOME/esp/esp-idf/export.sh" >> $HOME/.bashrc
+\end{lstlisting}
+This way it will be added to every new shell session.
+
+\subsubsection{Load application}
+To load application to ESP32-LyraT, one must first build the project. For example, copy the project "src/esp/luov" (in the Diploma thesis sources) to "\$HOME/esp/luov". In this folder it is possible to build it:
+\begin{lstlisting}[frame=single]
+idf.py -n build
+\end{lstlisting}
+The switch "-n" will stop treat the warrnings as errors.
+
+\bigskip
+\noindent
+After successful buil,d it is possible to load/flash application to ESP32-LyraT:
+\begin{lstlisting}[frame=single]
+idf.py -p /dev/ttyUSB0 flash
+\end{lstlisting}
+The value of the port can be different it depend on to which is ESP32-LyraT connected to.
+
+\bigskip
+\noindent
+When the loading/flashing starts, it will be waiting for connection from ESP32-LyraT. At that moment hold boot button and press restart button.
+
+\bigskip
+\noindent
+To check if application is indeed running after loading/flashing, use monitoring system:
+\begin{lstlisting}[frame=single]
+idf.py -p /dev/ttyUSB0 monitor
+\end{lstlisting}
+For ESP32-LyraT, when monitoring starts, press restart button.
+
+\bigskip
+\noindent
+It is possible to combine previous commands together:
+\begin{lstlisting}[frame=single]
+idf.py -p /dev/ttyUSB0 build flash monitor
+\end{lstlisting}
+
+\subsubsection{Memory} \label{esp-memory}
+Microcontroller ESP32-LyraT has 8MB of external memory (SRAM/SPIRAM). But it is 32-bit processor that means, if external RAM is enabled, only 4MB can be allocated using standard \textit{malloc} calls. To use the region above the 4MB limit, it is possible to use the \textit{himem API}.
+
+\bigskip
+\noindent
+\textbf{Configuration} - For enabling the external RAM, navigate to "menuconfig $\rightarrow$ Component config $\rightarrow$ Common ESP-related $\rightarrow$ Main task stack size". To access "menuconfig":
+\begin{lstlisting}[frame=single]
+idf.py menuconfig
+\end{lstlisting}
+%%% - Change the menuconfig s ->...->
+
+\bigskip
+\noindent
+\textbf{Stack} - It is possible to change size of the stack for the application. Setting can be found at "menuconfig $\rightarrow$ Component config $\rightarrow$ Common ESP-related $\rightarrow$ Main task stack size".
+
+\bigskip
+\noindent
+\textbf{Himem} - API which enables access to the remaining memory of external RAM. However this is done through a bankswitching scheme. Configuration can be found at the same place in menuconfig as external RAM.
+
 \subsection{UOV}
 Implementation can be found in folder \textit{src/esp/luov}. 
 
 \subsection{Rainbow}
 Implementation can be found in folder \textit{src/esp/rb}. 
+
+\subsubsection{Optimalization}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -845,7 +985,7 @@ Signature Scheme with a Partially Cyclic Public Key.} In: \textit{INDOCRYPT.} 20
 
 \begin{figure}
 	\dirtree{%
-		.1 readme.txt\DTcomment{the file with CD contents description}.
+		.1 README.md\DTcomment{the file with CD contents description}.
 		.1 exe\DTcomment{the directory with executables}.
 		.1 src\DTcomment{the directory of source codes}.
 		.2 esp\DTcomment{implementation for esp32 platform}.
