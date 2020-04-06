@@ -107,8 +107,26 @@ An affine map is the composition of two functions: a translation and a linear ma
 \]
 
 \subsection{Wolfram Mathematica}
+Wolfram Mathematica is a computer program widely used in scientific, technical and mathematical circles. The program was originally created by Stephen Wolfram and futher developed by a team of mathematicians and programmers. It is sold by Wolfram Research, with headquartered in Champaign, Illinois.
+
 \subsection{IoT}
+Internet of Things (IoT) is a term in computer science for a network of physical devices, vehicles, household appliances, or other devices that are equipped with electronics, software, sensors, moving parts, or network connectivity that allows these devices to connect and exchange data.
+
 \subsection{ESP32}
+The ESP32 is a low-cost, low-power microcontroller with integrated Wi-Fi and Bluetooth. It is created and developed by Espressif Systems, a Chinese company based in Shanghai, and is manufactured by TSMC using a 40 nm process.
+
+\bigskip
+\noindent
+Basic technical parameters are:
+\begin{itemize}
+\item	CPU: Xtensa dual-core
+\item	Memory: 520 KiB SRAM
+\item	Wi-Fi: 802.11 b/g/n
+\item	Bluetooth: v4.2 BR/EDR and BLE
+\item	IEEE 802.11 standard
+\item	Hardware acceleration: AES, SHA-2, RSA, ECC, RNG
+\end{itemize}
+
 \subsection{RSA}
 \subsection{ECDSA}
 
@@ -420,6 +438,7 @@ Last part is check if two hashes (in this example two messages $w$) are the same
 
 The file with implementation can by find under name "UOV.nb".
 
+%%%%%%%%%%%%%%%%%%%
 \subsection{Rainbow}
 The description of signature scheme of Rainbow is very similar to the description of OV.
 
@@ -581,6 +600,7 @@ The section describe reference implementation of the algorithms which are select
 \noindent
 The reference implementation contains several optimalized solutions. But for purpose of this Diploma thesis is only relevant solution in folder \textit{Reference\_Implementation}.
 
+%%%%%%%%%%%%%%%%%%%
 \subsection{UOV}
 This implementation of UOV is in reality implementation of LUOV (Lifted UOV) which is a improvement of the UOV scheme that greatly reduces the size of the public keys. There are tree basic modification:
 
@@ -633,6 +653,7 @@ sudo apt-get install xsltproc
 \noindent
 Implementation can be found in folder \textit{src/pc/luov}. 
 
+%%%%%%%%%%%%%%%%%%%
 \subsection{Rainbow}
 This implementation of Rainbow is implementation with two layers and contains tree variants:
 \begin{itemize}
@@ -657,6 +678,10 @@ These flags can not be used together, only one at the time can be valid. It spec
 \item	\_RAINBOW\_CYCLIC\_COMPRESSED 
 \end{itemize}
 Same as the flags above only one can be used at the time. It specify which variant of Rainbow to be used.
+
+\bigskip
+\noindent
+Last change is adding a \textit{test.c} file from LOUV implementation for consistent testing purpose.
 
 \bigskip
 \noindent
@@ -698,12 +723,13 @@ It is an audio development board built around ESP32 with additional hardware:
 \item	Li-ion Battery-Charge Management
 \end{itemize}
 
-The main reason for selecting this platform is inbuild external memory of the capacity 8MB. With this size of memory, it should be without any problems to implement selected algorithms. But in reality only 4MB are able to be used in the implementation, more information can be found at section \ref{esp-memory}. Added with excelent documentation at "docs.espressif.com" it was relatively easy to choose this platform for development.
+The main reason for selecting this platform is inbuild external memory of the capacity 8MB. With this size of memory, it should be without any problems to implement selected algorithms. But in reality only 4MB are able to be used in the implementation, more information can be found in section \ref{esp-memory}. Added with excelent documentation at "docs.espressif.com" it was relatively easy to choose this platform for development.
 
 \bigskip
 \noindent
 The implementations are the same as reference implementations. What I did is that I tried to port them on ESP32 platform.
 
+%%%%%%%%%%%%%%%%%%%
 \subsection{Setup of environment}
 Fisrt step of development on ESP32 is to set up of environment. This setting I did on Ubuntu 19.10 operating system, starting with downloading of tools:
 \begin{lstlisting}[frame=single]
@@ -722,7 +748,7 @@ sudo usermod -a -G dialout $USER
 
 \bigskip
 \noindent
-Download software libraries provided by Espressif (esp-idf) to folder "\$HOME/esp". I used release version 4.1:
+Download software libraries provided by Espressif, Espressif IoT Development Framework (esp-idf), to folder "\$HOME/esp". I used release version 4.1:
 \begin{lstlisting}[frame=single]
 cd $HOME/esp
 git clone -b release/v4.1 --recursive \
@@ -750,7 +776,7 @@ echo ". $HOME/esp/esp-idf/export.sh" >> $HOME/.bashrc
 \end{lstlisting}
 This way it will be added to every new shell session.
 
-\subsubsection{Load application}
+\subsubsection{Build \& Load}
 To load application to ESP32-LyraT, one must first build the project. For example, copy the project "src/esp/luov" (in the Diploma thesis sources) to "\$HOME/esp/luov". In this folder it is possible to build it:
 \begin{lstlisting}[frame=single]
 idf.py -n build
@@ -784,6 +810,7 @@ It is possible to combine previous commands together:
 idf.py -p /dev/ttyUSB0 build flash monitor
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%
 \subsubsection{Memory} \label{esp-memory}
 Microcontroller ESP32-LyraT has 8MB of external memory (SRAM/SPIRAM). But it is 32-bit processor that means, if external RAM is enabled, only 4MB can be allocated using standard \textit{malloc} calls. To use the region above the 4MB limit, it is possible to use the \textit{himem API}.
 
@@ -803,17 +830,107 @@ idf.py menuconfig
 \noindent
 \textbf{Himem} - API which enables access to the remaining memory of external RAM. However this is done through a bankswitching scheme. Configuration can be found at the same place in menuconfig as external RAM.
 
-\subsection{UOV}
+%%%%%%%%%%%%%%%%%%%
+\subsection{Project description}
+Base project of esp-idf is composed of the:
+\begin{itemize}
+\item	build - A folder where the output of build process is stored.
+\item	components - A folder which contains subprojects or external projects of the application.
+\item	main - A folder which contains source codes of the application. It is also called the \textit{main} component. 
+\item	CMakeList.txt - A global setting of the project and starting file for \textit{cmake}. 
+\item	sdkconfig - A setting of \textit{menuconfig}.
+\item	sdkconfig.default - A default setting of \textit{menuconfig}.
+\end{itemize}
+But for good convinience I added to this structure a file:
+\begin{itemize}
+\item	README.md - A file with basic information about build.
+\end{itemize}
+
+\noindent
+The project can be build by using \textit{make} or \textit{cmake}. For simplicity and recommendation in documentation, also almost every example is written in it, I decided to use \textit{cmake}.
+
+\bigskip
+\noindent
+Main entry point of application running on ESP32 is function \textit{app\_main}. In provided implementations it can be found in file \textit{main/test.c}.
+
+%%%%%%%%%%%%%%%%%%%
+\subsection{LUOV}
+To make a port of LUOV reference implementation to ESP32, first I needed to create \textit{CMakeList.txt} in folder \textit{main}. This file contains build options for the \textit{main} component.
+\begin{lstlisting}[frame=single]
+idf_component_register(SRCS INCLUDE_DIRS PRIV_REQUIRES)
+\end{lstlisting}
+Function is for registering project component to internal build structure of \textit{idf} API.
+\begin{itemize}
+\item	SRCS  - Files of source codes.
+\item	INCLUDE\_DIRS - Paths to header files.
+\item	 PRIV\_REQUIRES - Components which needs to be build before \textit{main} component and then linked to it.
+\end{itemize}
+
+\noindent
+It is nessessary to set up path to \textit{idf} compilator header files ortherwise the default, in my case GCC, headers will be used which are incompactible with ESP32.
+Last part of this file is block which take care of parsing build flags of project in variable \textit{B\_FLAGS}. 
+
+\bigskip
+\noindent
+The implementation require component \textit{XKCP} for PRNG. But how it can be seen in the file \textit{components/XKCP/CMakeList.txt} it only request few files from the \textit{XKCP} project. That means it is not necessary to build the whole project but only the requied parts. This way it will reduce the size of the final application. 
+
+\bigskip
+\noindent
+One of the important required chages is a change of default value of size of stack to 20000B. This size is sufficient to support all of the stack memory allocation. Also it needs to enable the use of external memory. Both of the settings are set in \textit{sdkconfig.default}.
+
+\bigskip
+\noindent
+The reference implemenation has implementation (file \textit{rng.c}) of random number generator (RNG) from NIST standard. But this RNG require library \textit{OpenSSL} which by default is not part of the \textit{esp-idf}. I found there is a component \textit{esp-wolfssl} which is embedded SSL library and offers a simple API with OpenSSL compatibility layer. Unfortunately when caling initialization function of the \textit{OpenSSL} the ESP32-LyraT will do a segmentation fail. It means that it is not possible to use it.
+
+\bigskip
+\noindent
+What is possible to do and what I also did, is to change the RNG to hardware RNG of ESP32. But there is condition in which Wi-Fi or Bluetooth needs to be enabled otherwise it can not be considered a true random number generator but only pseudo-random number generator.
+
+\bigskip
+\noindent
 Implementation can be found in folder \textit{src/esp/luov}. 
 
+\subsubsection{Optimalization}
+Because this ported implementation of LOUV is fast and has low memory consumption (see chapter \ref{test-and-disk}), I did not try to make any optimalization attempts. 
+
+\subsubsection{Memory}
+To be able measure the allocated memory in ESP32, I implemented memory measurement with the help of \textit{esp-idf} API. Implementation can be found in file \textit{memory\_measurement.c}.
+
+\bigskip
+\noindent
+This measurement will create new independent task which periodically ask the ESP32 about internal and external memory status. Because the ESP32 is dual-core proccessor, the slowdown by this task should be minimal and this should have minimal influence on signing algorithm. But to by sure there is no slowdown, the speed measurement was taken without this memory measurement.
+
+\bigskip
+\noindent
+To anable this functionality, the folowing flag needs to be set:
+\begin{itemize}
+\item	MEM\_MEASUREMENT
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%
 \subsection{Rainbow}
+
+
+\bigskip
+\noindent
 Implementation can be found in folder \textit{src/esp/rb}. 
 
 \subsubsection{Optimalization}
 
+\subsubsection{Memory}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conventional algorithms}
+These selected conventional algorithms were also implemented on microcontroller ESP32-LyraT for the possibility of comparison with LOUV and RB. These two algorithms are one of the most typical and most used in computer for signature schemes, that means there exist very good software implementations with hardware acceleration on ESP32 chip. 
+
+\subsection{RSA}
+
+%%%%%%%%%%%%%%%%%%%
+\subsection{ECDSA}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Testing and discussion}
+\chapter{Testing and discussion} \label{test-and-disk}
 \section{PC}
 Security cathegories; graphs of times; memory from ref. pdf
 \subsection{Time complexity}
@@ -975,6 +1092,7 @@ Signature Scheme with a Partially Cyclic Public Key.} In: \textit{INDOCRYPT.} 20
 	\item[NIST] National Institute of Standards and Technology
 	\item[OV] Oil and Vinegar
 	\item[PRNG] Pseudo-random number generator
+	\item[RNG] Random number generator
 	\item[UOV] Unbalanced Oil and Vinegar	
 \end{description}
 
