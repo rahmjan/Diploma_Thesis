@@ -2,6 +2,7 @@
 #define API_H
 
 #include <mbedtls/ecdsa.h>
+#include <mbedtls/sha256.h>
 
 #ifndef EC_CURVE_BITS
     #define EC_CURVE_BITS 256

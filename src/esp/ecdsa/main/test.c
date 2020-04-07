@@ -24,7 +24,9 @@ int app_main(void)
     int i, j, k;
     int message_size = 1000;
     size_t smlen = 0;
+	size_t hash_len = 256 / 8;
     unsigned char *m  = malloc(sizeof(unsigned char[message_size]));
+	unsigned char* hash = malloc(sizeof(unsigned char[hash_len]));
     unsigned char *sm = malloc(sizeof(unsigned char[CRYPTO_BYTES]));
     clock_t cl;
     float genTime = 0.0;
@@ -55,10 +57,13 @@ int app_main(void)
                 m[k] = (unsigned char)rand();
             }
             
+			// hash
+			mbedtls_sha256(m, message_size, hash, 0);
+
             // time signing algorithm
             printf("Signature - start\n");
             cl = clock();
-            mbedtls_ecdsa_write_signature(&ctx, MBEDTLS_MD_SHA256, m, message_size, sm, &smlen, coap_prng_impl, NULL);
+            mbedtls_ecdsa_write_signature(&ctx, MBEDTLS_MD_SHA256, hash, hash_len, sm, &smlen, coap_prng_impl, NULL);
             cl = clock() - cl;
             signTime += ((float)cl) / CLOCKS_PER_SEC;
             if(i+j == 0){
@@ -69,7 +74,7 @@ int app_main(void)
             // time verification algorithm
             printf("Verification - start\n");
             cl = clock();
-            if (mbedtls_ecdsa_read_signature(&ctx, m, message_size, sm, smlen) != 0) {
+            if (mbedtls_ecdsa_read_signature(&ctx, hash, hash_len, sm, smlen) != 0) {
                 printf("Verification of signature Failed!\n");
             }
             cl = clock() - cl;

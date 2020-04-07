@@ -131,6 +131,7 @@ Basic technical parameters are:
 \subsection{ECDSA}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Multivariate cryptography}
 \subsection{Definition}
 "Multivariate cryptography (MC) is the generic term for asymmetric cryptographic primitives based on multivariate polynomials over a finite field $\mathbb{F}$."\cite{L-WIKI1}
@@ -246,6 +247,7 @@ For the security of UOV is required $v \geq 2o$ because of the attack of Kipnis 
 The UOV scheme is very simple, has small signatures and is fast. The main disadvantage is its public keys which are quite large.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Rainbow}
 The Rainbow is a multi layer version of UOV. The layers are not independent from each other but there is a hierarchy which uses the results from the layer above to compute additional variables. The name comes from the link to the layers of a rainbow and the scheme was introduced by Ding and Schmid in 2005.
 
@@ -460,7 +462,7 @@ x1^2+3x1*x2+5x1*x3+6x1*x4+2x2^2+6x2*x3+4x2*x4+2x2+6x3+2x4+5;
 +x2+3x3^2+5x3*x4+4x3*x5+2x3*x6+4x3+x4^2+6x4*x5+3x4*x6+4x4+4x5+x6+2;
 \end{mmaCell}
 Next is setting up of the affine map $\mathcal{T}$ with matrix $A$ and vector $b$ which are the same as in OV example. But with addition of affine map $\mathcal{S}$ with matrix $A2$ and vector $b2$.
-\begin{figure}[h]
+\begin{figure}[H]
 	\begin{minipage}{0.39\textwidth}
 		\centering
 		\begin{mmaCell}[addtoindex=3,moredefined={A2}]{Input}
@@ -592,6 +594,7 @@ By the definition of RB, in this example is used $u=2, v_1=2, v_2=4, v_3=6=n$. B
 The file with implementation can by find under name "RB.nb".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \lstset{basicstyle=\footnotesize\ttfamily}
 \section{Reference implementation}
 The section describe reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implemetations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019, and are written in language C or C++. 
@@ -632,8 +635,8 @@ For testing purpose I did few adjustments to source files of the LOUV. One is to
 \item	FIELD\_SIZE - Size/degree of finite field.
 \item	OIL\_VARS - Number of oil variables.
 \item	VINEGAR\_VARS - Number of vinegar variables.
-\item	SHAKENUM - 
-\item	FIRST\_PART\_TARGET - 
+\item	SHAKENUM - Version of the shake XOF that is used.
+\item	FIRST\_PART\_TARGET - Number of bytes used in recovery mode.
 \item	PRNG\_CHACHA/PRNG\_KECCAK - If use Chacha8 or SHAKE128. 
 \item	MESSAGE\_RECOVERY - Enable message recovery.
 \end{itemize}
@@ -658,9 +661,10 @@ Implementation can be found in folder \textit{src/pc/luov}.
 This implementation of Rainbow is implementation with two layers and contains tree variants:
 \begin{itemize}
 \item	Classic - Typical/Classic implementation of Rainbow.
-\item	Cyclic - The variant is motivated by Petzoldt's cyclic Rainbow scheme\cite{L-RB-CYC} who developed technique to insert a matrix into public key and to compute a corresponding private key. It allows to create major parts of the public key from a seed using a PRNG.
+\item	Cyclic - The variant is motivated by Petzoldt's cyclic Rainbow scheme\cite{L-RB-CYC} who developed technique to insert a matrix into public key and to compute a corresponding private key. It allows to create major parts of the public key from a seed using a PRNG. But this variant include some kind of bug where the verification of signature fails.
 \item	Compressed - This variant is similar to Cyclic variant but the private key is stored in the form of bit seed.  
 \end{itemize}
+
 
 \subsubsection{Adjustments}
 The adjustments are very similar to the adjustments of LUOV. I simplify the \textit{Makefile} for easy generation of testing application and removed redudant files. I added file \textit{README.md} with building information. This implementation can be now build with flags:
@@ -688,6 +692,7 @@ Last change is adding a \textit{test.c} file from LOUV implementation for consis
 Implementation can be found in folder \textit{src/pc/rb}.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{ESP32 implementation}
 For the implementation of algorithms on microcontroller was selected ESP32-LyraT of version 4.3 from company Espressif Systems.
 
@@ -727,7 +732,7 @@ The main reason for selecting this platform is inbuild external memory of the ca
 
 \bigskip
 \noindent
-The implementations are the same as reference implementations. What I did is that I tried to port them on ESP32 platform.
+The implementations are the same as reference implementations with my adjustments. What I did is that I tried to port them on ESP32 platform.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Setup of environment}
@@ -816,11 +821,10 @@ Microcontroller ESP32-LyraT has 8MB of external memory (SRAM/SPIRAM). But it is 
 
 \bigskip
 \noindent
-\textbf{Configuration} - For enabling the external RAM, navigate to "menuconfig $\rightarrow$ Component config $\rightarrow$ Common ESP-related $\rightarrow$ Main task stack size". To access "menuconfig":
+\textbf{Configuration} - For enabling the external RAM, navigate to "menuconfig $\rightarrow$ Component config $\rightarrow$ ESP32-specific $\rightarrow$ Support for external, SPI-connected RAM $\rightarrow$ SPI RAM config". To access "menuconfig":
 \begin{lstlisting}[frame=single]
 idf.py menuconfig
 \end{lstlisting}
-%%% - Change the menuconfig s ->...->
 
 \bigskip
 \noindent
@@ -854,7 +858,7 @@ The project can be build by using \textit{make} or \textit{cmake}. For simplicit
 Main entry point of application running on ESP32 is function \textit{app\_main}. In provided implementations it can be found in file \textit{main/test.c}.
 
 %%%%%%%%%%%%%%%%%%%
-\subsection{LUOV}
+\subsection{LUOV} \label{esp-luov-make}
 To make a port of LUOV reference implementation to ESP32, first I needed to create \textit{CMakeList.txt} in folder \textit{main}. This file contains build options for the \textit{main} component.
 \begin{lstlisting}[frame=single]
 idf_component_register(SRCS INCLUDE_DIRS PRIV_REQUIRES)
@@ -863,7 +867,7 @@ Function is for registering project component to internal build structure of \te
 \begin{itemize}
 \item	SRCS  - Files of source codes.
 \item	INCLUDE\_DIRS - Paths to header files.
-\item	 PRIV\_REQUIRES - Components which needs to be build before \textit{main} component and then linked to it.
+\item	PRIV\_REQUIRES - Components which needs to be build before \textit{main} component and then linked to it.
 \end{itemize}
 
 \noindent
@@ -876,7 +880,7 @@ The implementation require component \textit{XKCP} for PRNG. But how it can be s
 
 \bigskip
 \noindent
-One of the important required chages is a change of default value of size of stack to 20000B. This size is sufficient to support all of the stack memory allocation. Also it needs to enable the use of external memory. Both of the settings are set in \textit{sdkconfig.default}.
+One of the important required chages is a change of default value for size of stack to 20000B. This size is sufficient to support all of the stack memory allocation. Also it needs to enable the use of external memory. Both of the settings are set in \textit{sdkconfig.default}.
 
 \bigskip
 \noindent
@@ -893,7 +897,7 @@ Implementation can be found in folder \textit{src/esp/luov}.
 \subsubsection{Optimalization}
 Because this ported implementation of LOUV is fast and has low memory consumption (see chapter \ref{test-and-disk}), I did not try to make any optimalization attempts. 
 
-\subsubsection{Memory}
+\subsubsection{Memory} \label{esp-luov-memory}
 To be able measure the allocated memory in ESP32, I implemented memory measurement with the help of \textit{esp-idf} API. Implementation can be found in file \textit{memory\_measurement.c}.
 
 \bigskip
@@ -909,24 +913,147 @@ To anable this functionality, the folowing flag needs to be set:
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Rainbow}
+To make a port of Rainbow reference implementation to ESP32, I proceeded in the same way as for the LUOV ESP32 implementation. That means I created \textit{CMakeList.txt} in folder \textit{main} with the same formalities as \textit{CMakeList.txt} for LUOV, see section \ref{esp-luov-make}. The most eye catching difference is set up of different kinds of \textit{malloc}, see section \ref{esp-rb-memory} for more information.
 
+\bigskip
+\noindent
+The implementation require component \textit{wolfssl} for PRNG. In this case is build the whole \textit{esp-wolfssl} project which is simply added throught \textit{PRIV\_REQUIRES} in \textit{main/CMakeList.txt}. Here is important to mention that Rainbow reference implementation contains two PRNG (see \textit{utils\_prng.c}). One from NIST standard, it is the same RNG as in LUOV reference implementation, and second PRNG which use hash SHA function. Because the RNG form NIST standard was not possible for me to run on ESP32-LyraT, I change it to second PRNG and  I deleted from source codes the implementation of the first.
+
+\bigskip
+\noindent
+The source codes also require RNG which I changed to hardware RNG of ESP32, it is the same change as in LUOV ESP32 implementation (see \textit{rng.c}).
+
+\bigskip
+\noindent
+The default value for size of stack I set up to value 5000B. Because this value is sufficient to support all of the Rainbow stack allocation memory. Setting is set up in \textit{sdkconfig.default} with enabled external memory to get access to external 4MB RAM.
 
 \bigskip
 \noindent
 Implementation can be found in folder \textit{src/esp/rb}. 
 
 \subsubsection{Optimalization}
+I did two memory optimalizations of Rainbow implementation for ESP32:
+\begin{itemize}
+\item	First I found potential big allocation of memory and switch them from stack to heap. Candidates to change were temporary helpful variables of keys (\textit{sk\_t}) in computation of keys from seeds.
 
-\subsubsection{Memory}
+\item	Second I created \textit{my\_ESP\_malloc} and \textit{my\_ESP\_free} functions, see \ref{esp-rb-memory}. With these I found that temporary variables (for example \textit{sk\_t* tempQ}) were using lot of memory but in reality only needed a part of the key structure. See commit \textit{"ESP - RB memory reduction in cyclic generation"}, hash \textit{"1609d70c"} for details of optimalization.
+\end{itemize}
+
+Witch these two optimalization there was alredy enough memory and I was able to run \textit{\_RAINBOW256\_92\_48\_48} implementation in compressed form. I was also able to run the same implementation in cyclic form but there is same kind of bug and it was making segmentation fault. I am suspecting that it is the same bug 
+which causes failure of signature verification.
+
+\subsubsection{Memory} \label{esp-rb-memory}
+To be able to better measure the allocated memory in ESP32, there is the same memory measurement implementation as in LUOV ESP32 \ref{esp-luov-memory}, which can be enabled by flag:
+\begin{itemize}
+\item	MEM\_MEASUREMENT
+\end{itemize}
+
+Because I needed better technique for memory allocation on heap, I created my own allocation information table. It is simple small array, I expect small number of allocation at one point at time, which holds imformation of pointer and its size.
+It can be enabled by flag:
+\begin{itemize}
+\item	MY\_ESP\_MALLOC
+\end{itemize}
+When this flag is set, it will switch all \textit{aligned\_alloc} to \textit{my\_ESP\_malloc} and \textit{free} to \textit{my\_ESP\_free} and every time when there is allocation od deallocation it will print its information.
+This information table helped me to identify potential places in source code of RB for memory optimalization. For implementation details see file \textit{malloc.c}.
+
+\bigskip
+\noindent
+The reference implementation use \textit{aligned\_alloc} function for allocation of memory but ESP32 with toolchain 8.2 which I am using has issue with this function and it is not possible to use for now. That is the reason why I change it to classic \textit{malloc} function.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Conventional algorithms}
 These selected conventional algorithms were also implemented on microcontroller ESP32-LyraT for the possibility of comparison with LOUV and RB. These two algorithms are one of the most typical and most used in computer for signature schemes, that means there exist very good software implementations with hardware acceleration on ESP32 chip. 
 
+\bigskip
+\noindent
+Both of the selected algorihms are implemented, using the esp-idf API, in similar way like previous implemetations in this thesis on ESP32. That means their entry point is in file \textit{test.c} which has similar structure to others \textit{test.c} files in previous description. The main difference is in private and public keys which are now in the form of \textit{context} relative to algorithm.
+
 \subsection{RSA}
+Test implementation of RSA starts with initialization of context:
+\begin{lstlisting}[frame=single]
+mbedtls_rsa_context ctx;
+mbedtls_rsa_init(&ctx,MBEDTLS_RSA_PKCS_V15,0);
+\end{lstlisting}
+
+\noindent
+Second step is generation of keypair:
+\begin{lstlisting}[frame=single]
+mbedtls_rsa_gen_key(&ctx,coap_prng_impl,NULL,KEY_SIZE,EXPONENT);
+\end{lstlisting}
+
+\noindent
+Generation \textit{hash} of message $m$:
+\begin{lstlisting}[frame=single]
+mbedtls_sha256(m,message_size,hash,0);
+\end{lstlisting}
+
+\noindent
+Sign \textit{hash} and put signature to \textit{sm}:
+\begin{lstlisting}[frame=single]
+mbedtls_rsa_pkcs1_sign(&ctx,coap_prng_impl,NULL,
+			MBEDTLS_RSA_PRIVATE,MBEDTLS_MD_SHA256,
+			0,hash,sm);
+\end{lstlisting}
+
+\noindent
+Verify signature \textit{sm} of \textit{hash}:
+\begin{lstlisting}[frame=single]
+mbedtls_rsa_pkcs1_verify(&ctx,coap_prng_impl,NULL,
+			MBEDTLS_RSA_PUBLIC,MBEDTLS_MD_SHA256,
+			0,hash,sm);
+\end{lstlisting}
+
+\bigskip
+\noindent
+The implementation can be set with flags:
+\begin{itemize}
+\item	KEY\_SIZE - Size of public key in bits.
+\item 	EXPONENT - Public exponent to use.
+\item 	MEM\_MEASUREMENT  - Enable memory measurement.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{ECDSA}
+Test implementation of ECDSA is very similar to RSA. It starts with initialization of context:
+\begin{lstlisting}[frame=single]
+mbedtls_ecdsa_context ctx;
+mbedtls_ecdsa_init(&ctx);
+\end{lstlisting}
+
+\noindent
+Second step is generation of keypair:
+\begin{lstlisting}[frame=single]
+mbedtls_ecdsa_genkey(&ctx,EC_CURVE,coap_prng_impl,NULL);
+\end{lstlisting}
+
+\noindent
+Generation \textit{hash} of message $m$:
+\begin{lstlisting}[frame=single]
+mbedtls_sha256(m,message_size,hash,0);
+\end{lstlisting}
+
+\noindent
+Sign \textit{hash} and put signature to \textit{sm}:
+\begin{lstlisting}[frame=single]
+mbedtls_ecdsa_write_signature(&ctx,MBEDTLS_MD_SHA256,hash,
+			hash_len,sm,&smlen,coap_prng_impl,NULL);
+\end{lstlisting}
+
+\noindent
+Verify signature \textit{sm} of \textit{hash}:
+\begin{lstlisting}[frame=single]
+mbedtls_ecdsa_read_signature(&ctx,hash,hash_len,sm,smlen)
+\end{lstlisting}
+
+\bigskip
+\noindent
+The implementation can be set with flags:
+\begin{itemize}
+\item	EC\_CURVE\_BITS  - Number of bits for eliptic curve.
+\item 	MEM\_MEASUREMENT  - Enable memory measurement.
+\end{itemize}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -934,11 +1061,32 @@ These selected conventional algorithms were also implemented on microcontroller 
 \section{PC}
 Security cathegories; graphs of times; memory from ref. pdf
 \subsection{Time complexity}
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/pc-luov.pdf}
+\caption{Porovnání naivních implementací}
+\label{pc-luov}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/pc-rb.pdf}
+\caption{Porovnání naivních implementací}
+\label{pc-rb}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/pc-all.pdf}
+\caption{Porovnání naivních implementací}
+\label{pc-all}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{ESP32}
 \subsection{Time complexity}
 \begin{figure}[H]
@@ -1007,6 +1155,7 @@ Security cathegories; graphs of times; memory from ref. pdf
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Conventional algorithms}
 RSA, ECDSA
 
