@@ -691,6 +691,35 @@ Last change is adding a \textit{test.c} file from LOUV implementation for consis
 \noindent
 Implementation can be found in folder \textit{src/pc/rb}.  
 
+%%%%%%%%%%%%%%%%%%%
+\subsection{Test file}
+For testing purpose there is file \textit{test.c} which also serves as main entry point of the final application. Both of the implementation has the same structure and it can by basically described as followed:
+
+\bigskip
+\noindent
+First step is generation of public and private keys:
+\begin{lstlisting}[frame=single]
+crypto_sign_keypair(pk,sk);
+\end{lstlisting}
+
+\bigskip
+\noindent
+Generation signature \textit{sm} (it also contains the message) of message $m$:
+\begin{lstlisting}[frame=single]
+crypto_sign(sm,&smlen,m,message_size,sk);
+\end{lstlisting}
+
+\bigskip
+\noindent
+Verify signature \textit{sm} and put the message from it to $m2$:
+\begin{lstlisting}[frame=single]
+crypto_sign_open(m2,&smlen,sm smlen,pk);
+\end{lstlisting}
+
+\bigskip
+\noindent
+Final step is verification if the message $m$ is equal to $m2$.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{ESP32 implementation}
@@ -1043,7 +1072,7 @@ mbedtls_ecdsa_write_signature(&ctx,MBEDTLS_MD_SHA256,hash,
 \noindent
 Verify signature \textit{sm} of \textit{hash}:
 \begin{lstlisting}[frame=single]
-mbedtls_ecdsa_read_signature(&ctx,hash,hash_len,sm,smlen)
+mbedtls_ecdsa_read_signature(&ctx,hash,hash_len,sm,smlen);
 \end{lstlisting}
 
 \bigskip
@@ -1058,32 +1087,86 @@ The implementation can be set with flags:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Testing and discussion} \label{test-and-disk}
+This chapter contains measurement and testing of algorithms, their comparison and discussion about their implementation. It mainly focus on time and memory complexity of the selected algorithms and possible usability in an embedded environment.
+
 \section{PC}
-Security cathegories; graphs of times; memory from ref. pdf
+The reference implementations with my adjustments were tested on computer with parameters:
+\begin{itemize}
+\item OS: Ubuntu 19.10
+\item CPU: Intel Core i5-7300HQ
+\item Clock Speed: 2.50GHz
+\item RAM: 8 GB
+\item Number of cores: 4
+\item Compilator: GCC 8.2
+\end{itemize}
+
+\bigskip
+\noindent
+Main goal of this measurements and implementations is to have comparable data of reference implementations of LUOV and RB on PC because in reference materials there are measured on different processors and only in number of processor cycles. I chose to make the measurement of time (in seconds) and memory consuption (in bytes).
+
+\bigskip
+\noindent
+The solutions are compiled with the same (default) setting with flag \textit{-std=c99}.
+
+\subsection{Signature schemes}
+For measurement I selected the reference signature schemes. Dividing by security levels there are:
+
+\bigskip
+\noindent
+Level 2:
+\begin{itemize}
+\item Luov-47-42-182
+\item Luov-7-57-197
+\item Rb-16-32-32-32 - and its variants
+\end{itemize}
+
+\noindent
+Level 4:
+\begin{itemize}
+\item Luov-61-60-261
+\item Luov-7-83-283
+\item Rb-256-68-36-36 - and its variants
+\end{itemize}
+
+\noindent
+Level 6:
+\begin{itemize}
+\item Luov-79-76-341
+\item Luov-7-110-374
+\item Rb-256-92-48-48 - and its variants
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity}
+The next two graphs display individual stages of the signature scheme and its time it takes to complete each of the stages. Namely generation, signing and verification.
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/pc-luov.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Comparison of LUOV on PC}
 \label{pc-luov}
 \end{figure}
+
+How it can be seen on \ref{pc-luov} the stronger the security
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/pc-rb.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Comparison of RB on PC}
 \label{pc-rb}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/pc-all.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Comparison of PC implementations}
 \label{pc-all}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -1092,21 +1175,21 @@ Security cathegories; graphs of times; memory from ref. pdf
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/time-luov.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Comparison of LUOV on ESP32}
 \label{time-luov}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/time-rb.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Comparison of RB on ESP32}
 \label{time-rb}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/time-both.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Comparison of ESP32 implementations}
 \label{time-both}
 \end{figure}
 
@@ -1115,42 +1198,45 @@ Security cathegories; graphs of times; memory from ref. pdf
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-luov0.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Memory requirement of LUOV on ESP32}
 \label{mem-luov0}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-luov.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Memory requirement of LUOV on ESP32}
 \label{mem-luov}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-rb.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Memory requirement of RB on ESP32}
 \label{mem-rb}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-both.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Memory requirement of implementations on ESP32}
 \label{mem-both}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%
+\subsection{Keys \& signature}
+In this section is comparison of size of signature for different settings of algorithms. Must be noted that the size of signature of ESP32 implementations are the same as PC implementation. I just noted them from the ESP32 implemetations.
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/sign-luov.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Size of signature of LUOV on ESP32}
 \label{sign-luov}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/sign-rb.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Size of signature of RB on ESP32}
 \label{sign-rb}
 \end{figure}
 
@@ -1162,14 +1248,14 @@ RSA, ECDSA
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/time-all.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Comparison with conventional algorithms}
 \label{time-all}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-all.pdf}
-\caption{Porovnání naivních implementací}
+\caption{Memoru requiment comparison with conventional algorithms}
 \label{mem-all}
 \end{figure}
 
@@ -1223,6 +1309,12 @@ in Cryptology INDOCRYPT 2017: 18th International Conference on Cryptology in Ind
 \bibitem{L-RB-CYC}
 PETZOLDT, A.; BULYGIN, S.; BUCHMANN, J.: \textit{Multivariate
 Signature Scheme with a Partially Cyclic Public Key.} In: \textit{INDOCRYPT.} 2010, vol. 6498, pp. 33 - 48. Springer, 2010.
+
+\bibitem{L-SUB-LUOV}
+CZYPEK, P.: \textit{LUOV. Signature Scheme proposal for NIST PQC Project (Round 2 version).} imec-COSIC KU Leuven, Belgium, 2019.
+
+\bibitem{L-SUB-RB}
+DING, J.: \textit{Rainbow - Algorithm Specification and Documentation. The 2nd Round Proposal.} University of Cincinnati, USA, 2019.
 
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
