@@ -9,6 +9,7 @@ algorithms are tested and measured against the RSA and ECDSA algorithms.
 Wolfram Mathematica, ESP32  
 
 ### Structure
+```
 README.md...........................the file with CD/GIT contents description  
 ├─ exe..............................the directory with executables  
 ├─ src..............................the directory of source codes  
@@ -19,3 +20,4 @@ README.md...........................the file with CD/GIT contents description
 │  └─ thesis........................the directory of LATEX source codes of the thesis  
 └─ text.............................the thesis text directory  
    └─ thesis.pdf....................the thesis text in PDF format  
+```
