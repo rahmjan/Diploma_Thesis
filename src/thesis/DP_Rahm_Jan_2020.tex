@@ -107,7 +107,7 @@ An affine map is the composition of two functions: a translation and a linear ma
 \]
 
 \subsection{Wolfram Mathematica}
-Wolfram Mathematica is a computer program widely used in scientific, technical and mathematical circles. The program was originally created by Stephen Wolfram and futher developed by a team of mathematicians and programmers. It is sold by Wolfram Research, with headquartered in Champaign, Illinois.
+Wolfram Mathematica is a computer program widely used in scientific, technical and mathematical circles. The program was originally created by Stephen Wolfram and further developed by a team of mathematicians and programmers. It is sold by Wolfram Research, with headquartered in Champaign, Illinois.
 
 \subsection{IoT}
 Internet of Things (IoT) is a term in computer science for a network of physical devices, vehicles, household appliances, or other devices that are equipped with electronics, software, sensors, moving parts, or network connectivity that allows these devices to connect and exchange data.
@@ -249,7 +249,7 @@ The UOV scheme is very simple, has small signatures and is fast. The main disadv
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Rainbow}
-The Rainbow is a multi layer version of UOV. The layers are not independent from each other but there is a hierarchy which uses the results from the layer above to compute additional variables. The name comes from the link to the layers of a rainbow and the scheme was introduced by Ding and Schmid in 2005.
+The Rainbow is a multi-layer version of UOV. The layers are not independent from each other but there is a hierarchy which uses the results from the layer above to compute additional variables. The name comes from the link to the layers of a rainbow and the scheme was introduced by Ding and Schmid in 2005.
 
 The main advantage compared to UOV should be in better performance, smaller key sizes and smaller signatures.
 
@@ -597,11 +597,11 @@ The file with implementation can by find under name "RB.nb".
 \newpage
 \lstset{basicstyle=\footnotesize\ttfamily}
 \section{Reference implementation}
-The section describe reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implemetations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019, and are written in language C or C++. 
+The section describes reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implementations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019, and are written in language C or C++. 
 
 \bigskip
 \noindent
-The reference implementation contains several optimalized solutions. But for purpose of this Diploma thesis is only relevant solution in folder \textit{Reference\_Implementation}.
+The reference implementation contains several optimized solutions. But for purpose of this Diploma thesis is only relevant solution in folder \textit{Reference\_Implementation}.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{UOV}
@@ -614,7 +614,7 @@ This algorithm still produces the same distribution of key pairs, that means the
 
 Private key is also generated from seed.
 
-\item	Second modification (\textit{"Lifting"}) is that the scheme uses $\mathcal{P}:\mathbb{F}_2^n \rightarrow \mathbb{F}_2^m$ over $\mathbb{F}_2$ as a public key over a extension field $\mathbb{F}_{2^r}$. That means the public key $\mathcal{P}:\mathbb{F}_2^n \rightarrow \mathbb{F}_2^m$ is \textit{lifted}/extended to $\mathcal{P}:\mathbb{F}_{2^r}^n \rightarrow \mathbb{F}_{2^r}^m$. This modification is where the name comes from and is the most important because the public key remains small, while solving the system $\mathcal{P}(x) = y$ for some $y$ in $\mathbb{F}_{2^r}^m$ becomes more diffcult compared to where $y$ is in $\mathbb{F}_{2}^m$.\cite{L-LIFTING}
+\item	Second modification (\textit{"Lifting"}) is that the scheme uses $\mathcal{P}:\mathbb{F}_2^n \rightarrow \mathbb{F}_2^m$ over $\mathbb{F}_2$ as a public key over a extension field $\mathbb{F}_{2^r}$. That means the public key $\mathcal{P}:\mathbb{F}_2^n \rightarrow \mathbb{F}_2^m$ is \textit{lifted}/extended to $\mathcal{P}:\mathbb{F}_{2^r}^n \rightarrow \mathbb{F}_{2^r}^m$. This modification is where the name comes from and is the most important because the public key remains small, while solving the system $\mathcal{P}(x) = y$ for some $y$ in $\mathbb{F}_{2^r}^m$ becomes more difficult compared to where $y$ is in $\mathbb{F}_{2}^m$.\cite{L-LIFTING}
 
 \item	Third modification is having linear map $\mathcal{P}$ in the form:
 \begin{equation*}
@@ -629,7 +629,7 @@ where $T$ is a $v$-by-$m$ matrix. This solution makes the key generation and the
 Source codes of version $2.1$ were obtained from GitHub repository.
 
 \subsubsection{Adjustments}
-For testing purpose I did few adjustments to source files of the LOUV. One is to simplify \textit{Makefile} for easy generation of testing application and setting up of \textit{path} to external library. Removed of some unneccessary files (\textit{PQCgenKAT\_sign.c}) and created \textit{README.md} with building information. The last change is grouping of the all different settings of LOUV into one folder with building flags:
+For testing purpose, I did few adjustments to source files of the LOUV. One is to simplify \textit{Makefile} for easy generation of testing application and setting up of \textit{path} to external library. Removed of some unnecessary files (\textit{PQCgenKAT\_sign.c}) and created \textit{README.md} with building information. The last change is grouping of the all different settings of LOUV into one folder with building flags:
 
 \begin{itemize}
 \item	FIELD\_SIZE - Size/degree of finite field.
@@ -661,13 +661,13 @@ Implementation can be found in folder \textit{src/pc/luov}.
 This implementation of Rainbow is implementation with two layers and contains tree variants:
 \begin{itemize}
 \item	Classic - Typical/Classic implementation of Rainbow.
-\item	Cyclic - The variant is motivated by Petzoldt's cyclic Rainbow scheme\cite{L-RB-CYC} who developed technique to insert a matrix into public key and to compute a corresponding private key. It allows to create major parts of the public key from a seed using a PRNG. But this variant include some kind of bug where the verification of signature fails.
+\item	Cyclic - The variant is motivated by Petzoldt's cyclic Rainbow scheme\cite{L-RB-CYC} who developed technique to insert a matrix into public key and to compute a corresponding private key. It allows to create major parts of the public key from a seed using a PRNG. But this variant includes some kind of bug where the verification of signature fails.
 \item	Compressed - This variant is similar to Cyclic variant but the private key is stored in the form of bit seed.  
 \end{itemize}
 
 
 \subsubsection{Adjustments}
-The adjustments are very similar to the adjustments of LUOV. I simplify the \textit{Makefile} for easy generation of testing application and removed redudant files. I added file \textit{README.md} with building information. This implementation can be now build with flags:
+The adjustments are very similar to the adjustments of LUOV. I simplify the \textit{Makefile} for easy generation of testing application and removed redundant files. I added file \textit{README.md} with building information. This implementation can be now build with flags:
 
 \begin{itemize}
 \item	\_RAINBOW16\_32\_32\_32 
@@ -730,11 +730,11 @@ For the implementation of algorithms on microcontroller was selected ESP32-LyraT
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-1.pdf}
+  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-1.jpg}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-2.pdf}
+  \includegraphics[width=1\linewidth]{images/ESP32-LyraT-2.jpg}
 \end{minipage}
 \caption{ESP32-LyraT}
 \label{esp32-lyrat}
@@ -757,7 +757,7 @@ It is an audio development board built around ESP32 with additional hardware:
 \item	Li-ion Battery-Charge Management
 \end{itemize}
 
-The main reason for selecting this platform is inbuild external memory of the capacity 8MB. With this size of memory, it should be without any problems to implement selected algorithms. But in reality only 4MB are able to be used in the implementation, more information can be found in section \ref{esp-memory}. Added with excelent documentation at "docs.espressif.com" it was relatively easy to choose this platform for development.
+The main reason for selecting this platform is inbuild external memory of the capacity 8MB. With this size of memory, it should be without any problems to implement selected algorithms. But in reality, only 4MB are able to be used in the implementation, more information can be found in section \ref{esp-memory}. Added with excellent documentation at "docs.espressif.com" it was relatively easy to choose this platform for development.
 
 \bigskip
 \noindent
@@ -765,7 +765,7 @@ The implementations are the same as reference implementations with my adjustment
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Setup of environment}
-Fisrt step of development on ESP32 is to set up of environment. This setting I did on Ubuntu 19.10 operating system, starting with downloading of tools:
+First step of development on ESP32 is to set up of environment. This setting I did on Ubuntu 19.10 operating system, starting with downloading of tools:
 \begin{lstlisting}[frame=single]
 sudo apt-get install git wget libncurses-dev flex bison gperf \
 python python-pip python-setuptools python-serial python-click \
@@ -815,15 +815,15 @@ To load application to ESP32-LyraT, one must first build the project. For exampl
 \begin{lstlisting}[frame=single]
 idf.py -n build
 \end{lstlisting}
-The switch "-n" will stop treat the warrnings as errors.
+The switch "-n" will stop treat the warnings as errors.
 
 \bigskip
 \noindent
-After successful buil,d it is possible to load/flash application to ESP32-LyraT:
+After successful build it is possible to load/flash application to ESP32-LyraT:
 \begin{lstlisting}[frame=single]
 idf.py -p /dev/ttyUSB0 flash
 \end{lstlisting}
-The value of the port can be different it depend on to which is ESP32-LyraT connected to.
+The value of the port can be different it depends on to which is ESP32-LyraT connected to.
 
 \bigskip
 \noindent
@@ -861,7 +861,7 @@ idf.py menuconfig
 
 \bigskip
 \noindent
-\textbf{Himem} - API which enables access to the remaining memory of external RAM. However this is done through a bankswitching scheme. Configuration can be found at the same place in menuconfig as external RAM.
+\textbf{Himem} - API which enables access to the remaining memory of external RAM. However this is done through a bank switching scheme. Configuration can be found at the same place in menuconfig as external RAM.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Project description}
@@ -874,7 +874,7 @@ Base project of esp-idf is composed of the:
 \item	sdkconfig - A setting of \textit{menuconfig}.
 \item	sdkconfig.default - A default setting of \textit{menuconfig}.
 \end{itemize}
-But for good convinience I added to this structure a file:
+But for good convenience I added to this structure a file:
 \begin{itemize}
 \item	README.md - A file with basic information about build.
 \end{itemize}
@@ -900,20 +900,20 @@ Function is for registering project component to internal build structure of \te
 \end{itemize}
 
 \noindent
-It is nessessary to set up path to \textit{idf} compilator header files ortherwise the default, in my case GCC, headers will be used which are incompactible with ESP32.
+It is necessary to set up path to \textit{idf} compilator header files otherwise the default, in my case GCC, headers will be used which are incompatible with ESP32.
 Last part of this file is block which take care of parsing build flags of project in variable \textit{B\_FLAGS}. 
 
 \bigskip
 \noindent
-The implementation require component \textit{XKCP} for PRNG. But how it can be seen in the file \textit{components/XKCP/CMakeList.txt} it only request few files from the \textit{XKCP} project. That means it is not necessary to build the whole project but only the requied parts. This way it will reduce the size of the final application. 
+The implementation requires component \textit{XKCP} for PRNG. But how it can be seen in the file \textit{components/XKCP/CMakeList.txt} it only requests few files from the \textit{XKCP} project. That means it is not necessary to build the whole project but only the requied parts. This way it will reduce the size of the final application. 
 
 \bigskip
 \noindent
-One of the important required chages is a change of default value for size of stack to 20000B. This size is sufficient to support all of the stack memory allocation. Also it needs to enable the use of external memory. Both of the settings are set in \textit{sdkconfig.default}.
+One of the important required changes is a change of default value for size of stack to 20000B. This size is sufficient to support all of the stack memory allocation. Also it needs to enable the use of external memory. Both of the settings are set in \textit{sdkconfig.default}.
 
 \bigskip
 \noindent
-The reference implemenation has implementation (file \textit{rng.c}) of random number generator (RNG) from NIST standard. But this RNG require library \textit{OpenSSL} which by default is not part of the \textit{esp-idf}. I found there is a component \textit{esp-wolfssl} which is embedded SSL library and offers a simple API with OpenSSL compatibility layer. Unfortunately when caling initialization function of the \textit{OpenSSL} the ESP32-LyraT will do a segmentation fail. It means that it is not possible to use it.
+The reference implementation has implementation (file \textit{rng.c}) of random number generator (RNG) from NIST standard. But this RNG require library \textit{OpenSSL} which by default is not part of the \textit{esp-idf}. I found there is a component \textit{esp-wolfssl} which is embedded SSL library and offers a simple API with OpenSSL compatibility layer. Unfortunately calling initialization function of the \textit{OpenSSL} the ESP32-LyraT will do a segmentation fail. It means that it is not possible to use it.
 
 \bigskip
 \noindent
@@ -923,19 +923,19 @@ What is possible to do and what I also did, is to change the RNG to hardware RNG
 \noindent
 Implementation can be found in folder \textit{src/esp/luov}. 
 
-\subsubsection{Optimalization}
-Because this ported implementation of LOUV is fast and has low memory consumption (see chapter \ref{test-and-disk}), I did not try to make any optimalization attempts. 
+\subsubsection{Optimization}
+Because this ported implementation of LOUV is fast and has low memory consumption (see chapter \ref{test-and-disk}), I did not try to make any optimization attempts. 
 
 \subsubsection{Memory} \label{esp-luov-memory}
 To be able measure the allocated memory in ESP32, I implemented memory measurement with the help of \textit{esp-idf} API. Implementation can be found in file \textit{memory\_measurement.c}.
 
 \bigskip
 \noindent
-This measurement will create new independent task which periodically ask the ESP32 about internal and external memory status. Because the ESP32 is dual-core proccessor, the slowdown by this task should be minimal and this should have minimal influence on signing algorithm. But to by sure there is no slowdown, the speed measurement was taken without this memory measurement.
+This measurement will create new independent task which periodically ask the ESP32 about internal and external memory status. Because the ESP32 is dual-core processor, the slowdown by this task should be minimal and this should have minimal influence on signing algorithm. But to by sure there is no slowdown, the speed measurement was taken without this memory measurement.
 
 \bigskip
 \noindent
-To anable this functionality, the folowing flag needs to be set:
+To enable this functionality, the following flag needs to be set:
 \begin{itemize}
 \item	MEM\_MEASUREMENT
 \end{itemize}
@@ -946,7 +946,7 @@ To make a port of Rainbow reference implementation to ESP32, I proceeded in the 
 
 \bigskip
 \noindent
-The implementation require component \textit{wolfssl} for PRNG. In this case is build the whole \textit{esp-wolfssl} project which is simply added throught \textit{PRIV\_REQUIRES} in \textit{main/CMakeList.txt}. Here is important to mention that Rainbow reference implementation contains two PRNG (see \textit{utils\_prng.c}). One from NIST standard, it is the same RNG as in LUOV reference implementation, and second PRNG which use hash SHA function. Because the RNG form NIST standard was not possible for me to run on ESP32-LyraT, I change it to second PRNG and  I deleted from source codes the implementation of the first.
+The implementation requires component \textit{wolfssl} for PRNG. In this case is build the whole \textit{esp-wolfssl} project which is simply added through \textit{PRIV\_REQUIRES} in \textit{main/CMakeList.txt}. Here is important to mention that Rainbow reference implementation contains two PRNG (see \textit{utils\_prng.c}). One from NIST standard, it is the same RNG as in LUOV reference implementation, and second PRNG which use hash SHA function. Because the RNG form NIST standard was not possible for me to run on ESP32-LyraT, I change it to second PRNG and  I deleted from source codes the implementation of the first.
 
 \bigskip
 \noindent
@@ -960,15 +960,15 @@ The default value for size of stack I set up to value 5000B. Because this value 
 \noindent
 Implementation can be found in folder \textit{src/esp/rb}. 
 
-\subsubsection{Optimalization}
-I did two memory optimalizations of Rainbow implementation for ESP32:
+\subsubsection{Optimization}
+I did two memory optimizations of Rainbow implementation for ESP32:
 \begin{itemize}
 \item	First I found potential big allocation of memory and switch them from stack to heap. Candidates to change were temporary helpful variables of keys (\textit{sk\_t}) in computation of keys from seeds.
 
-\item	Second I created \textit{my\_ESP\_malloc} and \textit{my\_ESP\_free} functions, see \ref{esp-rb-memory}. With these I found that temporary variables (for example \textit{sk\_t* tempQ}) were using lot of memory but in reality only needed a part of the key structure. See commit \textit{"ESP - RB memory reduction in cyclic generation"}, hash \textit{"1609d70c"} for details of optimalization.
+\item	Second I created \textit{my\_ESP\_malloc} and \textit{my\_ESP\_free} functions, see \ref{esp-rb-memory}. With these I found that temporary variables (for example \textit{sk\_t* tempQ}) were using lot of memory but in reality only needed a part of the key structure. See commit \textit{"ESP - RB memory reduction in cyclic generation"}, hash \textit{"1609d70c"} for details of optimization.
 \end{itemize}
 
-Witch these two optimalization there was alredy enough memory and I was able to run \textit{\_RAINBOW256\_92\_48\_48} implementation in compressed form. I was also able to run the same implementation in cyclic form but there is same kind of bug and it was making segmentation fault. I am suspecting that it is the same bug 
+With these two optimizations there was already enough memory and I was able to run \textit{\_RAINBOW256\_92\_48\_48} implementation in compressed form. I was also able to run the same implementation in cyclic form but there is same kind of bug and it was making segmentation fault. I am suspecting that it is the same bug 
 which causes failure of signature verification.
 
 \subsubsection{Memory} \label{esp-rb-memory}
@@ -977,13 +977,13 @@ To be able to better measure the allocated memory in ESP32, there is the same me
 \item	MEM\_MEASUREMENT
 \end{itemize}
 
-Because I needed better technique for memory allocation on heap, I created my own allocation information table. It is simple small array, I expect small number of allocation at one point at time, which holds imformation of pointer and its size.
+Because I needed better technique for memory allocation on heap, I created my own allocation information table. It is simple small array, I expect small number of allocation at one point at time, which holds information of pointer and its size.
 It can be enabled by flag:
 \begin{itemize}
 \item	MY\_ESP\_MALLOC
 \end{itemize}
 When this flag is set, it will switch all \textit{aligned\_alloc} to \textit{my\_ESP\_malloc} and \textit{free} to \textit{my\_ESP\_free} and every time when there is allocation od deallocation it will print its information.
-This information table helped me to identify potential places in source code of RB for memory optimalization. For implementation details see file \textit{malloc.c}.
+This information table helped me to identify potential places in source code of RB for memory optimization. For implementation details see file \textit{malloc.c}.
 
 \bigskip
 \noindent
@@ -996,7 +996,7 @@ These selected conventional algorithms were also implemented on microcontroller 
 
 \bigskip
 \noindent
-Both of the selected algorihms are implemented, using the esp-idf API, in similar way like previous implemetations in this thesis on ESP32. That means their entry point is in file \textit{test.c} which has similar structure to others \textit{test.c} files in previous description. The main difference is in private and public keys which are now in the form of \textit{context} relative to algorithm.
+Both of the selected algorithms are implemented, using the esp-idf API, in similar way like previous implemetations in this thesis on ESP32. That means their entry point is in file \textit{test.c} which has similar structure to others \textit{test.c} files in previous description. The main difference is in private and public keys which are now in the form of \textit{context} relative to algorithm.
 
 \subsection{RSA}
 Test implementation of RSA starts with initialization of context:
@@ -1079,7 +1079,7 @@ mbedtls_ecdsa_read_signature(&ctx,hash,hash_len,sm,smlen);
 \noindent
 The implementation can be set with flags:
 \begin{itemize}
-\item	EC\_CURVE\_BITS  - Number of bits for eliptic curve.
+\item	EC\_CURVE\_BITS  - Number of bits for elliptic curve.
 \item 	MEM\_MEASUREMENT  - Enable memory measurement.
 \end{itemize}
 
@@ -1097,23 +1097,23 @@ The reference implementations with my adjustments were tested on computer with p
 \item Clock Speed: 2.50GHz
 \item RAM: 8 GB
 \item Number of cores: 4
-\item Compilator: GCC 8.2
+\item Compilator: GCC 8.3.0
 \end{itemize}
 
 \bigskip
 \noindent
-Main goal of this measurements and implementations is to have comparable data of reference implementations of LUOV and RB on PC because in reference materials there are measured on different processors and only in number of processor cycles. I chose to make the measurement of time (in seconds) and memory consuption (in bytes).
+Main goal of this measurements and implementations is to have comparable data of reference implementations of LUOV and RB on PC because in reference materials there are measured on different processors and only in number of processor cycles. I chose to make the measurement of time (in seconds) and memory consumption (in bytes).
 
 \bigskip
 \noindent
 The solutions are compiled with the same (default) setting with flag \textit{-std=c99}.
 
 \subsection{Signature schemes}
-For measurement I selected the reference signature schemes. Dividing by security levels there are:
+For measurement I selected the reference signature schemes. The first number indicate finite field $\mathbb{F}_{n}$, second is number of vinegar variables, third is number of oil variables and the fourth (at RB) is number of oil variables in second layer. Dividing by security categories there are:
 
 \bigskip
 \noindent
-Level 2:
+Category II:
 \begin{itemize}
 \item Luov-47-42-182
 \item Luov-7-57-197
@@ -1121,7 +1121,7 @@ Level 2:
 \end{itemize}
 
 \noindent
-Level 4:
+Category IV:
 \begin{itemize}
 \item Luov-61-60-261
 \item Luov-7-83-283
@@ -1129,12 +1129,36 @@ Level 4:
 \end{itemize}
 
 \noindent
-Level 6:
+Category V:
 \begin{itemize}
 \item Luov-79-76-341
 \item Luov-7-110-374
 \item Rb-256-92-48-48 - and its variants
 \end{itemize}
+
+\noindent
+Each of the categories represent a difficulty through how many hardware gates needs to be used to be able to break the security scheme.\cite{L-NIST-STANDARD} Overview:
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Category & log\textsubscript{2} classical gates & log\textsubscript{2} quantum gates \\ \hline
+I         & 143                    & 130/106/74           \\ \hline
+II        & 146                    &                      \\ \hline
+III       & 207                    & 193/169/137          \\ \hline
+IV        & 210                    &                      \\ \hline
+V         & 272                    & 258/234/202          \\ \hline
+VI        & 274                    &                      \\ \hline
+\end{tabular}
+\caption{NIST security categories}
+\end{table}
+
+\noindent
+For the quantum gates, there is also parameter \textit{MAXDEPTH} of $2^{40}$, $2^{64}$, $2^{96}$ which represent fixed running time, or circuit depth. The reason for this parameter is Grover’s algorithm.
+
+\bigskip
+\noindent
+An algorithm meets the requirements of a specific security category if the best known attack uses more resources (gates) than are needed to solve the reference problem.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity}
@@ -1165,8 +1189,26 @@ How it can be seen on \ref{pc-luov} the stronger the security
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-pc-luov.pdf}
+\caption{Memory requirement of LUOV on PC}
+\label{pc-all}
+\end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-pc-rb.pdf}
+\caption{Memory requirement of RB on PC}
+\label{pc-all}
+\end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-pc-all.pdf}
+\caption{Comparison of PC implementations}
+\label{pc-all}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -1223,9 +1265,16 @@ How it can be seen on \ref{pc-luov} the stronger the security
 \label{mem-both}
 \end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-my_esp_malloc.pdf}
+\caption{Memory requirement of my\_ESP32\_malloc}
+\label{mem-both}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%
 \subsection{Keys \& signature}
-In this section is comparison of size of signature for different settings of algorithms. Must be noted that the size of signature of ESP32 implementations are the same as PC implementation. I just noted them from the ESP32 implemetations.
+In this section is comparison of size of signature for different settings of algorithms. Must be noted that the size of signature of ESP32 implementations are the same as PC implementation. I just noted them from the ESP32 implementations.
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/sign-luov.pdf}
@@ -1255,7 +1304,7 @@ RSA, ECDSA
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-all.pdf}
-\caption{Memoru requiment comparison with conventional algorithms}
+\caption{Memory requirement comparison with conventional algorithms}
 \label{mem-all}
 \end{figure}
 
@@ -1315,6 +1364,9 @@ CZYPEK, P.: \textit{LUOV. Signature Scheme proposal for NIST PQC Project (Round 
 
 \bibitem{L-SUB-RB}
 DING, J.: \textit{Rainbow - Algorithm Specification and Documentation. The 2nd Round Proposal.} University of Cincinnati, USA, 2019.
+
+\bibitem{L-NIST-STANDARD}
+\textit{NIST: Submission Requirements and Evaluation Criteria for the Post-Quantum Cryptography Standardization Process.} [online]. 2020, [cit. 2020-04-1]. At: \url{https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/call-for-proposals-final-dec-2016.pdf}
 
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
