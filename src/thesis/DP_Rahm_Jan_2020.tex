@@ -112,6 +112,8 @@ Wolfram Mathematica is a computer program widely used in scientific, technical a
 \subsection{IoT}
 Internet of Things (IoT) is a term in computer science for a network of physical devices, vehicles, household appliances, or other devices that are equipped with electronics, software, sensors, moving parts, or network connectivity that allows these devices to connect and exchange data.
 
+\subsection{Valgrind}
+
 \subsection{ESP32}
 The ESP32 is a low-cost, low-power microcontroller with integrated Wi-Fi and Bluetooth. It is created and developed by Espressif Systems, a Chinese company based in Shanghai, and is manufactured by TSMC using a 40 nm process.
 
@@ -601,7 +603,7 @@ The section describes reference implementation of the algorithms which are selec
 
 \bigskip
 \noindent
-The reference implementation contains several optimized solutions. But for purpose of this Diploma thesis is only relevant solution in folder \textit{Reference\_Implementation}.
+The reference implementation contains several optimized solutions. But for purpose of this Diploma thesis is only relevant solution under the folder of \textit{Reference\_Implementation}.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{UOV}
@@ -977,7 +979,7 @@ To be able to better measure the allocated memory in ESP32, there is the same me
 \item	MEM\_MEASUREMENT
 \end{itemize}
 
-Because I needed better technique for memory allocation on heap, I created my own allocation information table. It is simple small array, I expect small number of allocation at one point at time, which holds information of pointer and its size.
+Because I needed better technique for memory allocation on heap, I created my own allocation information table. It is simple small array, I expect small number of allocation at one point at a time, which holds information of pointer and its size.
 It can be enabled by flag:
 \begin{itemize}
 \item	MY\_ESP\_MALLOC
@@ -1108,8 +1110,8 @@ Main goal of this measurements and implementations is to have comparable data of
 \noindent
 The solutions are compiled with the same (default) setting with flag \textit{-std=c99}.
 
-\subsection{Signature schemes}
-For measurement I selected the reference signature schemes. The first number indicate finite field $\mathbb{F}_{n}$, second is number of vinegar variables, third is number of oil variables and the fourth (at RB) is number of oil variables in second layer. Dividing by security categories there are:
+\subsection{Signature variants}
+For measurement I selected the reference signature variants. The first number indicate finite field $\mathbb{F}_{n}$, second is number of vinegar variables, third is number of oil variables and the fourth (at RB) is number of oil variables in second layer. Dividing by security categories there are:
 
 \bigskip
 \noindent
@@ -1137,7 +1139,7 @@ Category V:
 \end{itemize}
 
 \noindent
-Each of the categories represent a difficulty through how many hardware gates needs to be used to be able to break the security scheme.\cite{L-NIST-STANDARD} Overview:
+Each of the categories represent a difficulty through how many hardware gates needs to be used to be able to break the security variant.\cite{L-NIST-STANDARD} Overview:
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -1160,9 +1162,13 @@ For the quantum gates, there is also parameter \textit{MAXDEPTH} of $2^{40}$, $2
 \noindent
 An algorithm meets the requirements of a specific security category if the best known attack uses more resources (gates) than are needed to solve the reference problem.
 
+\bigskip
+\noindent
+With regard to the LUOV parametres, finite field of size 7 is selected because of small size of generated signature but the size of public key is quite big. The schemes which do not have finite field of size 7 are selected because of small public key.
+
 %%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity}
-The next two graphs display individual stages of the signature scheme and its time it takes to complete each of the stages. Namely generation, signing and verification.
+The next two graphs display individual stages of the signature scheme and time it takes to complete each of the stages. Namely generation, signing and verification. For time measurement I used \textit{clock\_t} from standard header \textit{time.h}. 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/pc-luov.pdf}
@@ -1170,7 +1176,12 @@ The next two graphs display individual stages of the signature scheme and its ti
 \label{pc-luov}
 \end{figure}
 
-How it can be seen on \ref{pc-luov} the stronger the security
+\noindent
+How it can be seen on \ref{pc-luov} the stronger the security the more of time is needed for the computation which is the expected result. About the generation stage, the shorter the public key the fastest it is, the same is true for the signing and verifying stages which are again expected results.
+
+\bigskip
+\noindent
+On a graph \ref{pc-rb}, it is possible to see that generating the public key (\textit{cyc} versions) and private key (\textit{com} versions) from the seed is really slow operation. It can be especially seen on signing of \textit{com} variants where the signing stage can be up to 85 times slover (maybe even more) than the classic variants. For the verifying stage is also the fastest then classic variant because there is no generation from the seed.
 
 \begin{figure}[H]
 \centering
@@ -1179,6 +1190,10 @@ How it can be seen on \ref{pc-luov} the stronger the security
 \label{pc-rb}
 \end{figure}
 
+\noindent
+Next graph \ref{pc-all} is comparison of LUOV and RB implementation. I only compare the \textit{com} versions of RB with LUOV with short public keys. I selected this LOUV variant because it is faster and this RB variant because it also (like LUOV) generate public and private keys from the seed.
+There is not the generation stage because on \ref{pc-luov} and \ref{pc-rb} is very well visible that generation times of RB are much more slower then LOUV. 
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/pc-all.pdf}
@@ -1186,33 +1201,106 @@ How it can be seen on \ref{pc-luov} the stronger the security
 \label{pc-all}
 \end{figure}
 
+\noindent
+How it can be seen \ref{pc-all} the LOUV implementation is faster at signing but slower at verifying.
+
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}
+Memory complexity deals with the allocation of RAM on heap for the signature schemes. The required memory on stack I did not measure because compare to heap it is negligible (in the magnitude of a few kilobytes). I measured PC implementations with the help of Valgrind. Specifically with the help of tool \textit{Massif} which is a heap profiler:
+\begin{lstlisting}[frame=single]
+valgrind --tool=massif ./test
+\end{lstlisting}
+
+\noindent
+To get a human readable output it needs to be used with:
+\begin{lstlisting}[frame=single]
+ms_print massif.out.*
+\end{lstlisting}
+\noindent
+From its output I created next few graphs which show the maximum memory allocation (in bytes) over the whole run of test application. 
+
+\bigskip
+\noindent
+On graph \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows an expected result which is with higher security category the more memory is needed. Also is visible that LOUV variants with shorter public key needs less resources.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-pc-luov.pdf}
 \caption{Memory requirement of LUOV on PC}
-\label{pc-all}
+\label{mem-pc-luov}
 \end{figure}
 
+\noindent
+Next is graph \ref{mem-pc-rb} of RB memory allocation. On it is shown again that the higher security category the more resource it needs, which is expected result. But to my suprise the \textit{com} variants of Rainbow need less RAM allocation compared to classic and \textit{cyc} variants. The only explanation I can think of is, which can explain this behavior, is the generation of private key from the seed. That is the main difference compared to other variants.
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-pc-rb.pdf}
 \caption{Memory requirement of RB on PC}
-\label{pc-all}
+\label{mem-pc-rb}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-pc-all.pdf}
 \caption{Comparison of PC implementations}
-\label{pc-all}
+\label{mem-pc-all}
 \end{figure}
+
+\noindent
+Last graph of memory complexity section is graph \ref{mem-pc-all} of comparison between LUOV and Rainbow. There is shown that LUOV takes a lot less memory resources than RB.  This behavior I contribut to implementation specifics (code programming, optimalization and memory handling) which are much more better then in Rainbow implementation.
+
+%%%%%%%%%%%%%%%%%%%
+\subsection{Conclusion note}
+The measured values show that the reference implementation of LOUV is almost better in everything. It is faster, has smaller memory imprint and has simpler implementation.
+
+\bigskip
+\noindent
+The only thing in which is Rainbow better is verification of signature (how can be seen on graph \ref{pc-all}) but that is implication from signature size which is shorter than LUOV, for more details see section \ref{key_sign}.
+
+\bigskip
+\noindent
+From the point of usability, the Rainbow implementation is only optimal if lot of signature verification needs to be done or if there is lot of very short messeges then shorter signature can speed up the computational means, for example the network communication.
+
+\bigskip
+\noindent
+But I do not recommend this implementation of RB because there seem to by some kind of implemetation bug. It can be seen on \textit{cyc} variant of RB where verification of signed message reports that it is an invalid signature.
+
+\bigskip
+\noindent
+If I was faced with the choice of the selection of one of these implementation for general use. I would select the LUOV implementation because, how was already mentioned, it is faster, smaller and do not contains any bug (at least I did not find any).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{ESP32}
+
+\subsection{Signature variants}
+There is difference....
+
+\bigskip
+\noindent
+Category II:
+\begin{itemize}
+\item Luov-47-42-182
+\item Luov-7-57-197
+\item Rb-16-32-32-32 - and its variants
+\end{itemize}
+
+\noindent
+Category IV:
+\begin{itemize}
+\item Luov-61-60-261
+\item Luov-7-83-283
+\item Rb-256-68-36-36 - and its variants
+\end{itemize}
+
+\noindent
+Category V:
+\begin{itemize}
+\item Luov-79-76-341
+\item Luov-7-110-374
+\item Rb-256-92-48-48-com
+\end{itemize}
+
 \subsection{Time complexity}
 \begin{figure}[H]
 \centering
@@ -1273,7 +1361,7 @@ How it can be seen on \ref{pc-luov} the stronger the security
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%
-\subsection{Keys \& signature}
+\subsection{Keys \& signature} \label{key_sign}
 In this section is comparison of size of signature for different settings of algorithms. Must be noted that the size of signature of ESP32 implementations are the same as PC implementation. I just noted them from the ESP32 implementations.
 \begin{figure}[H]
 \centering
@@ -1288,6 +1376,10 @@ In this section is comparison of size of signature for different settings of alg
 \caption{Size of signature of RB on ESP32}
 \label{sign-rb}
 \end{figure}
+Add table of size of signatures...
+
+%%%%%%%%%%%%%%%%%%%
+\subsection{Conclusion note}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
