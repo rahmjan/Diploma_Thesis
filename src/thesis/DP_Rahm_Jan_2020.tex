@@ -724,7 +724,7 @@ Final step is verification if the message $m$ is equal to $m2$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{ESP32 implementation}
+\section{ESP32 implementation} \label{ESP32_impl}
 For the implementation of algorithms on microcontroller was selected ESP32-LyraT of version 4.3 from company Espressif Systems.
 
 \iftrue
@@ -962,7 +962,7 @@ The default value for size of stack I set up to value 5000B. Because this value 
 \noindent
 Implementation can be found in folder \textit{src/esp/rb}. 
 
-\subsubsection{Optimization}
+\subsubsection{Optimization} \label{rb-opti}
 I did two memory optimizations of Rainbow implementation for ESP32:
 \begin{itemize}
 \item	First I found potential big allocation of memory and switch them from stack to heap. Candidates to change were temporary helpful variables of keys (\textit{sk\_t}) in computation of keys from seeds.
@@ -1104,6 +1104,10 @@ The reference implementations with my adjustments were tested on computer with p
 
 \bigskip
 \noindent
+Every measurement was done on message of size 10000B and 10 times. The final result in the graphs below is avarage value.
+
+\bigskip
+\noindent
 Main goal of this measurements and implementations is to have comparable data of reference implementations of LUOV and RB on PC because in reference materials there are measured on different processors and only in number of processor cycles. I chose to make the measurement of time (in seconds) and memory consumption (in bytes).
 
 \bigskip
@@ -1167,7 +1171,7 @@ An algorithm meets the requirements of a specific security category if the best 
 With regard to the LUOV parametres, finite field of size 7 is selected because of small size of generated signature but the size of public key is quite big. The schemes which do not have finite field of size 7 are selected because of small public key.
 
 %%%%%%%%%%%%%%%%%%%
-\subsection{Time complexity}
+\subsection{Time complexity} \label{time-complex-pc}
 The next two graphs display individual stages of the signature scheme and time it takes to complete each of the stages. Namely generation, signing and verification. For time measurement I used \textit{clock\_t} from standard header \textit{time.h}. 
 \begin{figure}[H]
 \centering
@@ -1272,9 +1276,14 @@ If I was faced with the choice of the selection of one of these implementation f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{ESP32}
+ESP32 implementations were tested and ported on ESP32-LyraT microcontroller, specification of the microcontroller can be found in section \ref{ESP32_impl}. The reason for port is to test the behavior of the selected algorithms in IoT environment or at least as close as possible to it.
+
+\bigskip
+\noindent
+Every measurement was done on message of size 1000B and 10 times. The final result in the graphs below is avarage value.
 
 \subsection{Signature variants}
-There is difference....
+Variants of signature schemes were selected same as in PC section. But there are some changes. Dividing by security categories there are:
 
 \bigskip
 \noindent
@@ -1301,7 +1310,30 @@ Category V:
 \item Rb-256-92-48-48-com
 \end{itemize}
 
+\noindent
+In category V there is only \textit{com} variant of RB scheme because the other variants (classic and \textit{cyc}) I was not able to make to run because of limited RAM.
+
+\bigskip
+\noindent
+I did few memory optimizations in RB scheme, it can be found in section \ref{rb-opti}. These optimizations reduce kind of a lof of memory but when I try to run \textit{Rb-256-92-48-48-cyc} variant I get a segmentation fault. This behavior I attributed to a bug in the implementation where the signature is failing. 
+
+%%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity}
+Like in the PC measurement before, section \ref{time-complex-pc}, next graphs display individual stages of the signature scheme and time it takes to complete each of the stages. For time measurement I also used \textit{clock\_t} from standard header.
+
+\bigskip
+\noindent
+On graph \ref{time-luov} is comparison of LUOV times which it takes for each of the stages. It can be seen that higher the security category the more time for completion of the stage is needed. That is expected result like on the PC implementations but some of the times is now in the periods around of 10 seconds. Especially \textit{Luov-7-110-374} or generally the whole security category V is with these time periods unusable in the moment when a lot of messages need to be signed or verified.
+
+\bigskip
+\noindent
+Also cathegory IV takes a lot of time but the LUOV variant \textit{Luov-61-60-261}, I think is pretty fast enough on ESP32-LyraT and can be used for common signature scheme. As a category IV it can provide very high security for IoT devices but it has one disadvantage and that is a large signature.
+
+\bigskip
+\noindent
+The variants \textit{Luov-47-42-182} and \textit{Luov-7-57-197} of security cathegory II can be fast on embedded devices and it puts them at the forefront of the other LUOV signature variants.
+
+\bigskip
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/time-luov.pdf}
@@ -1309,12 +1341,33 @@ Category V:
 \label{time-luov}
 \end{figure}
 
+Next graph \ref{time-rb} is comparison of times of Rainbow scheme. Here it can be seen that generation of the public and private keys is very slow but in practical in the most usecases this step needs to be done only once, therefore it has little influence.
+
+\bigskip
+\noindent
+It can also be seen that signing and verifying stages do not belong to a fast operations. Especially the \textit{com} versions which are really slow. Here is very well visible that generating public and private keys from the seed is not good idea from time point of view. And if there was no generation then there will be very big speedup as can be seen on camparison of \textit{Rb-256-68-36-36} and \textit{Rb-256-68-36-36-com}.
+
+\bigskip
+\noindent
+Like in LOUV scheme before also in RB scheme is the best variant from security category II, the variant \textit{Rb-16-32-32-32}. Which has more then enough security for the common communication in IoT devices.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/time-rb.pdf}
 \caption{Comparison of RB on ESP32}
 \label{time-rb}
 \end{figure}
+
+\noindent
+Last graph \ref{time-both} of this section is comparison between LUOV and RB. It is olny camparation between LOUV variants with shorter public key and RB \textit{com} variants. The reasons for this selection of signature schemes variants are in section \ref{time-complex-pc}.
+
+\bigskip
+\noindent
+On this graph can be seen that LUOV variants are faster in signing and RB variant are faster in verification process. There is no comparison of generation stage because LOUV is clearly better in every security category.
+
+\bigskip
+\noindent
+If I compare the ESP32 graphs of time results with PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32 and it should be as the expected result. Which it is.
 
 \begin{figure}[H]
 \centering
@@ -1325,6 +1378,15 @@ Category V:
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}
+Memory complexity deals with the allocation of RAM on heap for the signature schemes. The required memory on stack I did not measure because compare to heap it is negligible (in the magnitude of a few kilobytes). I measured PC implementations with the help of Valgrind. Specifically with the help of tool \textit{Massif} which is a heap profiler:
+
+\noindent
+From its output I created next few graphs which show the maximum memory allocation (in bytes) over the whole run of test application. 
+
+\bigskip
+\noindent
+On graph \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows an expected result which is with higher security category the more memory is needed. Also is visible that LOUV variants with shorter public key needs less resources.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-luov0.pdf}
@@ -1380,6 +1442,7 @@ Add table of size of signatures...
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Conclusion note}
+Results of time measurements of implementations on ESP32 are similar to implementations on PC.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
