@@ -8,6 +8,11 @@ algorithms are tested and measured against the RSA and ECDSA algorithms.
 **Keywords** Multivariate cryptography, Unbalanced Oil & Vintage, Rainbow,
 Wolfram Mathematica, ESP32  
 
+### Clone
+```
+git clone --recurse-submodules https://github.com/rahmjan/Diploma_Thesis.git
+```
+
 ### Structure
 ```
 README.md...........................the file with CD/GIT contents description  
