@@ -767,7 +767,7 @@ The implementations are the same as reference implementations with my adjustment
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Setup of environment}
-First step of development on ESP32 is to set up of environment. This setting I did on Ubuntu 19.10 operating system, starting with downloading of tools:
+First step of development on ESP32 is to set up of environment. This setting I did on Ubuntu 19.4 operating system, starting with downloading of tools:
 \begin{lstlisting}[frame=single]
 sudo apt-get install git wget libncurses-dev flex bison gperf \
 python python-pip python-setuptools python-serial python-click \
@@ -777,7 +777,7 @@ python-pyelftools cmake ninja-build ccache libffi-dev libssl-dev
 
 \bigskip
 \noindent
-Add current logged user to group \textit{dialout} because the user needs to get read and write access to the serial port over USB.
+Add current logged user to group \textit{dialout} because the user needs to get read and write access to the serial port over USB and restart the PC.
 \begin{lstlisting}[frame=single]
 sudo usermod -a -G dialout $USER
 \end{lstlisting}
@@ -790,7 +790,7 @@ cd $HOME/esp
 git clone -b release/v4.1 --recursive \
 https://github.com/espressif/esp-idf.git
 \end{lstlisting}
-Be \textbf{aware} that all of the setting is related to absolute path "\$HOME/esp". 
+Be \textbf{aware} that all of the setting is related to absolute path "\$HOME/esp". Or copy the whole folder "src/esp" to "\$HOME/esp".
 
 \bigskip
 \noindent
@@ -808,7 +808,7 @@ Last step is to set up environment variables in the terminal where is going to b
 \end{lstlisting}
 But I added it to file \textit{.bashrc}:
 \begin{lstlisting}[frame=single]
-echo ". $HOME/esp/esp-idf/export.sh" >> $HOME/.bashrc
+echo ". $HOME/esp/esp-idf/export.sh &> /dev/null" >> $HOME/.bashrc
 \end{lstlisting}
 This way it will be added to every new shell session.
 
@@ -1094,7 +1094,7 @@ This chapter contains measurement and testing of algorithms, their comparison an
 \section{PC}
 The reference implementations with my adjustments were tested on computer with parameters:
 \begin{itemize}
-\item OS: Ubuntu 19.10
+\item OS: Ubuntu 19.4
 \item CPU: Intel Core i5-7300HQ
 \item Clock Speed: 2.50GHz
 \item RAM: 8 GB
