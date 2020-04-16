@@ -1457,7 +1457,20 @@ On the graph \ref{mem-my-alloc} is visible that \textit{cyc} variants of RB are 
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Keys \& signature} \label{key_sign}
-In this section is comparison of size of signature for different settings of algorithms. Must be noted that the size of signature of ESP32 implementations are the same as PC implementation. I just noted them from the ESP32 implementations.
+In this section is comparison of size of keys for different variants of signature algorithms. Must be said that the size of keys of ESP32 implementations are the same as PC implementation. I noted them from the measurement of ESP32 implementations.
+
+\bigskip
+\noindent
+On the graph \ref{sign-luov} is shown LOUV sizes of public key, private (secret) key and signature. It is visible that LUOV implementation uses the same length of seed for its secret key. Also can be seen the variants with shorter signature (\textit{Luov-7}) which can be up to 10 times shorter compared to their LUOV eqvivalents in NIST security category.
+
+\bigskip
+\noindent
+On the otherside, on the same graph is shown that with shorter signature the variants need much more space for public key which can be longer up to 3 times if I compare the \textit{Luov-7-110-374} and \textit{Luov-79-76-341}.
+
+\bigskip
+\noindent
+The variants of LUOV shows kind of large difference in these two values that means it depends on the situation which of the variant will be more advantageous to use.  
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/sign-luov.pdf}
@@ -1472,34 +1485,51 @@ In this section is comparison of size of signature for different settings of alg
 \label{sign-rb}
 \end{figure}
 
-
 \noindent
-Compare LUOV and RB; Add table of size of signatures...
-\begin{table}[H]
+Graph \ref{sign-rb} displays size of keys and signature of Rainbow variants. It shows when the seed is used for secret key in \textit{com} variants it saves lot of space, the seed is only the size of 64B. For the public key in the \textit{cyc} variants the memory size was reduced by 2.5 to 3.5 times. The signature is longer (bigger) with the stronger security category but for the variant \textit{Rb-256-92-48-48-com} it is only 204B, that is an amount almost to nothing if is considered that it is spoken about NIST security category V.
+
+\bigskip
+\noindent
+Next two graphs \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB.
+
+\begin{figure}[H]
 \centering
-\begin{tabular}{|c|c|}
-\hline
-Variant             & Signature {[}B{]} \\ \hline
-Luov-47-42-182      & 1332              \\ \hline
-Luov-7-57-197       & 239               \\ \hline
-Luov-61-60-261      & 2464              \\ \hline
-Luov-7-83-283       & 337               \\ \hline
-Luov-79-76-341      & 4134              \\ \hline
-Luov-7-110-374      & 440               \\ \hline
-Rb-16-32-32-32      & 64                \\ \hline
-Rb-16-32-32-32-cyc  & 64                \\ \hline
-Rb-16-32-32-32-com  & 64                \\ \hline
-Rb-256-68-36-36     & 156               \\ \hline
-Rb-256-68-36-36-cyc & 156               \\ \hline
-Rb-256-68-36-36-com & 156               \\ \hline
-Rb-256-92-48-48-com & 204               \\ \hline
-\end{tabular}
-\end{table}
+\includegraphics[width=13cm,height=7cm]{images/mem-sign-all1.pdf}
+\caption{Comparison of LUOV with short public key and RB}
+\label{sign-all1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-sign-all2.pdf}
+\caption{Comparison of LUOV with short signature and RB}
+\label{sign-all2}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Conclusion note}
+cim vetsi hodnota urovne zabezpeceni, tim vetsi je redukce
+
 Results of time measurements of implementations on ESP32 are similar to implementations on PC.
+
+The measured values show that the reference implementation of LOUV is almost better in everything. It is faster, has smaller memory imprint and has simpler implementation.
+
+\bigskip
+\noindent
+The only thing in which is Rainbow better is verification of signature (how can be seen on graph \ref{pc-all}) but that is implication from signature size which is shorter than LUOV, for more details see section \ref{key_sign}.
+
+\bigskip
+\noindent
+From the point of usability, the Rainbow implementation is only optimal if lot of signature verification needs to be done or if there is lot of very short messeges then shorter signature can speed up the computational means, for example the network communication.
+
+\bigskip
+\noindent
+But I do not recommend this implementation of RB because there seem to by some kind of implemetation bug. It can be seen on \textit{cyc} variant of RB where verification of signed message reports that it is an invalid signature.
+
+\bigskip
+\noindent
+If I was faced with the choice of the selection of one of these implementation for general use. I would select the LUOV implementation because, how was already mentioned, it is faster, smaller and do not contains any bug (at least I did not find any).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
