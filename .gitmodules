@@ -1,6 +1,7 @@
 [submodule "src/esp/esp-idf"]
 	path = src/esp/esp-idf
 	url = https://github.com/espressif/esp-idf
+	branch = release/v4.1
 [submodule "src/esp/esp-wolfssl"]
 	path = src/esp/esp-wolfssl
 	url = https://github.com/espressif/esp-wolfssl
