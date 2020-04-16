@@ -1341,11 +1341,11 @@ The variants \textit{Luov-47-42-182} and \textit{Luov-7-57-197} of security cath
 \label{time-luov}
 \end{figure}
 
-Next graph \ref{time-rb} is comparison of times of Rainbow scheme. Here it can be seen that generation of the public and private keys is very slow but in practical in the most usecases this step needs to be done only once, therefore it has little influence.
+Next graph \ref{time-rb} is comparison of times of Rainbow scheme. There it can be seen that generation of the public and private keys is very slow but in practical in the most usecases this step needs to be done only once, therefore it has little influence.
 
 \bigskip
 \noindent
-It can also be seen that signing and verifying stages do not belong to a fast operations. Especially the \textit{com} versions which are really slow. Here is very well visible that generating public and private keys from the seed is not good idea from time point of view. And if there was no generation then there will be very big speedup as can be seen on camparison of \textit{Rb-256-68-36-36} and \textit{Rb-256-68-36-36-com}.
+It can also be seen that signing and verifying stages do not belong to a fast operations. Especially the \textit{com} versions which are really slow. There is very well visible that generating public and private keys from the seed is not good idea from time point of view. And if there was no generation then there will be very big speedup as can be seen on camparison of \textit{Rb-256-68-36-36} and \textit{Rb-256-68-36-36-com}.
 
 \bigskip
 \noindent
@@ -1378,15 +1378,22 @@ If I compare the ESP32 graphs of time results with PC implementations I can see 
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}
-Memory complexity deals with the allocation of RAM on heap for the signature schemes. The required memory on stack I did not measure because compare to heap it is negligible (in the magnitude of a few kilobytes). I measured PC implementations with the help of Valgrind. Specifically with the help of tool \textit{Massif} which is a heap profiler:
-
-\noindent
-From its output I created next few graphs which show the maximum memory allocation (in bytes) over the whole run of test application. 
+For memory complexity I measured it through a flag \textit{MEM\_MEASUREMENT}, more details can be found at section \ref{esp-luov-memory}. It measure an allocation on the heap which is the external memory extending. The required memory on stack I did not measure because compare to heap it is negligible (in the magnitude of a few kilobytes) and it was set to maximum size of 20000B in LUOV implementation and 5000B in RB implementation.
 
 \bigskip
 \noindent
-On graph \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows an expected result which is with higher security category the more memory is needed. Also is visible that LOUV variants with shorter public key needs less resources.
+From the flag output I created next few graphs which show the maximum memory allocation (in bytes) over the whole run of test application.
 
+\bigskip
+\noindent
+But the first graph \ref{mem-luov0} is an exception to previous statement because there was small number of output data from the flag and it was possible to align them that I was able to create graph which visualize memory allocation of LUOV over the whole period of generation (left hill), signinig (middle) and verification (right triangle). The peaks represent the moments when the implementation needs to compute public or private key from the seed. Then use it and after the use discard it.
+
+\bigskip
+\noindent
+There is possible to see that with higher security category the more memory is needed. Also is visible that LOUV variants with shorter public key needs less resources. It could be also seen in the graph \ref{mem-luov} which shows only the maximum allocation of memory. This is the same conclusion as in PC memory measurement. 
+
+\newpage
+\bigskip\bigskip
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-luov0.pdf}
@@ -1394,12 +1401,17 @@ On graph \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows an exp
 \label{mem-luov0}
 \end{figure}
 
+\bigskip\bigskip\bigskip
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-luov.pdf}
 \caption{Memory requirement of LUOV on ESP32}
 \label{mem-luov}
 \end{figure}
+
+\newpage
+\noindent
+On the next graph \ref{mem-rb} is displayed memory allocation of Rainbow scheme. Again there is displayed that with higher security category the implementation needs more memory but some of the Rainbow variants need suspiciously the same amount of memory, around 4MB, for example \textit{Rb-256-68-36-36-com} or \textit{Rb-256-92-48-48-com}. However, this same allocation of memory can be seen on RB variant \textit{Rb-16-32-32-32-cyc} in the verification stage. 
 
 \begin{figure}[H]
 \centering
@@ -1408,6 +1420,17 @@ On graph \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows an exp
 \label{mem-rb}
 \end{figure}
 
+\noindent
+I can think only of two possibilities why there is this result:
+\begin{itemize}
+\item	Error in measurement - In my implementation of memory measurement on ESP32 is some kind of error which input this result. But it is only few lines of C++ code which directly use the \textit{esp} API. That is why I am inclined to the second possiblity.
+\item	Wrong allocation - The ESP32-LyraT just allocate the rest of free memory in external RAM. This can happen when there was not enough time after free operation and the allcoation table was not updated, so it used next free block. Or the segmentation of memory was not optimal and the needed memory block was not able to be allocated in previous blocks because it require bigger capacity.
+\end{itemize}
+
+\bigskip
+\noindent
+From these result I can asume that minimum of 4MB RAM is needed to safely run the Rainbow implementation on ESP32-LyraT. It is also visible that having public key in the form of seed save some of the memory (comparison of \textit{cyc} and classic variants).
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-both.pdf}
@@ -1415,12 +1438,22 @@ On graph \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows an exp
 \label{mem-both}
 \end{figure}
 
+\noindent
+Graph \ref{mem-both} shows comparison of LUOV and RB schemes in memory requirements. LUOV is again better implementation in memory managment. But because of this strange memory allocation in RB cases I created flag \textit{MY\_ESP\_MALLOC}, see \ref{esp-rb-memory}. With this flag I got information about every \textit{malloc} and \textit{free} in the implementation and was able to create graf \ref{mem-my-alloc}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-my_esp_malloc.pdf}
 \caption{Memory requirement of my\_ESP32\_malloc}
-\label{mem-both}
+\label{mem-my-alloc}
 \end{figure}
+
+\noindent
+Compared to graph \ref{mem-rb} now is possible to see more meaningful results of memory allocation but be aware that there are heap allocations of bare implementation without system libraries.
+
+\bigskip
+\noindent
+On the graph \ref{mem-my-alloc} is visible that \textit{cyc} variants of RB are using the seed for public key because memory needs are lower in signature stage but high in verification stage compare to classic variants. Also is beautifly visible the use of seed for private key in \textit{com} variants. In signature stage it needs more memory then \textit{cyc} variant because of generation of private key from the seed but in verification stage it saves the memory because the private key is only in the form of small seed.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Keys \& signature} \label{key_sign}
@@ -1438,9 +1471,33 @@ In this section is comparison of size of signature for different settings of alg
 \caption{Size of signature of RB on ESP32}
 \label{sign-rb}
 \end{figure}
-Add table of size of signatures...
+
+
+\noindent
+Compare LUOV and RB; Add table of size of signatures...
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Variant             & Signature {[}B{]} \\ \hline
+Luov-47-42-182      & 1332              \\ \hline
+Luov-7-57-197       & 239               \\ \hline
+Luov-61-60-261      & 2464              \\ \hline
+Luov-7-83-283       & 337               \\ \hline
+Luov-79-76-341      & 4134              \\ \hline
+Luov-7-110-374      & 440               \\ \hline
+Rb-16-32-32-32      & 64                \\ \hline
+Rb-16-32-32-32-cyc  & 64                \\ \hline
+Rb-16-32-32-32-com  & 64                \\ \hline
+Rb-256-68-36-36     & 156               \\ \hline
+Rb-256-68-36-36-cyc & 156               \\ \hline
+Rb-256-68-36-36-com & 156               \\ \hline
+Rb-256-92-48-48-com & 204               \\ \hline
+\end{tabular}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%
+\newpage
 \subsection{Conclusion note}
 Results of time measurements of implementations on ESP32 are similar to implementations on PC.
 
@@ -1521,7 +1578,7 @@ CZYPEK, P.: \textit{LUOV. Signature Scheme proposal for NIST PQC Project (Round 
 DING, J.: \textit{Rainbow - Algorithm Specification and Documentation. The 2nd Round Proposal.} University of Cincinnati, USA, 2019.
 
 \bibitem{L-NIST-STANDARD}
-\textit{NIST: Submission Requirements and Evaluation Criteria for the Post-Quantum Cryptography Standardization Process.} [online]. 2020, [cit. 2020-04-1]. At: \url{https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/call-for-proposals-final-dec-2016.pdf}
+\textit{NIST: Submission Requirements and Evaluation Criteria for the Post-Quantum Cryptography Standardization Process.} [online]. 2016, [cit. 2020-04-1]. At: \url{https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/call-for-proposals-final-dec-2016.pdf}
 
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
