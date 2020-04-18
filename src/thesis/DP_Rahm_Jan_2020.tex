@@ -1146,15 +1146,15 @@ Category V:
 Each of the categories represent a difficulty through how many hardware gates needs to be used to be able to break the security variant.\cite{L-NIST-STANDARD} Overview:
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
-Category & log\textsubscript{2} classical gates & log\textsubscript{2} quantum gates \\ \hline
-I         & 143                    & 130/106/74           \\ \hline
-II        & 146                    &                      \\ \hline
-III       & 207                    & 193/169/137          \\ \hline
-IV        & 210                    &                      \\ \hline
-V         & 272                    & 258/234/202          \\ \hline
-VI        & 274                    &                      \\ \hline
+Category & Log\textsubscript{2} classical gates & Log\textsubscript{2} quantum gates  & Ex. of alg.\\ \hline
+I         & 143                    & 130/106/74    & AES-128     \\ \hline
+II        & 146                    &                      & SHA3-256  \\ \hline
+III       & 207                    & 193/169/137  & AES-192     \\ \hline
+IV        & 210                    &                     & SHA3-384   \\ \hline
+V         & 272                    & 258/234/202 & AES-256      \\ \hline
+VI        & 274                    &                     & SHA3-512   \\ \hline
 \end{tabular}
 \caption{NIST security categories}
 \end{table}
@@ -1363,11 +1363,11 @@ Last graph \ref{time-both} of this section is comparison between LUOV and RB. It
 
 \bigskip
 \noindent
-On this graph can be seen that LUOV variants are faster in signing and RB variant are faster in verification process. There is no comparison of generation stage because LOUV is clearly better in every security category.
+On this graph can be seen that LUOV variants are faster in signing and RB variant are faster in verification process, except the \textit{Rb-256-68-36-36-com} which got slowdown. There is no comparison of generation stage because LOUV is clearly better in every security category.
 
 \bigskip
 \noindent
-If I compare the ESP32 graphs of time results with PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32 and it should be as the expected result. Which it is.
+If I compare the ESP32 graphs of time results with PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32. Also is visible that verifying stage of all variants of RB got slowdown compared to PC implemetations.
 
 \begin{figure}[H]
 \centering
@@ -1490,7 +1490,19 @@ Graph \ref{sign-rb} displays size of keys and signature of Rainbow variants. It 
 
 \bigskip
 \noindent
-Next two graphs \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB.
+Next two graphs \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB. The first one is comparison between LUOV variants with shorter public key and RB, and the second between LOUV with shorter signature and RB. I split it into two graphs for a better comparison, especially because of the signature.
+
+\bigskip
+\noindent
+On both of the graphs is shown that LOUV use shorter seed for the secret key. In numbers it is 32B for LUOV and 64B for RB. But comparison of the signatures shows that RB implementation has them shorter also in both graphs. The size of RB signature is 204B, LOUV with shorter signature it is 440B and with short public key it is 4134B in security category V.
+
+\bigskip
+\noindent
+The public key of LUOV is shorter in both of the graphs quite by a lot. In the first graph it is up to 17 times and in the second graph up to 6 times.
+
+\bigskip
+\noindent
+From these results in this section are evident that the only benefit of Rainbow implementation is short signature which can maybe be very beneficial, for example in some congested networks.
 
 \begin{figure}[H]
 \centering
@@ -1499,6 +1511,7 @@ Next two graphs \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV
 \label{sign-all1}
 \end{figure}
 
+\bigskip\bigskip\bigskip
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-sign-all2.pdf}
@@ -1509,32 +1522,43 @@ Next two graphs \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV
 %%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Conclusion note}
-cim vetsi hodnota urovne zabezpeceni, tim vetsi je redukce
-
-Results of time measurements of implementations on ESP32 are similar to implementations on PC.
-
-The measured values show that the reference implementation of LOUV is almost better in everything. It is faster, has smaller memory imprint and has simpler implementation.
+The measured values show that the implementation of LOUV is almost better in everything compared to RB. And also the results of time measurements of implementations on ESP32 are similar (if I do not cout the general slowdown due to slower processor) to implementations on PC which should be.
 
 \bigskip
 \noindent
-The only thing in which is Rainbow better is verification of signature (how can be seen on graph \ref{pc-all}) but that is implication from signature size which is shorter than LUOV, for more details see section \ref{key_sign}.
+Rainbow has shorter signature length how can be seen on graph \ref{sign-all1} and \ref{sign-all2} but that is all. It needs much more memory for runnig (in some cases it allocate all avaible memory) and is slow if I compare the \textit{cyc} variants with LUOV.
 
 \bigskip
 \noindent
-From the point of usability, the Rainbow implementation is only optimal if lot of signature verification needs to be done or if there is lot of very short messeges then shorter signature can speed up the computational means, for example the network communication.
+But the variants without generations of key from the seed are fast, even much more faster then LUOV. On otherside, if the LUOV was not using the seed for the keys it will also be faster. It would be interesting to make the comparison of these two variants but the LUOV implementation do not contains this implementation.
 
 \bigskip
 \noindent
-But I do not recommend this implementation of RB because there seem to by some kind of implemetation bug. It can be seen on \textit{cyc} variant of RB where verification of signed message reports that it is an invalid signature.
-
-\bigskip
-\noindent
-If I was faced with the choice of the selection of one of these implementation for general use. I would select the LUOV implementation because, how was already mentioned, it is faster, smaller and do not contains any bug (at least I did not find any).
+What I want to mention is that with higher NIST security category the difference between two variants from the same category are getting bigger and bigger. The reason for this that these variants use more resources which when compared have larger difference. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Conventional algorithms}
-RSA, ECDSA
+One of the important criteria in usability in an embedded environment is comparison of algorithm complexity with conventional algorithms. For this comparison I selected signature scheme of RSA and ECDSA. All of them I measured on ESP32-LyraT.
+
+\bigskip
+\noindent
+Below is table of variants and its NIST security category for possible comparison. \cite{L-NIST-BOOK} Variant \textit{RSA-7680} I was not able to  measure because the verification of signature is failing but it is good to have it for ilustration of the difference in size of public key between categories I and III and it counterparts in ECDSA.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Alg. & Category & Bit security \\ \hline
+RSA-2048 & N/A & 112 \\ \hline
+RSA-3072 & I & 128 \\ \hline
+RSA-4096 & N/A & 140 \\ \hline
+RSA-7680 & III & 192 \\ \hline
+ECDSA-256 & I & 128 \\ \hline
+ECDSA-384 & III & 192 \\ \hline
+ECDSA-521 & V & 256 \\ \hline
+\end{tabular}
+\caption{NIST security categories of conventional algorithms}
+\end{table}
 
 \begin{figure}[H]
 \centering
@@ -1543,6 +1567,17 @@ RSA, ECDSA
 \label{time-all}
 \end{figure}
 
+\noindent
+First graph \ref{time-all} is comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster then RSA except the verification. The LUOV variants shows that they are not to much slower then ECDSA, \textit{Luov-47-42-182} is even faster in generation nad verification stages. If I add the difference in security category, I vs II and III vs IV, then the prospect of LUOV implementation is even better.
+
+\bigskip
+\noindent
+RB variants have similar times of generation with RSA and in both cases it takes a lot of time. Also the other stages belong to the slow side. On otherside, the variant without using the seed are really fast, faster event then the conventional algorithms. Also the same difference in security category applies here.
+
+\bigskip
+\noindent
+The ESP32 supports hardware acceleration of RSA and ECDSA. I think with this disadvantage the implementation of LUOV and RB are not lagging too much behind and can be used in embedded enviroment from the time point of view.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-all.pdf}
@@ -1550,11 +1585,18 @@ RSA, ECDSA
 \label{mem-all}
 \end{figure}
 
+\noindent
+Second graph \ref{mem-all} is comparison of memory requirements with algorithms selected for this thesis. It shown that most of the implementations needs similar (in KB) amount of memory for its working, except the Rainbow.
+
+\bigskip
+\noindent
+From this comparison it is shown that LOUV implemetation is good as conventional algorithms maybe even little bit better because of the hardware acceleration and higher security category.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Conclusion}
-How good I was...; LOUV is much more better...
+How good I was...; LOUV is much more better...; LUOV bez seed; RB bug;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1609,6 +1651,9 @@ DING, J.: \textit{Rainbow - Algorithm Specification and Documentation. The 2nd R
 
 \bibitem{L-NIST-STANDARD}
 \textit{NIST: Submission Requirements and Evaluation Criteria for the Post-Quantum Cryptography Standardization Process.} [online]. 2016, [cit. 2020-04-1]. At: \url{https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/call-for-proposals-final-dec-2016.pdf}
+
+\bibitem{L-NIST-BOOK}
+CHANG, R.: \textit{Security-Enriched Urban Computing And Smart Grid.} 2011, Springer, Berlin
 
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
