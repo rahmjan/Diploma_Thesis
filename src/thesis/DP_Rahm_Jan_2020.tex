@@ -799,19 +799,19 @@ sudo usermod -a -G dialout $USER
 
 \bigskip
 \noindent
-Download software libraries provided by Espressif, Espressif IoT Development Framework (esp-idf), to folder "\$HOME/esp". I used release version 4.1:
+Download software libraries provided by Espressif, Espressif IoT Development Framework (esp-idf), to folder "esp". I used a release version 4.1:
 \begin{lstlisting}[frame=single]
-cd $HOME/esp
+cd $PATH_TO_ESP/esp
 git clone -b release/v4.1 --recursive \
 https://github.com/espressif/esp-idf.git
 \end{lstlisting}
-Be \textbf{aware} that all of the setting is related to absolute path "\$HOME/esp". Or copy the whole folder "src/esp" to "\$HOME/esp".
+Or you can copy the whole folder "src/esp" form this diploma thesis source to your "\$PATH_TO_ESP/esp".
 
 \bigskip
 \noindent
-Install tools used by "esp-idf" to directory "\$HOME/.espressif":
+Install tools used by "esp-idf" to default directory "\$HOME/.espressif":
 \begin{lstlisting}[frame=single]
-cd $HOME/esp/esp-idf
+cd $PATH_TO_ESP/esp/esp-idf
 ./install.sh
 \end{lstlisting}
 
@@ -819,17 +819,17 @@ cd $HOME/esp/esp-idf
 \noindent
 Last step is to set up environment variables in the terminal where is going to be used "esp-idf":
 \begin{lstlisting}[frame=single]
-. $HOME/esp/esp-idf/export.sh
+. $PATH_TO_ESP/esp/esp-idf/export.sh
 \end{lstlisting}
 But I added it to file \textit{.bashrc}:
 \begin{lstlisting}[frame=single]
-echo ". $HOME/esp/esp-idf/export.sh \
+echo ". $PATH_TO_ESP/esp/esp-idf/export.sh \
 	&> /dev/null" >> $HOME/.bashrc
 \end{lstlisting}
 This way it will be added to every new shell session.
 
 \subsubsection{Build \& Load}
-To load application to ESP32-LyraT, one must first build the project. For example, copy the project "src/esp/luov" (in the Diploma thesis sources) to "\$HOME/esp/luov". In this folder it is possible to build it:
+To load application to ESP32-LyraT, one must first build the project. For example, copy the project "\$PATH_TO_ESP/esp/esp-idf/examples/get-started/hello_world" to "\$PATH_TO_ESP/esp/hello_world". In this folder it is possible to build it:
 \begin{lstlisting}[frame=single]
 idf.py -n build
 \end{lstlisting}
