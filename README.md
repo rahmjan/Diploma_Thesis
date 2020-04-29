@@ -1,12 +1,7 @@
-# Masters_Thesis
-The diploma thesis deals with selected algorithms of multivariate cryptography,
-especially Unbalanced Oil & Vintage and Rainbow. The aim of this
-work is implementation of algorithms in Wolfram Mathematica, investigation
-of existing solutions and their implementation on ESP32 microcontroller. The
-algorithms are tested and measured against the RSA and ECDSA algorithms.  
+# Master's Thesis
+The Master's thesis deals with selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vintage and Rainbow. The aim of this work is implementation of algorithms in Wolfram Mathematica, investigation of existing solutions and their implementation on ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.  
 
-**Keywords** Multivariate cryptography, Unbalanced Oil & Vintage, Rainbow,
-Wolfram Mathematica, ESP32  
+**Keywords** Multivariate cryptography, Unbalanced Oil & Vintage, Rainbow, Wolfram Mathematica, ESP32  
 
 ### Clone
 To clone and initialize the repository use the following:
