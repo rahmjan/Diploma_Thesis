@@ -11,7 +11,7 @@ Wolfram Mathematica, ESP32
 ### Clone
 To clone and initialize the repository use the following:
 ```
-git clone --recurse-submodules https://github.com/rahmjan/Diploma_Thesis.git
+git clone --recurse-submodules https://github.com/rahmjan/Masters_Thesis.git
 ```
 
 ### Structure
