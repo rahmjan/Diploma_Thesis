@@ -1,4 +1,4 @@
-# Diploma_Thesis
+# Masters_Thesis
 The diploma thesis deals with selected algorithms of multivariate cryptography,
 especially Unbalanced Oil & Vintage and Rainbow. The aim of this
 work is implementation of algorithms in Wolfram Mathematica, investigation
@@ -9,6 +9,7 @@ algorithms are tested and measured against the RSA and ECDSA algorithms.
 Wolfram Mathematica, ESP32  
 
 ### Clone
+To clone and initialize the repository use the following:
 ```
 git clone --recurse-submodules https://github.com/rahmjan/Diploma_Thesis.git
 ```
@@ -16,7 +17,6 @@ git clone --recurse-submodules https://github.com/rahmjan/Diploma_Thesis.git
 ### Structure
 ```
 README.md...........................the file with CD/GIT contents description  
-├─ exe..............................the directory with executables  
 ├─ src..............................the directory of source codes  
 │  ├─ esp...........................implementation for esp32 platform  
 │  ├─ mathematica...................implementation in Mathematica  

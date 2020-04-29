@@ -44,13 +44,13 @@
 \authorWithDegrees{Bc. Jan Rahm} %author's name with academic degrees
 \supervisor{Ing. Jiří Buček, Ph.D.}
 \acknowledgements{I would like to thank Ing. Jiří Buček, Ph.D. for the willingness, consultation and valuable advice he gave me.}
-\abstractEN{The diploma thesis deals with selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vintage and Rainbow. The aim of this work is implementation of algorithms in Wolfram Mathematica, investigation of existing solutions and their implementation on ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.}
+\abstractEN{The Master's thesis deals with selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vintage and Rainbow. The aim of this work is implementation of algorithms in Wolfram Mathematica, investigation of existing solutions and their implementation on ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.}
 \abstractCS{Diplomová práce se zabývá vybranými algoritmy multivariační kryptografie, zejména Unbalanced Oil \& Vintage a Rainbow. Cílem práce je implementace algoritmů ve Wolfram Mathematica, prozkoumání již existujících řešeních a jejich implementace na mikrokontroleru ESP32. Algoritmy jsou otestovány a změřeny vůči algoritmům RSA a ECDSA.}
 \placeForDeclarationOfAuthenticity{Prague}
 \keywordsCS{Multivariační kryptografie, Unbalanced Oil \& Vintage, Rainbow, Wolfram Mathematica, ESP32}
 \keywordsEN{Multivariate cryptography, Unbalanced Oil \& Vintage, Rainbow, Wolfram Mathematica, ESP32}
 \declarationOfAuthenticityOption{1} %select as appropriate, according to the desired license (integer 1-6)
-\website{https://github.com/rahmjan/Diploma_Thesis} %optional thesis URL
+\website{https://github.com/rahmjan/Masters_Thesis} %optional thesis URL
 
 \begin{document}
 
@@ -109,7 +109,7 @@ An affine map is the composition of two functions: a translation and a linear ma
 \subsection{Wolfram Mathematica}
 Wolfram Mathematica is a computer program widely used in scientific, technical and mathematical circles. The program was originally created by Stephen Wolfram and further developed by a team of mathematicians and programmers. It is sold by Wolfram Research, with headquartered in Champaign, Illinois.
 
-\subsection{IoT}
+\subsection{Internet of things}
 Internet of Things (IoT) is a term in computer science for a network of physical devices, vehicles, household appliances, or other devices that are equipped with electronics, software, sensors, moving parts, or network connectivity that allows these devices to connect and exchange data.
 
 \subsection{Valgrind}
@@ -139,6 +139,10 @@ RSA is algorithm for cryptographic and signature scheme. Name comes from initial
 \bigskip
 \noindent
 RSA security is based on the problem of factorization, an assumption that breaking a large number into a product of prime numbers is a difficult task. From the number $n = pq$ it should be almost impossible to determine the factors $p$ and $q$ in a reasonable time, because there is no known factorization algorithm working in polynomial time to the size of the binary notation of $n$. On the other side, multiplying two large numbers is very easy.
+
+\bigskip
+\noindent
+The details of RSA implementation is not subject of this Master's thesis 
 
 \subsection{ECDSA}
 Elliptic curve digital signature protocol (ECDSA) is a variant of the DSA protocol that uses elliptic curves for digital signatures.
@@ -236,7 +240,7 @@ If $w' = w$ is true, the signature is valid, otherwise not.
 There is also condition that requires to be $m \leq n$, this way the public key $\mathcal{P}$ will be surjective and private key can sign any message.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{UOV}
+\section{Unbalanced Oil \& Vintage}
 The Unbalanced Oil and Vinegar's name comes from the fact that the variables of the polynomials are grouped into two groups: the vinegar and the oil. These two groups are mixed in the polynomials and the unbalanced attribute refers to the ratio of the variables, where is always more vinegar than oil variables. The signature scheme was proposed by Kipnis and Patarin in 1999.
 
 \subsection{Definition}
@@ -297,7 +301,7 @@ Chapter describes implementation of algorithms on selected platforms which are W
 \section{Wolfram Mathematica}
 This section describes examples in Wolfram Mathematica and step by step description of algorithms.
 
-\subsection{UOV}
+\subsection{Unbalanced Oil \& Vintage}
 Here is description of signature scheme of UOV. This example of UOV is in fact example of balanced OV because it simplify the explanation of the algorithm.
 
 \bigskip
@@ -618,10 +622,10 @@ The section describes reference implementation of the algorithms which are selec
 
 \bigskip
 \noindent
-The reference implementation contains several optimized solutions. But for purpose of this Diploma thesis is only relevant solution under the folder of \textit{Reference\_Implementation}.
+The reference implementation contains several optimized solutions. But for purpose of this Master's thesis is only relevant solution under the folder of \textit{Reference\_Implementation}.
 
 %%%%%%%%%%%%%%%%%%%
-\subsection{UOV}
+\subsection{Unbalanced Oil \& Vintage}
 This implementation of UOV is in reality implementation of LUOV (Lifted UOV) which is a improvement of the UOV scheme that greatly reduces the size of the public keys. There are tree basic modifications:
 
 \begin{itemize}
@@ -805,7 +809,7 @@ cd $PATH_TO_ESP/esp
 git clone -b release/v4.1 --recursive \
 https://github.com/espressif/esp-idf.git
 \end{lstlisting}
-Or you can copy the whole folder "src/esp" form this diploma thesis source to your "\$PATH_TO_ESP/esp".
+Or you can copy the whole folder "src/esp" form this Master's thesis source to your "\$PATH\_TO\_ESP/esp".
 
 \bigskip
 \noindent
@@ -829,7 +833,7 @@ echo ". $PATH_TO_ESP/esp/esp-idf/export.sh \
 This way it will be added to every new shell session.
 
 \subsubsection{Build \& Load}
-To load application to ESP32-LyraT, one must first build the project. For example, copy the project "\$PATH_TO_ESP/esp/esp-idf/examples/get-started/hello_world" to "\$PATH_TO_ESP/esp/hello_world". In this folder it is possible to build it:
+To load application to ESP32-LyraT, one must first build the project. For example, copy the project "\$PATH\_TO\_ESP/esp/esp-idf/examples/get-started/hello\_world" to "\$PATH\_TO\_ESP/esp/hello\_world". In this folder it is possible to build it:
 \begin{lstlisting}[frame=single]
 idf.py -n build
 \end{lstlisting}
@@ -905,7 +909,7 @@ The project can be build by using \textit{make} or \textit{cmake}. For simplicit
 Main entry point of application running on ESP32 is function \textit{app\_main}. In provided implementations it can be found in file \textit{main/test.c}.
 
 %%%%%%%%%%%%%%%%%%%
-\subsection{LUOV} \label{esp-luov-make}
+\subsection{Lifted Unbalanced Oil \& Vintage} \label{esp-luov-make}
 To make a port of LUOV reference implementation to ESP32, first I needed to create \textit{CMakeList.txt} in folder \textit{main}. This file contains build options for the \textit{main} component.
 \begin{lstlisting}[frame=single]
 idf_component_register(SRCS INCLUDE_DIRS PRIV_REQUIRES)
@@ -983,7 +987,7 @@ I did two memory optimizations of Rainbow implementation for ESP32:
 \begin{itemize}
 \item	First I found potential big allocation of memory and switch them from stack to heap. Candidates to change were temporary helpful variables of keys (\textit{sk\_t}) in computation of keys from seeds.
 
-\item	Second I created \textit{my\_ESP\_malloc} and \textit{my\_ESP\_free} functions, see \ref{esp-rb-memory}. With these I found that temporary variables (for example \textit{sk\_t* tempQ}) were using lot of memory but in reality only needed a part of the key structure. See commit \textit{"ESP - RB memory reduction in cyclic generation"}, hash \textit{"1609d70c"} for details of optimization.
+\item	Second I created \textit{my\_ESP\_malloc} and \textit{my\_ESP\_free} functions, see \ref{esp-rb-memory}. With these I found that temporary variables (for example \textit{sk\_t* tempQ}) were using lot of memory but in reality only needed a part of the key structure. See commit \textit{"ESP - RB memory reduction in cyclic generation"}, hash \textit{"1609d70c"} in this Master's thesis Git repository for the details of optimization.
 \end{itemize}
 
 With these two optimizations there was already enough memory and I was able to run \textit{\_RAINBOW256\_92\_48\_48} implementation in compressed form. I was also able to run the same implementation in cyclic form but there is same kind of bug and it was making segmentation fault. I am suspecting that it is the same bug 
@@ -1559,7 +1563,7 @@ One of the important criteria in usability in an embedded environment is compari
 
 \bigskip
 \noindent
-Below is table of variants and its NIST security category for possible comparison. \cite{L-NIST-BOOK} Variant \textit{RSA-7680} I was not able to measure because the verification of signature is failing but it is good to have it for illustration of the difference in size of public key between categories I and III and it counterparts in ECDSA.
+Below is table of variants and its NIST security category for possible comparison. \cite{L-NIST-RECOMM} Variant \textit{RSA-7680} I was not able to measure because the verification of signature is failing (the reason for it could be the maximum support of 4096 bits for hardware big number accelerator) but it is good to have it for illustration of the difference in size of public key between categories I and III and it counterparts in ECDSA.
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -1584,15 +1588,30 @@ ECDSA-521 & V & 256 \\ \hline
 \end{figure}
 
 \noindent
-First graph \ref{time-all} is comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in generation and verification stages. If I add the difference in security category, I vs II and III vs IV, then the prospect of LUOV implementation is even better.
+First two graphs \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in generation and verification stages. If I add the difference in security category, I vs II and III vs IV, then the prospect of LUOV implementation is even better.
 
 \bigskip
 \noindent
 RB variants have similar times of generation with RSA and in both cases it takes a lot of time. Also, the other stages belong to the slow side. On the other side, the variant without using the seed are really fast, faster event then the conventional algorithms. Also, the same difference in security category applies here.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/time-category-all.pdf}
+\caption{Time requirement comparison with conventional algorithms by categories}
+\label{time-category-all}
+\end{figure}
+
 \bigskip
 \noindent
-The ESP32 supports hardware acceleration of RSA and ECDSA. I think with this disadvantage the implementation of LUOV and RB are not lagging too much behind and can be used in embedded environment from the time point of view.
+The ESP32 supports hardware acceleration of RSA and ECDSA in terms of big number multiplication for up to 4096 bits. I think with this disadvantage the implementation of LUOV and RB are not lagging too much behind and can be used in embedded environment from the time point of view.
+
+\bigskip
+\noindent
+Last two graphs \ref{mem-all} and \ref{mem-category-all} are comparison of memory requirements with algorithms selected for this thesis. It shown that most of the implementations needs similar (in KB) amount of memory for its working, except the Rainbow.
+
+\bigskip
+\noindent
+From this comparison it is shown that LOUV implementation is good as conventional algorithms maybe even little bit better because of the hardware acceleration and higher security category.
 
 \begin{figure}[H]
 \centering
@@ -1601,19 +1620,19 @@ The ESP32 supports hardware acceleration of RSA and ECDSA. I think with this dis
 \label{mem-all}
 \end{figure}
 
-\noindent
-Second graph \ref{mem-all} is comparison of memory requirements with algorithms selected for this thesis. It shown that most of 
-the implementations needs similar (in KB) amount of memory for its working, except the Rainbow.
-
-\bigskip
-\noindent
-From this comparison it is shown that LOUV implementation is good as conventional algorithms maybe even little bit better because of the hardware acceleration and higher security category.
+\bigskip\bigskip\bigskip
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm,height=7cm]{images/mem-category-all.pdf}
+\caption{Memory requirement comparison with conventional algorithms by categories}
+\label{mem-category-all}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Conclusion}
-The goal of this thesis is description of multivariate cryptography and creation of Wolfram Mathematica example for educational purpose of the selected algorithms, specifically: Unbalanced Oil \& Vintage and Rainbow. It also deals with implementation of the algorithms on PC and microcontroller, ESP32, and evaluate their memory and time complexity. Finally, it compares the implementations with conventional algorithms, RSA and ECDSA. The goal of this diploma thesis was definitely fulfilled.
+The goal of this thesis is description of multivariate cryptography and creation of Wolfram Mathematica example for educational purpose of the selected algorithms, specifically: Unbalanced Oil \& Vintage and Rainbow. It also deals with implementation of the algorithms on PC and microcontroller, ESP32, and evaluate their memory and time complexity. Finally, it compares the implementations with conventional algorithms, RSA and ECDSA. The goal of this Master's thesis was definitely fulfilled.
 
 \bigskip
 \noindent
@@ -1638,13 +1657,13 @@ CZYPEK, P.: \textit{Implementing Multivariate Quadratic Public Key Signature Sch
 Embedded Devices.}  Ruhr-Universit\"{a}t Bochum, 2012.
 
 \bibitem{L-PET1}
-PETZOLDT, A.: \textit{Multivariate Cryptography Part 1: Basics} [online]. 2017, [cit. 2020-04-1]. At: \url{https://2017.pqcrypto.org/school/slides/1-Basics.pdf}
+PETZOLDT, A.: \textit{Multivariate Cryptography Part 1: Basics} [online]. 2017, [cit. 2020-04-1]. Available at: \url{https://2017.pqcrypto.org/school/slides/1-Basics.pdf}
 
 \bibitem{L-PET2}
 PETZOLDT, A.: \textit{Multivariate Cryptography Part 2: UOV and Rainbow} [online]. 2017, [cit. 2020-04-1]. At: \url{https://2017.pqcrypto.org/school/slides/2-UOV+Rainbow.pdf}
 
 \bibitem{L-GEOV}
-GEOVANDRO, C.C.F.P.: \textit{Introduction to Multivariate Public Key Cryptography} [online]. 2013, [cit. 2020-04-1]. At: \url{http://www.ic.unicamp.br/ascrypto2013/slides/ascrypto2013_geovandropereira.pdf}
+GEOVANDRO, C.C.F.P.: \textit{Introduction to Multivariate Public Key Cryptography} [online]. 2013, [cit. 2020-04-1]. Available at: \url{http://www.ic.unicamp.br/ascrypto2013/slides/ascrypto2013_geovandropereira.pdf}
 
 \bibitem{L-MC0}
 GOUBIN, L.; PATARIN, J.; YANG, BY.: \textit{Multivariate Cryptography.} In: van Tilborg H.C.A., Jajodia S. \textit{Encyclopedia of Cryptography and Security.} 2011, Springer, Boston, MA
@@ -1653,13 +1672,13 @@ GOUBIN, L.; PATARIN, J.; YANG, BY.: \textit{Multivariate Cryptography.} In: van 
 DING, J.; PETZOLDT, A.: \textit{Current State of Multivariate Cryptography.} In: \textit{IEEE Security \& Privacy.}, vol. 15, no. 4, pp. 28-36, 2017.
 
 \bibitem{L-WIKI1}
-\textit{Multivariate cryptography} [online]. 2020, [cit. 2020-04-1]. At: \url{https://en.wikipedia.org/wiki/Multivariate_cryptography}
+\textit{Multivariate cryptography} [online]. 2020, [cit. 2020-04-1]. Available at: \url{https://en.wikipedia.org/wiki/Multivariate_cryptography}
 
 \bibitem{L-KS98}
 KIPNIS, A.; SHAMIR, A.: \textit{Cryptanalysis of the oil and vinegar signature scheme}. In \textit{CRYPTO 1998}, LNCS vol. 1462, pp. 257–266, Springer, 1998.
 
 \bibitem{L-NIST-2ND}
-\textit{NIST - Post-Quantum Cryptography, Round 2 Submissions} [online]. 2020, [cit. 2020-04-1]. At: \url{https://csrc.nist.gov/Projects/post-quantum-cryptography/round-2-submissions}
+\textit{NIST - Post-Quantum Cryptography, Round 2 Submissions} [online]. 2020, [cit. 2020-04-1]. Available at: \url{https://csrc.nist.gov/Projects/post-quantum-cryptography/round-2-submissions}
 
 \bibitem{L-EQ-KEYS}
 WOLF, CH.; PRENEEL, B.: \textit{Equivalent keys in multivariate quadratic public key systems}. In \textit{Journal of Mathematical Cryptology}, pp. 375–415, 2011.
@@ -1679,10 +1698,10 @@ CZYPEK, P.: \textit{LUOV. Signature Scheme proposal for NIST PQC Project (Round 
 DING, J.: \textit{Rainbow - Algorithm Specification and Documentation. The 2nd Round Proposal.} University of Cincinnati, USA, 2019.
 
 \bibitem{L-NIST-STANDARD}
-\textit{NIST: Submission Requirements and Evaluation Criteria for the Post-Quantum Cryptography Standardization Process.} [online]. 2016, [cit. 2020-04-1]. At: \url{https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/call-for-proposals-final-dec-2016.pdf}
+\textit{NIST: Submission Requirements and Evaluation Criteria for the Post-Quantum Cryptography Standardization Process.} [online]. 2016, [cit. 2020-04-1]. Available at: \url{https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/call-for-proposals-final-dec-2016.pdf}
 
-\bibitem{L-NIST-BOOK}
-CHANG, R.: \textit{Security-Enriched Urban Computing And Smart Grid.} 2011, Springer, Berlin
+\bibitem{L-NIST-RECOMM}
+BARKER, E.: \textit{NIST Special Publication 800-57 Part 1 Revision 4.} NIST, U.S. Department of Commerce, 2016. Available at: \url{https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r4.pdf}
 
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1705,6 +1724,126 @@ CHANG, R.: \textit{Security-Enriched Urban Computing And Smart Grid.} 2011, Spri
 	\item[UOV] Unbalanced Oil and Vinegar	
 \end{description}
 
+\chapter{Measured values}
+\begin{table}[]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+                    & \multicolumn{1}{l|}{{ Generation}} & \multicolumn{1}{l|}{{ Signing}} & \multicolumn{1}{l|}{{ Verifying}} \\ \hline
+ Luov-47-42-182      &  0,007                           &  0,0192                       &  0,0102                         \\ \hline
+ Luov-7-57-197       &  0,0074                          &  0,0189                       &  0,01                           \\ \hline
+ Luov-61-60-261      &  0,022                           &  0,0652                       &  0,0305                         \\ \hline
+ Luov-7-83-283       &  0,0753                          &  0,1164                       &  0,0647                         \\ \hline
+ Luov-79-76-341      &  0,089                           &  0,2208                       &  0,1053                         \\ \hline
+ Luov-7-110-374      &  0,153                           &  0,2455                       &  0,1347                         \\ \hline
+ Rb-16-32-32-32      &  0,0907                          &  0,001                        &  0,0009                         \\ \hline
+ Rb-16-32-32-32-cyc  &  0,1004                          &  0,001                        &  0,0019                         \\ \hline
+ Rb-16-32-32-32-com  &  0,0932                          &  0,0335                       &  0,0021                         \\ \hline
+ Rb-256-68-36-36     &  1,1021                          &  0,0129                       &  0,0116                         \\ \hline
+ Rb-256-68-36-36-cyc &  1,1929                          &  0,009                        &  0,0151                         \\ \hline
+ Rb-256-68-36-36-com &  1,2262                          &  0,5935                       &  0,0155                         \\ \hline
+ Rb-256-92-48-48     &  3,233                           &  0,0219                       &  0,0232                         \\ \hline
+ Rb-256-92-48-48-cyc &  3,6522                          &  0,021                        &  0,038                          \\ \hline
+ Rb-256-92-48-48-com &  3,6334                          &  1,7513                       &  0,0384                         \\ \hline
+\end{tabular}
+\caption{Time measurement in seconds on PC}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+                  & \multicolumn{1}{c|}{{ Generation}} & \multicolumn{1}{c|}{{ Signing}} & \multicolumn{1}{c|}{{ Verification}} \\ \hline
+ Luov-47-42-182      &  0,29                            &  0,6                          &  0,32                              \\ \hline
+ Luov-7-57-197       &  0,52                            &  0,81                         &  0,47                              \\ \hline
+ Luov-61-60-261      &  0,84                            &  2,29                         &  0,97                              \\ \hline
+ Luov-7-83-283       &  3,84                            &  4,88                         &  2,33                              \\ \hline
+ Luov-79-76-341      &  4,54                            &  11,24                        &  4,59                              \\ \hline
+ Luov-7-110-374      &  8,77                            &  11,15                        &  5,24                              \\ \hline
+ Rb-16-32-32-32      &  1,86                            &  0,04                         &  0,03                              \\ \hline
+ Rb-16-32-32-32-cyc  &  2,04                            &  0,03                         &  0,29                              \\ \hline
+ Rb-16-32-32-32-com  &  2,02                            &  1,02                         &  0,29                              \\ \hline
+ Rb-256-68-36-36     &  20,06                           &  0,2                          &  0,2                               \\ \hline
+ Rb-256-68-36-36-cyc &  22,31                           &  0,19                         &  1,53                              \\ \hline
+ Rb-256-68-36-36-com &  22,33                           &  11,23                        &  1,57                              \\ \hline
+ Rb-256-92-48-48-com &  67,9                            &  33,49                        &  3,64                              \\ \hline
+ ECDSA-256           &  0,4                             &  0,149                        &  0,556                             \\ \hline
+ ECDSA-384           &  0,46                            &  0,18                         &  0,67                              \\ \hline
+ ECDSA-521           &  0,76                            &  0,34                         &  1,16                              \\ \hline
+ RSA-2048            &  2,12                            &  0,35                         &  0,001                             \\ \hline
+ RSA-3072            &  24,46                           &  0,852                        &  0,004                             \\ \hline
+ RSA-4096            &  66,26                           &  1,641                        &  0,001                             \\ \hline
+\end{tabular}
+\caption{Time measurement in seconds on ESP32}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|r|l|r|}
+\hline
+Luov-47-42-182 & 55497 & Rb-16-32-32-32 & 418448 \\ \hline
+Luov-7-57-197                         & 52339                        & Rb-16-32-32-32-cyc                    & 460640                        \\ \hline
+Luov-61-60-261                        & 90701                        & Rb-16-32-32-32-com                    & 367744                        \\ \hline
+Luov-7-83-283                         & 159809                       & Rb-256-68-36-36                       & 1990596                       \\ \hline
+Luov-79-76-341                        & 224939                       & Rb-256-68-36-36-cyc                   & 2151116                       \\ \hline
+Luov-7-110-374                        & 291712                       & Rb-256-68-36-36-com                   & 1639732                       \\ \hline
+                                      &                              & Rb-256-92-48-48                       & 4760028                       \\ \hline
+                                      &                              & Rb-256-92-48-48-cyc                   & 5141804                       \\ \hline
+                                      &                              & Rb-256-92-48-48-com                   & 3914764                       \\ \hline
+\end{tabular}
+\caption{Memory measurement in bytes on PC}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+                    & \multicolumn{1}{l|}{Generation} & \multicolumn{1}{l|}{Signing} & \multicolumn{1}{l|}{Verification} \\ \hline
+Luov-47-42-182      & 100790                          & 123214                       & 84870                             \\ \hline
+Luov-7-57-197       & 118854                          & 120170                       & 90814                             \\ \hline
+Luov-61-60-261      & 125882                          & 158418                       & 94986                             \\ \hline
+Luov-7-83-283       & 228654                          & 195778                       & 115302                            \\ \hline
+Luov-79-76-341      & 206106                          & 292658                       & 110730                            \\ \hline
+Luov-7-110-374      & 360554                          & 272514                       & 163178                            \\ \hline
+Rb-16-32-32-32      & 439439                          & 276247                       & 272895                            \\ \hline
+Rb-16-32-32-32-cyc  & 309431                          & 185399                       & 4219643                           \\ \hline
+Rb-16-32-32-32-com  & 314499                          & 296531                       & 392435                            \\ \hline
+Rb-256-68-36-36     & 2011587                         & 1260919                      & 1253123                           \\ \hline
+Rb-256-68-36-36-cyc & 1440523                         & 757023                       & 4219643                           \\ \hline
+Rb-256-68-36-36-com & 4220771                         & 4219643                      & 4219643                           \\ \hline
+Rb-256-92-48-48-com & 4220771                         & 4219643                      & 4219643                           \\ \hline
+ ECDSA-256 &  192354   &  80198 &  81230      \\ \hline
+ ECDSA-384 &  192322   &  83666 &  87554      \\ \hline
+ ECDSA-521 &  191994   &  85630 &  90826      \\ \hline
+ RSA-2048  &  81358    &  83898 &  80358      \\ \hline
+ RSA-3072  &  192430   &  87354 &  82390      \\ \hline
+ RSA-4096  &  191918   &  90818 &  84246      \\ \hline
+\end{tabular}
+\caption{Memory measurement in bytes on ESP32}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+                    & \multicolumn{1}{l|}{{ Public key}} & \multicolumn{1}{l|}{{ Secret key}} & \multicolumn{1}{l|}{{ Signature}} \\ \hline
+ Luov-47-42-182      &  4773                            &  32                              &  1332                           \\ \hline
+ Luov-7-57-197       &  11810                           &  32                              &  239                            \\ \hline
+ Luov-61-60-261      &  13757                           &  32                              &  2464                           \\ \hline
+ Luov-7-83-283       &  36200                           &  32                              &  337                            \\ \hline
+ Luov-79-76-341      &  27829                           &  32                              &  4134                           \\ \hline
+ Luov-7-110-374      &  83976                           &  32                              &  440                            \\ \hline
+ Rb-16-32-32-32      &  148992                          &  92960                           &  64                             \\ \hline
+ Rb-16-32-32-32-cyc  &  58144                           &  92960                           &  64                             \\ \hline
+ Rb-16-32-32-32-com  &  58144                           &  64                              &  64                             \\ \hline
+ Rb-256-68-36-36     &  710640                          &  511448                          &  156                            \\ \hline
+ Rb-256-68-36-36-cyc &  206744                          &  511448                          &  156                            \\ \hline
+ Rb-256-68-36-36-com &  206744                          &  64                              &  156                            \\ \hline
+ Rb-256-92-48-48-com &  491936                          &  64                              &  204                            \\ \hline
+\end{tabular}
+\caption{Size of keys and signature in bytes}
+\end{table}
+
 
 \chapter{Contents of enclosed CD}
 
@@ -1713,7 +1852,6 @@ CHANG, R.: \textit{Security-Enriched Urban Computing And Smart Grid.} 2011, Spri
 \begin{figure}
 	\dirtree{%
 		.1 README.md\DTcomment{the file with CD contents description}.
-		.1 exe\DTcomment{the directory with executables}.
 		.1 src\DTcomment{the directory of source codes}.
 		.2 esp\DTcomment{implementation for esp32 platform}.
 		.2 mathematica\DTcomment{implementation in Mathematica}.
