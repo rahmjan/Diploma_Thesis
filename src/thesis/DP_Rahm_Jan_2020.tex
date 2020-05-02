@@ -43,7 +43,7 @@
 \author{Jan Rahm} %author's name without academic degrees
 \authorWithDegrees{Bc. Jan Rahm} %author's name with academic degrees
 \supervisor{Ing. Jiří Buček, Ph.D.}
-\acknowledgements{I would like to thank Ing. Jiří Buček, Ph.D. for the willingness, consultation and valuable advice he gave me.}
+\acknowledgements{I would like to thank Ing. Jiří Buček, Ph.D. for the willingness, consultation and valuable advices he gave me.}
 \abstractEN{The Master's thesis deals with selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vintage and Rainbow. The aim of this work is implementation of algorithms in Wolfram Mathematica, investigation of existing solutions and their implementation on ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.}
 \abstractCS{Diplomová práce se zabývá vybranými algoritmy multivariační kryptografie, zejména Unbalanced Oil \& Vintage a Rainbow. Cílem práce je implementace algoritmů ve Wolfram Mathematica, prozkoumání již existujících řešeních a jejich implementace na mikrokontroleru ESP32. Algoritmy jsou otestovány a změřeny vůči algoritmům RSA a ECDSA.}
 \placeForDeclarationOfAuthenticity{Prague}
@@ -61,7 +61,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Introduction}
-Cryptography is one of the most needed part of modern informatics because almost everyone has something they wish to stay private. But today we can see uprise of the quantum computers which are able to decipher the conventional algorithms for cryptology. That is why a new category of post-quantum cryptography was created and one of its candidates is multivariate cryptography.
+Cryptography is one of the most needed part of modern informatics because almost everyone has something which they wish to stay private. But today we can see uprise of the quantum computers which are able to decipher the conventional algorithms for cryptology. That is why a new category of post-quantum cryptography was created and one of its candidates is a multivariate cryptography.
 
 The objective of this work is to describe principles of multivariate cryptography for educational purpose with creation of simple example in Wolfram Mathematica. The focus is on Unbalanced Oil \& Vintage and Rainbow algorithms with examination of reference implementation. Further focusing on possible implementation on ESP32 and possible use in IoT.
 
@@ -92,7 +92,7 @@ But today it is not true for the most used cryptographic algorithms, which are b
 \subsection{Finite field}
 A finite field is a finite set which is a field. This means that multiplication, addition, subtraction and division (excluding division by zero) are defined and satisfy the rules of arithmetic known as the field axioms.
 
-The simplest examples of finite fields are the fields of prime order: $\mathbb {F}_{p}$ may be constructed as the integers modulo p.
+The simplest examples of finite fields are the fields of prime order: $\mathbb {F}_{p}$ may be constructed as the integers modulo $p$.
 
 \subsection{Translation}
 In Euclidean geometry, a translation is a geometric transformation that moves every point of a figure or a space by the same distance in a given direction.
@@ -142,14 +142,18 @@ RSA security is based on the problem of factorization, an assumption that breaki
 
 \bigskip
 \noindent
-The details of RSA implementation is not subject of this Master's thesis 
+The details of RSA implementation and inner workings are not subjects of this Master's thesis and will not be mentioned.
 
 \subsection{ECDSA}
 Elliptic curve digital signature protocol (ECDSA) is a variant of the DSA protocol that uses elliptic curves for digital signatures.
 
 \bigskip
 \noindent
-The security of elliptic curve is based on the problem of discrete logarithm where is an assumption that finding $k$ of $Y \equiv g^k (mod \, p)$ is a difficult task.
+The security of elliptic curve is based on the problem of discrete logarithm where is an assumption that finding $k$ of $Y \equiv g^k (mod \, p)$ is a difficult task. On the other side, to compute $Y$ is easy.
+
+\bigskip
+\noindent
+The details of ECDSA implementation and inner workings are not subjects of this Master's thesis and will not be mentioned.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -187,7 +191,7 @@ The public key of this system is composed map:
 \]
 and the private key consists of the tree maps $\mathcal{S}$, $\mathcal{F}$ and $\mathcal{T}$, also known as \textit{trapdoor}.
 
-Public key should be hard to invert without the knowledge of the \textit{trapdoor}.
+The public key should be hard to invert without the knowledge of the \textit{trapdoor}.
 
 \begin{figure}[h]
 \begin{equation*}
@@ -202,15 +206,15 @@ Public key should be hard to invert without the knowledge of the \textit{trapdoo
 \smallskip
 
 \subsection{Encryption}
-To get a ciphertext $w$, message $z \in \mathbb{F}^n$ can by easily encrypted by evaluation of the public key $\mathcal{P}$:
+To get a ciphertext $w$, a message $z \in \mathbb{F}^n$ can by easily encrypted by evaluation of the public key $\mathcal{P}$:
 \[
 	w = \mathcal{P}(z) \in \mathbb{F}^m
 \]
-For decryption of ciphertext, it needs to be evaluated by private key in tree steps: 
+For the decryption of ciphertext, it needs to be evaluated by private key in tree steps: 
 \[
 	x = \mathcal{S}^{-1}(w) \in \mathbb{F}^m, \, y = \mathcal{F}^{-1}(x) \in \mathbb{F}^n, \, z = \mathcal{T}^{-1}(y) \in \mathbb{F}^n
 \]
-There is a condition that requires to be $m \geq n$, this way the public key $\mathcal{P}$ will be injective and decryption will output a unique plaintext.
+There is a condition that requires to be $m \geq n$, this way the public key $\mathcal{P}$ will be injective and the decryption will output a unique plaintext.
 
 \subsection{Signature}
 To generate a signature for a message $m$, it needs to use a hash function:
@@ -231,7 +235,7 @@ The verification of signature $z$ is done by computing the hash value:
 \[
 	w = \mathcal{H}(m) \in \mathbb{F}^m
 \]
-and by evaluation of public key $\mathcal{P}$:
+and by evaluation of the public key $\mathcal{P}$:
 \[
 	w' = \mathcal{P}(z) \in \mathbb{F}^m
 \]
@@ -242,6 +246,10 @@ There is also condition that requires to be $m \leq n$, this way the public key 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Unbalanced Oil \& Vintage}
 The Unbalanced Oil and Vinegar's name comes from the fact that the variables of the polynomials are grouped into two groups: the vinegar and the oil. These two groups are mixed in the polynomials and the unbalanced attribute refers to the ratio of the variables, where is always more vinegar than oil variables. The signature scheme was proposed by Kipnis and Patarin in 1999.
+
+\bigskip
+\noindent
+The UOV scheme is very simple, has small signatures and is fast. The main disadvantage is its public keys which are quite large.
 
 \subsection{Definition}
 Let $\mathbb{F}$ be a finite field, $v,o \in \mathbb{N}$ and $n=v+o$, $V=\{1, \ldots, v\}$, $O=\{v+1, \ldots, n\}$. The variables $x_1, \ldots, x_v$ are Vinegar variables and $x_{v+1}, \ldots, x_n$ are Oil variables. If $v=o$ the scheme is called balanced Oil \& Vinegar (OV), for $v>o$ it is UOV.
@@ -265,16 +273,16 @@ and the private key consist of $\mathcal{F}$ and $\mathcal{T}$. The second affin
 \subsection{Security}
 For the security of UOV is required $v \geq 2o$ because of the attack of Kipnis and Shamir on balanced OV.\cite{L-KS98} Besides of that, the UOV scheme resisted (for suitable parameter sets) cryptanalysis for over 20 years. Now it is one of the oldest and best studied cryptosystems and is therefore believed to be of high security.
 
-The UOV scheme is very simple, has small signatures and is fast. The main disadvantage is its public keys which are quite large.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Rainbow}
 The Rainbow is a multi-layer version of UOV. The layers are not independent from each other but there is a hierarchy which uses the results from the layer above to compute additional variables. The name comes from the link to the layers of a rainbow and the scheme was introduced by Ding and Schmid in 2005.
 
+\bigskip
+\noindent
 The main advantage compared to UOV should be in better performance, smaller key sizes and smaller signatures.
 
-\subsection{Definition}
+\subsection{Definition}\label{rb-definition}
 Let $\mathbb{F}$ be a finite field, $0<v_1<v_2<\ldots<v_{u+1} = n$ be a sequence of integers and $V_i=\{1, \ldots, v_i\}$, $O_i=\{v_i+1, \ldots, v_{i+1}\}$ and $o_i = v_{i+1} - v_i \,\, (i=1,\ldots,u)$ where $o_i$ is number of oil variables and $u$ is number of UOV instances.
 
 \bigskip
@@ -296,13 +304,13 @@ and the private key consist of $\mathcal{S}$, $\mathcal{F}$ and $\mathcal{T}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Realization}
-Chapter describes implementation of algorithms on selected platforms which are Wolfram Mathematica, PC and microcontroller ESP32. For the last two specified the implementation is in language C++.
+The chapter describes implementation of algorithms on selected platforms which are Wolfram Mathematica, PC and microcontroller ESP32. For the last two specified the implementation is in language C++.
 
 \section{Wolfram Mathematica}
-This section describes examples in Wolfram Mathematica and step by step description of algorithms.
+This section describes examples in Wolfram Mathematica and step by step description of algorithms. All of the \textit{hard-coded} values (numbers) are randomly selected, they only have to respect the definition and parameters of the algorithm.  
 
 \subsection{Unbalanced Oil \& Vintage}
-Here is description of signature scheme of UOV. This example of UOV is in fact example of balanced OV because it simplify the explanation of the algorithm.
+Here is description of signature scheme of UOV. This example of UOV is in fact example of balanced OV because it simplifies the explanation of the algorithm.
 
 \bigskip
 \noindent
@@ -358,7 +366,7 @@ It will set up the value of $mod$ to 7 and initialize functions of the central m
 \end{figure}
 
 \noindent
-This block computes public key $\mathcal{P}$ by putting values of $\mathcal{T}$ inside of $\mathcal{F}$, it also simplify the expression of $p1,p2,p3$ and finally applies modulo on whole polynomial:
+The following block computes public key $\mathcal{P}$ by putting values of $\mathcal{T}$ inside of $\mathcal{F}$, it also simplify the expression of $p1,p2,p3$ and finally applies modulo on the whole polynomial:
 \begin{mmaCell}[moredefined={p1, F1, T, p2, F2, p3, F3, P1, mod, P2, P3},morepattern={x1_, x2_, x3_, x4_, x5_, x6_}]{Input}
   p1 = F1 @@ T[[All]];
   p2 = F2 @@ T[[All]];
@@ -382,14 +390,14 @@ The results of $\mathcal{P} = \mathcal{F} \circ \mathcal{T}$ are:
   \{5+5x1+4\mmaSup{x1}{2}+5x2+3x1x2+5\mmaSup{x2}{2}+2x3+2x1x3+x2x3+2\mmaSup{x3}{2}+6x4+3x2x4+2\mmaSup{x4}{2}
 +x5+3x1x5+6x2x5+4x3x5+2\mmaSup{x5}{2}+2x6+x1x6+3x2x6+4x3x6+6x4x6+5x5x6+4\mmaSup{x6}{2}\}
 \end{mmaCell}
-From this place on it will only focus on computation of signature $z$ for message $w$. Be aware that in this example is not used hash function for the message because for the example purpose it is not needed.
+From this place on, it will only focus on computation of signature $z$ for hash $w$. Be aware that in this example is not used hash function or the message $m$ because for the example purpose they are not needed.
 \begin{mmaCell}[moredefined={w, y1, y2, y3}]{Input}
   w  = \{\{3\},\{6\},\{4\}\};
   y1 = 1;
   y2 = 0;
   y3 = 6;
 \end{mmaCell}
-It sets the message to value $w = (3,6,4)$ and also it set values for $y = (y1,y2,y3)$. These values for $y$ are randomly chosen.
+It sets the hash to value $w = (3,6,4)$ and also it sets values for $y = (y1,y2,y3)$. These values for $y$ are randomly chosen.
 \begin{mmaCell}[addtoindex=3,moredefined={f1, F1, y1, y2, y3, mod, f2, F2, f3, F3}]{Input}
   f1 = PolynomialMod[F1[y1,y2,y3,y4,y5,y6],mod]
   f2 = PolynomialMod[F2[y1,y2,y3,y4,y5,y6],mod]
@@ -401,9 +409,9 @@ Here are the results after minimalizing and use of modulo:
   f2 = 4+y4+y5+4y6
   f3 = 5+6y4+4y5+y6
 \end{mmaCell}
-Next two steps solve linear system $f^{(1)} = w_1 = 3, f^{(2)} = w_2 = 6, f^{(3)} = w_3 = 4$, it can also use for the solution the Gaussian elimination:
+Next two steps solve linear system $f^{(1)} = w_1 = 3, f^{(2)} = w_2 = 6, f^{(3)} = w_3 = 4$, it can also use, for the solution, the Gaussian elimination:
 \begin{mmaCell}[moredefined={res, f1, w, f2, f3, mod}]{Input}
-  res = Solve[\{f1==w[[1]], f2==w[[2]], f3==w[[3]]\},Modulus \(\pmb{\to}\) mod];
+  res=Solve[\{f1==w[[1]],f2==w[[2]],f3==w[[3]]\},Modulus\(\pmb{\to}\)mod];
 \end{mmaCell}
 \begin{mmaCell}[moredefined={y, y1, y2, y3, res}]{Input}
   y = \{y1,y2,y3,y4,y5,y6\} /. res 
@@ -448,7 +456,7 @@ The value of the signature $z = (4,1,5,6,3,5)$.
 
 \bigskip
 \noindent
-Last part is check if two hashes (in this example two messages $w$) are the same.
+The last part is check if two hashes $w$ and $w2$ are the same.
 \begin{mmaCell}[moredefined={w2, w, P1, z, P2, P3, mod}]{Input}
   w2=w;
   w2=\{P1 @@ z[[All,1]],P2 @@ z[[All,1]],P3 @@ z[[All,1]]\};
@@ -458,8 +466,10 @@ Last part is check if two hashes (in this example two messages $w$) are the same
 \begin{mmaCell}[addtoindex=2]{Output}
   True
 \end{mmaCell}
+The file with implementation can by find under the name \textit{UOV.nb}.
 
-The file with implementation can by find under name "UOV.nb".
+\subsubsection{Generation of instance}
+I also created a version with generation of random instance of UOV for the selected parameters. It can be found in the file \textit{UOV-gen.nb}. The parameters are the number of vinegar and oil variables and the value of modulus.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Rainbow}
@@ -514,7 +524,7 @@ Next is setting up of the affine map $\mathcal{T}$ with matrix $A$ and vector $b
 \end{figure}
 
 \noindent
-This block computes public key $\mathcal{P}$ by putting values of $\mathcal{T}$ inside of $\mathcal{F}$ and after it makes from matrix S functions which are used for final step of computation of $\mathcal{P}$, it also simplify the expression of $pp3,pp4,pp5,pp6$ and finally applies modulo on whole polynomial:
+This block computes public key $\mathcal{P} = \mathcal{S} \circ \mathcal{F} \circ \mathcal{T}$ by putting values of $\mathcal{T}$ inside of $\mathcal{F}$ and after it makes from matrix S functions which are used for final step of computation of $\mathcal{P}$, it also simplify the expression of $pp3,pp4,pp5,pp6$ and finally applies modulo on whole polynomial:
 \begin{mmaCell}[moredefined={p3, p4, p5, p6, S3, S4, S5, S6, mod, P3, P4, P5, P6, pp3,pp4,pp5,pp6, F3, F4, F5,F6, T, S},morepattern={x1_, x2_, x3_, x4_, x5_, x6_}]{Input}
 p3 = F3 @@ T[[All]];
 p4 = F4 @@ T[[All]];
@@ -535,7 +545,7 @@ P6[x1_,x2_,x3_,x4_,x5_,x6_] = PolynomialMod[Simplify[pp6],mod];
 \end{mmaCell}
 
 \noindent
-Computation $x$ from message $w$: $x = \mathcal{T}^{-1}(w)$ :
+Computation $x$ from hash $w$: $x = \mathcal{T}^{-1}(w)$ :
 \begin{mmaCell}[moredefined={w, A2, b2, S, x, mod}]{Input}
 w = \{\{2\},\{2\},\{3\},\{4\}\};
 \mmaSub{A2}{-1} = Inverse[A2, Modulus\(\pmb{\to}\)mod]
@@ -550,7 +560,7 @@ The result is $x = (6,0,1,6)$.
 
 \bigskip
 \noindent
-Next is computation of \textit{pre-image} for $x$ and also the place where is the biggest difference from OV scheme, let's start with the first step where is set up of random values for $y1, y2$ and makes their substitution in the polynomials:
+Next is computation of \textit{pre-image} for $x$ and also the place where is the biggest difference from OV scheme (the rainbow layers), let's start with the first step where is set up of random values for $y1, y2$ and their substitution in the polynomials:
 \begin{mmaCell}[moredefined={y1, y2, f3, f4, f5, f6, mod, F3, F4, F5, F6}]{Input}
 y1 = 0;
 y2 = 1;
@@ -565,11 +575,11 @@ f6 = PolynomialMod[F6[y1,y2,x3,x4,x5,x6],mod];
   f5 = 3x3+4x4+3x3x4+2x5+x3x5+3x4x5+2x6+2x3x6
   f6 = 1+3x3^2+4x4+5x3x4+x4^2+2x5+4x3x5+6x4x5+5x6+2x3x6+3x4x6
 \end{mmaCell}
-For the second step it is visible from the result that $f^{(3)}$ and $f^{(4)}$ are two equations with two unknown values.
+For the second step it is visible from the result that $f^{(3)}$ and $f^{(4)}$ are two equations (first rainbow layer) with two unknown values.
 \begin{mmaCell}[moredefined={res1, f3, f4, x, mod}]{Input}
   res1 = Solve[\{f3==x[[1]],f4==x[[2]]\},Modulus \(\pmb{\to}\) mod];
 \end{mmaCell}
-It solves and with these two values $(x3, x4)$, it is possible to continue the substitution and to compute the final linear system (repeat the first and second steps):
+It solves and with these two values $(x3, x4)$, it is possible to continue the substitution and to compute the final linear system (second rainbow layer):
 \begin{mmaCell}[moredefined={res1, y1, y2, mod, F5, F6, f5, f6}]{Input}
   f5 = PolynomialMod[F5[y1,y2,x3,x4,x5,x6]/.res1,mod];
   f6 = PolynomialMod[F6[y1,y2,x3,x4,x5,x6]/.res1,mod];
@@ -600,7 +610,7 @@ The value of the signature $z = (3,0,0,3,1,6)$.
 
 \bigskip
 \noindent
-Last part of the Mathematica sheet is check if two hashes of the message $w$ (in this example two messages) are the same.
+Last part of the Mathematica sheet is check if two hashes $w$ and $w2$ are the same.
 \begin{mmaCell}[moredefined={w2, w, P5, P6, z, P4, P3, mod}]{Input}
   w2=w;
   w2=\{P3 @@ z[[All,1]],P4 @@ z[[All,1]],
@@ -611,8 +621,11 @@ Last part of the Mathematica sheet is check if two hashes of the message $w$ (in
 \begin{mmaCell}[addtoindex=2]{Output}
   True
 \end{mmaCell}
-By the definition of RB, in this example is used $u=2, v_1=2, v_2=4, v_3=6=n$. Because $u=2$, it is example of RB with two layers.
-The file with implementation can by find under name "RB.nb".
+By the definition of RB, section \ref{rb-definition}, in this example is used $u=2, v_1=2, v_2=4, v_3=6=n$. Because $u=2$, it is example of RB with two layers.
+The file with implementation can by find under name \textit{RB.nb}.
+
+\subsubsection{Generation of instance}
+I also created a version with generation of random instance of RB for the selected parameters. It can be found in the file \textit{RB-gen.nb}. The parameters are the value of modulus, the number of vinegar variables and the list of numbers of oil variables where each of them represent one of the layers.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -622,7 +635,7 @@ The section describes reference implementation of the algorithms which are selec
 
 \bigskip
 \noindent
-The reference implementation contains several optimized solutions. But for purpose of this Master's thesis is only relevant solution under the folder of \textit{Reference\_Implementation}.
+The reference implementation contains several optimized solutions. But for purpose of this Master's thesis is only relevant solution under the folder of \textit{Reference\_Implementation} because the others are not compatible with the ESP32 microcontroller.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Unbalanced Oil \& Vintage}
@@ -650,7 +663,7 @@ where $T$ is a $v$-by-$m$ matrix. This solution makes the key generation and the
 Source codes of version $2.1$ were obtained from GitHub repository.
 
 \subsubsection{Adjustments}
-For testing purpose, I did few adjustments to source files of the LOUV. One is to simplify \textit{Makefile} for easy generation of testing application and setting up of \textit{path} to external library. Removed of some unnecessary files (\textit{PQCgenKAT\_sign.c}) and created \textit{README.md} with building information. The last change is grouping of the all different settings of LOUV into one folder with building flags:
+For the testing purpose, I did few adjustments to source files of the LOUV. One is to simplify \textit{Makefile} for easy generation of testing application and setting up of \textit{path} to external library. Removed of some unnecessary files (\textit{PQCgenKAT\_sign.c}) and created \textit{README.md} with building information. The last change is grouping of the all different settings of LOUV into one folder with building flags:
 
 \begin{itemize}
 \item	FIELD\_SIZE - Size/degree of finite field.
@@ -668,7 +681,7 @@ git clone https://github.com/XKCP/XKCP.git XKCP
 cd XKCP
 make generic64/libkeccak.a
 \end{lstlisting}
-Additionaly tool \textit{xsltproc}:
+Or use the one in \textit{src/esp} and requiredly change the \textit{Makefile}. Additionaly the tool \textit{xsltproc}:
 \begin{lstlisting}[frame=single]
 sudo apt-get install xsltproc
 \end{lstlisting}
@@ -702,11 +715,11 @@ These flags can not be used together, only one at the time can be valid. It spec
 \item	\_RAINBOW\_CYCLIC 
 \item	\_RAINBOW\_CYCLIC\_COMPRESSED 
 \end{itemize}
-Same as the flags above only one can be used at the time. It specify which variant of Rainbow to be used.
+Same as the flags above only one can be used at the time. It can specify which variant of Rainbow to be used.
 
 \bigskip
 \noindent
-Last change is adding a \textit{test.c} file from LOUV implementation for consistent testing purpose.
+Last change is adding a \textit{test.c} file from the LOUV implementation for consistent testing purpose.
 
 \bigskip
 \noindent
@@ -714,7 +727,7 @@ Implementation can be found in folder \textit{src/pc/rb}.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Test file}
-For testing purpose there is file \textit{test.c} which also serves as main entry point of the final application. Both of the implementation has the same structure and it can by basically described as followed:
+For the testing purpose there is file \textit{test.c} which also serves as main entry point of the final application. Both of the implementation has the same structure and it can by basically described as followed:
 
 \bigskip
 \noindent
@@ -833,7 +846,7 @@ echo ". $PATH_TO_ESP/esp/esp-idf/export.sh \
 This way it will be added to every new shell session.
 
 \subsubsection{Build \& Load}
-To load application to ESP32-LyraT, one must first build the project. For example, copy the project "\$PATH\_TO\_ESP/esp/esp-idf/examples/get-started/hello\_world" to "\$PATH\_TO\_ESP/esp/hello\_world". In this folder it is possible to build it:
+To load application to ESP32-LyraT, one must first build the project. For example, navigate to the project "\$PATH\_TO\_ESP/esp/esp-idf/examples/get-started/hello\_world" and in this folder it is possible to build it:
 \begin{lstlisting}[frame=single]
 idf.py -n build
 \end{lstlisting}
@@ -868,7 +881,7 @@ idf.py -p /dev/ttyUSB0 build flash monitor
 
 %%%%%%%%%%%%%%%%%%%
 \subsubsection{Memory} \label{esp-memory}
-Microcontroller ESP32-LyraT has 8MB of external memory (SRAM/SPIRAM). But it is 32-bit processor that means, if external RAM is enabled, only 4MB can be allocated using standard \textit{malloc} calls. To use the region above the 4MB limit, it is possible to use the \textit{himem API}.
+Microcontroller ESP32-LyraT has 8MB of external memory (SRAM/SPIRAM). But the processor only support up to 4MB of the external RAM, if it is enabled, which can be allocated using standard \textit{malloc} calls. To use the region above the 4MB limit, it is possible to use the \textit{himem API}.
 
 \bigskip
 \noindent
@@ -906,7 +919,7 @@ The project can be build by using \textit{make} or \textit{cmake}. For simplicit
 
 \bigskip
 \noindent
-Main entry point of application running on ESP32 is function \textit{app\_main}. In provided implementations it can be found in file \textit{main/test.c}.
+Main entry point of application running on ESP32 is function \textit{app\_main}. In provided implementations it can be found in the file \textit{main/test.c}.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Lifted Unbalanced Oil \& Vintage} \label{esp-luov-make}
@@ -923,7 +936,7 @@ Function is for registering project component to internal build structure of \te
 
 \noindent
 It is necessary to set up path to \textit{idf} compilator header files otherwise the default, in my case GCC, headers will be used which are incompatible with ESP32.
-Last part of this file is block which take care of parsing build flags of project in variable \textit{B\_FLAGS}. 
+Last part of this file is block which takes care of parsing build flags of project in variable \textit{B\_FLAGS}. 
 
 \bigskip
 \noindent
@@ -964,11 +977,11 @@ To enable this functionality, the following flag needs to be set:
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Rainbow}
-To make a port of Rainbow reference implementation to ESP32, I proceeded in the same way as for the LUOV ESP32 implementation. That means I created \textit{CMakeList.txt} in folder \textit{main} with the same formalities as \textit{CMakeList.txt} for LUOV, see section \ref{esp-luov-make}. The most eye catching difference is set up of different kinds of \textit{malloc}, see section \ref{esp-rb-memory} for more information.
+To make a port of Rainbow reference implementation to ESP32, I proceeded in the same way as for the LUOV ESP32 implementation. That means I created \textit{CMakeList.txt} in folder \textit{main} with the same formalities as \textit{CMakeList.txt} for LUOV, see section \ref{esp-luov-make}. The most eye-catching difference is set up of different kinds of \textit{malloc}, see section \ref{esp-rb-memory} for more information.
 
 \bigskip
 \noindent
-The implementation requires component \textit{wolfssl} for PRNG. In this case is build the whole \textit{esp-wolfssl} project which is simply added through \textit{PRIV\_REQUIRES} in \textit{main/CMakeList.txt}. Here is important to mention that Rainbow reference implementation contains two PRNG (see \textit{utils\_prng.c}). One from NIST standard, it is the same RNG as in LUOV reference implementation, and second PRNG which use hash SHA function. Because the RNG form NIST standard was not possible for me to run on ESP32-LyraT, I change it to second PRNG and  I deleted from source codes the implementation of the first.
+The implementation requires component \textit{wolfssl} for PRNG. In this case it build the whole \textit{esp-wolfssl} project which is simply added through setting of \textit{PRIV\_REQUIRES} in \textit{main/CMakeList.txt}. Here is important to mention that Rainbow reference implementation contains two PRNG (see \textit{utils\_prng.c}). One from NIST standard, it is the same RNG as in LUOV reference implementation, and second PRNG which use hash SHA function. Because the RNG form NIST standard was not possible for me to run on ESP32-LyraT, I change it to second PRNG and  I deleted from source codes the implementation of the first.
 
 \bigskip
 \noindent
@@ -987,7 +1000,7 @@ I did two memory optimizations of Rainbow implementation for ESP32:
 \begin{itemize}
 \item	First I found potential big allocation of memory and switch them from stack to heap. Candidates to change were temporary helpful variables of keys (\textit{sk\_t}) in computation of keys from seeds.
 
-\item	Second I created \textit{my\_ESP\_malloc} and \textit{my\_ESP\_free} functions, see \ref{esp-rb-memory}. With these I found that temporary variables (for example \textit{sk\_t* tempQ}) were using lot of memory but in reality only needed a part of the key structure. See commit \textit{"ESP - RB memory reduction in cyclic generation"}, hash \textit{"1609d70c"} in this Master's thesis Git repository for the details of optimization.
+\item	Second, I created \textit{my\_ESP\_malloc} and \textit{my\_ESP\_free} functions, see \ref{esp-rb-memory}. With these I found that temporary variables (for example \textit{sk\_t* tempQ}) were using lot of memory but in reality only needed a part of the key structure. See commit \textit{"ESP - RB memory reduction in cyclic generation"}, hash \textit{"1609d70c"} in this Master's thesis Git repository for the details of optimization.
 \end{itemize}
 
 With these two optimizations there was already enough memory and I was able to run \textit{\_RAINBOW256\_92\_48\_48} implementation in compressed form. I was also able to run the same implementation in cyclic form but there is same kind of bug and it was making segmentation fault. I am suspecting that it is the same bug 
@@ -999,12 +1012,12 @@ To be able to better measure the allocated memory in ESP32, there is the same me
 \item	MEM\_MEASUREMENT
 \end{itemize}
 
-Because I needed better technique for memory allocation on heap, I created my own allocation information table. It is simple small array, I expect small number of allocation at one point at a time, which holds information of pointer and its size.
+Because I needed better technique for memory allocation on heap, I created my own allocation information table. It is simple small array, I expect small number of allocations at one point at a time, which holds information of pointer and its size.
 It can be enabled by flag:
 \begin{itemize}
 \item	MY\_ESP\_MALLOC
 \end{itemize}
-When this flag is set, it will switch all \textit{aligned\_alloc} to \textit{my\_ESP\_malloc} and \textit{free} to \textit{my\_ESP\_free} and every time when there is allocation od deallocation it will print its information.
+When this flag is set, it will switch all \textit{aligned\_alloc} to \textit{my\_ESP\_malloc} and \textit{free} to \textit{my\_ESP\_free} and every time when there is allocation or deallocation it will print its information.
 This information table helped me to identify potential places in source code of RB for memory optimization. For implementation details see file \textit{malloc.c}.
 
 \bigskip
@@ -1124,7 +1137,7 @@ The reference implementations with my adjustments were tested on computer with p
 
 \bigskip
 \noindent
-Every measurement was done on message of size 10000B and 10 times. The final result in the graphs below is average value.
+Every measurement was done on message of size 10000B and 10 times. The final results in the graphs below are average values.
 
 \bigskip
 \noindent
@@ -1139,7 +1152,7 @@ For measurement I selected the reference signature variants. The first number in
 
 \bigskip
 \noindent
-Category II:
+Category I:
 \begin{itemize}
 \item Luov-47-42-182
 \item Luov-7-57-197
@@ -1147,7 +1160,7 @@ Category II:
 \end{itemize}
 
 \noindent
-Category IV:
+Category III:
 \begin{itemize}
 \item Luov-61-60-261
 \item Luov-7-83-283
@@ -1184,7 +1197,7 @@ For the quantum gates, there is also parameter \textit{MAXDEPTH} of $2^{40}$, $2
 
 \bigskip
 \noindent
-An algorithm meets the requirements of a specific security category if the best known attack uses more resources (gates) than are needed to solve the reference problem.
+An algorithm meets the requirements of a specific security category if the best know attack uses more resources (gates) than are needed to solve the reference problem.
 
 \bigskip
 \noindent
@@ -1192,7 +1205,7 @@ With regard to the LUOV parameters, finite field of size 7 is selected because o
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity} \label{time-complex-pc}
-The next two graphs display individual stages of the signature scheme and time it takes to complete each of the stages. Namely generation, signing and verification. For time measurement I used \textit{clock\_t} from standard header \textit{time.h}. 
+The next two graphs display individual stages of the signature scheme and time it takes to complete each of the stages. Namely generation, signing and verifying. For time measurement I used \textit{clock\_t} from standard header \textit{time.h}. 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/pc-luov.pdf}
@@ -1205,7 +1218,7 @@ How it can be seen on \ref{pc-luov} the stronger the security the more of time i
 
 \bigskip
 \noindent
-On a graph \ref{pc-rb}, it is possible to see that generating the public key (\textit{cyc} versions) and private key (\textit{com} versions) from the seed is really slow operation. It can be especially seen on signing of \textit{com} variants where the signing stage can be up to 85 times slower (maybe even more) than the classic variants. For the verifying stage is also the fastest then classic variant because there is no generation from the seed.
+On a graph \ref{pc-rb}, it is possible to see that generating the public key (\textit{cyc} versions) and the private key (\textit{com} versions) from the seed is really slow operation. It can be especially seen on signing of \textit{com} variants where the signing stage can be up to 85 times slower (maybe even more) than the classic variants. For the verifying stage is also the fastest then classic variant because there is no generation from the seed.
 
 \begin{figure}[H]
 \centering
@@ -1271,7 +1284,7 @@ Next is graph \ref{mem-pc-rb} of RB memory allocation. On it is shown again that
 \end{figure}
 
 \noindent
-Last graph of memory complexity section is graph \ref{mem-pc-all} of comparison between LUOV and Rainbow. There is shown that LUOV takes a lot less memory resources than RB.  This behavior I contribute to implementation specifics (code programming, optimization and memory handling) which are much more better then in Rainbow implementation.
+Last graph of memory complexity section is graph \ref{mem-pc-all} of comparison between LUOV and Rainbow. There is shown that LUOV takes a lot less memory resources than RB.  This behavior I contribute to implementation specifics (code programming, optimization and memory handling) which are much better then in Rainbow implementation.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Conclusion note}
@@ -1307,7 +1320,7 @@ Variants of signature schemes were selected same as in PC section. But there are
 
 \bigskip
 \noindent
-Category II:
+Category I:
 \begin{itemize}
 \item Luov-47-42-182
 \item Luov-7-57-197
@@ -1315,7 +1328,7 @@ Category II:
 \end{itemize}
 
 \noindent
-Category IV:
+Category III:
 \begin{itemize}
 \item Luov-61-60-261
 \item Luov-7-83-283
@@ -1331,11 +1344,11 @@ Category V:
 \end{itemize}
 
 \noindent
-In category V there is only \textit{com} variant of RB scheme because the other variants (classic and \textit{cyc}) I was not able to make to run because of limited RAM.
+In category V there is only \textit{com} variant of RB scheme because the other variants (classic and \textit{cyc}) I was not able to make to run because of the limited RAM.
 
 \bigskip
 \noindent
-I did few memory optimizations in RB scheme, it can be found in section \ref{rb-opti}. These optimizations reduce kind of a lot of memory but when I try to run \textit{Rb-256-92-48-48-cyc} variant I get a segmentation fault. This behavior I attributed to a bug in the implementation where the signature is failing. 
+I did few memory optimizations in RB scheme it can be found in section \ref{rb-opti}. These optimizations reduce kind of a lot of memory but when I try to run \textit{Rb-256-92-48-48-cyc} variant I get a segmentation fault. This behavior I attributed to a bug in the implementation where the signature is failing. 
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity}
@@ -1347,11 +1360,11 @@ On graph \ref{time-luov} is comparison of LUOV times which it takes for each of 
 
 \bigskip
 \noindent
-Also, category IV takes a lot of time but the LUOV variant \textit{Luov-61-60-261}, I think is pretty fast enough on ESP32-LyraT and can be used for common signature scheme. As a category IV it can provide very high security for IoT devices but it has one disadvantage and that is a large signature.
+Also, category III takes a lot of time but the LUOV variant \textit{Luov-61-60-261}, I think is pretty fast enough on ESP32-LyraT and can be used for common signature scheme. As a category III it can provide very high security for IoT devices but it has one disadvantage and that is a large signature.
 
 \bigskip
 \noindent
-The variants \textit{Luov-47-42-182} and \textit{Luov-7-57-197} of security category II can be fast on embedded devices and it puts them at the forefront of the other LUOV signature variants.
+The variants \textit{Luov-47-42-182} and \textit{Luov-7-57-197} of security category I can be fast on embedded devices and it puts them at the forefront of the other LUOV signature variants.
 
 \bigskip
 \begin{figure}[H]
@@ -1365,11 +1378,11 @@ Next graph \ref{time-rb} is comparison of times of Rainbow scheme. There it can 
 
 \bigskip
 \noindent
-It can also be seen that signing and verifying stages do not belong to a fast operations. Especially the \textit{com} versions which are really slow. There is very well visible that generating public and private keys from the seed is not good idea from time point of view. And if there was no generation then there will be very big speedup as can be seen on comparison of \textit{Rb-256-68-36-36} and \textit{Rb-256-68-36-36-com}.
+It can also be seen that signing and verifying stages do not belong to fast operations. Especially the \textit{com} versions which are really slow. There is very well visible that generating public and private keys from the seed is not good idea from time point of view. And if there was no generation then there will be very big speedup as can be seen on comparison of \textit{Rb-256-68-36-36} and \textit{Rb-256-68-36-36-com}.
 
 \bigskip
 \noindent
-Like in LOUV scheme before also in RB scheme is the best variant from security category II, the variant \textit{Rb-16-32-32-32}. Which has more than enough security for the common communication in IoT devices.
+Like in LOUV scheme before, also in RB scheme is the best variant from security category I, the variant \textit{Rb-16-32-32-32}. Which has more than enough security for the common communication on IoT devices.
 
 \begin{figure}[H]
 \centering
@@ -1469,15 +1482,15 @@ Graph \ref{mem-both} shows comparison of LUOV and RB schemes in memory requireme
 \end{figure}
 
 \noindent
-Compared to graph \ref{mem-rb} now is possible to see more meaningful results of memory allocation but be aware that there are heap allocations of bare implementation without system libraries.
+Compared to the graph \ref{mem-rb} now is possible to see more meaningful results of memory allocation but be aware that there are heap allocations of bare implementation without system libraries.
 
 \bigskip
 \noindent
-On the graph \ref{mem-my-alloc} is visible that \textit{cyc} variants of RB are using the seed for public key because memory needs are lower in signature stage but high in verification stage compared to classic variants. Also is beautifully visible the use of seed for private key in \textit{com} variants. In signature stage it needs more memory then \textit{cyc} variant because of generation of private key from the seed but in verification stage it saves the memory because the private key is only in the form of small seed.
+On the graph \ref{mem-my-alloc} is visible that \textit{cyc} variants of RB are using the seed for the public key because memory needs are lower in the signature stage but high in the verification stage compared to classic variants. Also is beautifully visible the use of the seed for the private key in \textit{com} variants. In the signature stage it needs more memory then \textit{cyc} variant because of generation of the private key from the seed but in the verification stage it saves the memory because the private key is only in the form of small seed.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Keys \& signature} \label{key_sign}
-In this section is comparison of size of keys for different variants of signature algorithms. Must be said that the size of keys of ESP32 implementations are the same as PC implementation. I noted them from the measurement of ESP32 implementations.
+In this section is comparison of size of keys for different variants of signature algorithms. Must be said that the size of keys of ESP32 implementations are the same as PC implementations. I noted them from the measurement of ESP32 implementations.
 
 \bigskip
 \noindent
@@ -1546,11 +1559,11 @@ The measured values show that the implementation of LOUV is almost better in eve
 
 \bigskip
 \noindent
-Rainbow has shorter signature length how can be seen on graph \ref{sign-all1} and \ref{sign-all2} but that is all. It needs much more memory for runnig (in some cases it allocates all available memory) and is slow if I compare the \textit{cyc} variants with LUOV.
+Rainbow has shorter signature length how can be seen on the graphs \ref{sign-all1} and \ref{sign-all2} but that is all. It needs much more memory for running (in some cases it allocates all available memory) and is slow if I compare the \textit{cyc} variants with LUOV.
 
 \bigskip
 \noindent
-But the variants without generations of key from the seed are fast, even much more faster than LUOV. On the other side, if the LUOV was not using the seed for the keys it will also be faster. It would be interesting to make the comparison of these two variants but the LUOV implementation do not contains this implementation.
+But the variants without generations of key from the seed are fast, even much faster than LUOV. On the other side, if the LUOV was not using the seed for the keys it will also be faster. It would be interesting to make the comparison of these two variants but the LUOV implementation do not contains this implementation.
 
 \bigskip
 \noindent
@@ -1563,7 +1576,7 @@ One of the important criteria in usability in an embedded environment is compari
 
 \bigskip
 \noindent
-Below is table of variants and its NIST security category for possible comparison. \cite{L-NIST-RECOMM} Variant \textit{RSA-7680} I was not able to measure because the verification of signature is failing (the reason for it could be the maximum support of 4096 bits for hardware big number accelerator) but it is good to have it for illustration of the difference in size of public key between categories I and III and it counterparts in ECDSA.
+Below is table of variants and its NIST security category for possible comparison. \cite{L-NIST-RECOMM} Variant \textit{RSA-7680} I was not able to measure because the verification of signature is failing (the reason for it could be the maximum support of 4096 bits for hardware big number accelerator) but it is good to have it for illustration of the difference in size of public key between categories I and III and its counterparts in ECDSA.
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -1588,11 +1601,11 @@ ECDSA-521 & V & 256 \\ \hline
 \end{figure}
 
 \noindent
-First two graphs \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in generation and verification stages. If I add the difference in security category, I vs II and III vs IV, then the prospect of LUOV implementation is even better.
+First two graphs \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in generation and verification stages.
 
 \bigskip
 \noindent
-RB variants have similar times of generation with RSA and in both cases it takes a lot of time. Also, the other stages belong to the slow side. On the other side, the variant without using the seed are really fast, faster event then the conventional algorithms. Also, the same difference in security category applies here.
+RB variants have similar times of generation with RSA and in both cases, it takes a lot of time. Also, the other stages belong to the slow side. On the other side, the variant without using the seed are really fast, faster event then the conventional algorithms. Also, the same difference in security category applies here.
 
 \begin{figure}[H]
 \centering
@@ -1640,11 +1653,11 @@ In the first chapter are described and defined terms used in the thesis, followe
 
 \bigskip
 \noindent
-The second chapter deals with the referenced implementation of algorithms, step by step examples in Wolfram Mathematica and description of ESP32 ans its implementation of algorithms.
+The second chapter deals with the referenced implementation of algorithms, step by step examples in Wolfram Mathematica and description of ESP32 and its implementation of algorithms.
 
 \bigskip
 \noindent
-In the third and last chapter there is a description of the testing environment and the means used. It also includes measuring and testing implementations on PC and ESP32. The algorithms were then compared with each other and with other conventional signature schema implementations.
+In the third and last chapter there is a description of the testing environment and the means used. It also includes measuring and testing implementations on PC and ESP32. The algorithms were then compared with each other and with other conventional signature scheme implementations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1724,7 +1737,7 @@ BARKER, E.: \textit{NIST Special Publication 800-57 Part 1 Revision 4.} NIST, U.
 	\item[UOV] Unbalanced Oil and Vinegar	
 \end{description}
 
-\chapter{Measured values}
+\chapter{Tables of measured values}
 \begin{table}[]
 \centering
 \begin{tabular}{|l|r|r|r|}
@@ -1820,6 +1833,22 @@ Rb-256-92-48-48-com & 4220771                         & 4219643                 
  RSA-4096  &  191918   &  90818 &  84246      \\ \hline
 \end{tabular}
 \caption{Memory measurement in bytes on ESP32}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+                    & \multicolumn{1}{l|}{Generation} & \multicolumn{1}{l|}{Signing} & \multicolumn{1}{l|}{Verification} \\ \hline
+Rb-16-32-32-32      & 410424                          & 248088                       & 0                                 \\ \hline
+Rb-16-32-32-32-cyc  & 280408                          & 157240                       & 452184                            \\ \hline
+Rb-16-32-32-32-com  & 280472                          & 263640                       & 359288                            \\ \hline
+Rb-256-68-36-36     & 1982572                         & 1233020                      & 0                                 \\ \hline
+Rb-256-68-36-36-cyc & 1411500                         & 729124                       & 2142660                           \\ \hline
+Rb-256-68-36-36-com & 1411564                         & 1279580                      & 1631276                           \\ \hline
+Rb-256-92-48-48-com & 3377764                         & 2949444                      & 3906308                           \\ \hline
+\end{tabular}
+\caption{Memory measurement of \textit{my\_ESP\_malloc} in bytes on ESP32}
 \end{table}
 
 \begin{table}[]
