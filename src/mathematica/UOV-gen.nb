@@ -10,16 +10,208 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     18630,        422]
-NotebookOptionsPosition[     17854,        404]
-NotebookOutlinePosition[     18196,        419]
-CellTagsIndexPosition[     18153,        416]
+NotebookDataLength[     29464,        634]
+NotebookOptionsPosition[     28590,        615]
+NotebookOutlinePosition[     28932,        630]
+CellTagsIndexPosition[     28889,        627]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+Cell[TextData[{
+ "\[OpenCurlyDoubleQuote]Unbalanced Oil & Vinegar\[CloseCurlyDoubleQuote] \
+signature scheme is part of Multivariate cryptography. In this sheet is \
+example with generated values/instance for specific parameters which follows \
+the workflow below, where \[OpenCurlyDoubleQuote]w\[CloseCurlyDoubleQuote] is \
+hash of some message and \[OpenCurlyDoubleQuote]z\[CloseCurlyDoubleQuote] is \
+its signature:\n",
+ Cell[BoxData[
+  GraphicsBox[
+   TagBox[RasterBox[CompressedData["
+1:eJzt3QlwE/UeB3CeVB6UQ5BxyiGDiKBTBTriINQDECtlOHRKERVFKbTlEGHa
+x30IFYERhIInNwgMVsAid6lyFBCxgIIFhXKKB0rlphwev8f3z9u8JN0km2bb
+Tbffz8xqskmWbZL95n/tf+vFDYhJuKVMmTLJ5W/8J6bHkNZJST2Gda56406X
+15L7JL4W36vda/+JT4xPah5X9sbKyTeWf/+rTJmQG/8XIiIiIiIiIiIiIiIi
+IiIiIiIiIiIiIiIiIps7deqUvP/++9KtWzd56qmnpE2bNmqJiYmRUaNGyTff
+fGP1LhJRMbp+/boMHTpUXn/9dVm/fr08/PDDEhsbK3v37pXNmzfLlClT5P77
+75dbbrlFJk2aZPXuElExGTx4sLz55puO+3Xr1pVp06a5POfq1avSokULCQ0N
+lX/++ae4d5GILLBr1y7H8X7x4kXBKfqbNm0q8DyUGerVq1fMe0dEwSA7O1tl
+Q15eXoHHOnfuLB9++KEFe0VEVluwYIHUrl27wPq5c+fKuHHjLNgjIgoGr776
+qrz00kvy999/y759+1RWoD0iLS3N6l0jIosgD2rVqiXLli2T+Ph4GTRokCxf
+vlz++usvq3eNKGicP39eoqOjHX38vpann35aHVt43RtvvCEvvvii/Pjjj7Jo
+0SIZMWKEJCUlycyZM63+s7zaunWrVK1aVa5du2b1rthOnz59DH+X2rZt6/TK
+XEmNLKPagNQSmXpjDVntwoULqjz90UcfyZ9//qluL1myRN3GOKGsrCx5+eWX
+pUuXLvLEE0+oNv733ntPzp49q8YPPfjgg/LVV1+pbR05ckRuvfVWNZYgWPXv
+31/i4uKs3g1bQt6mp6dLz5491fdnzZo10rdvX9U3fO7cOdm9e7eMGTNGmjdv
+Lv369fvfq27mQmRqrof7ZKXPPvvMMd4H4wN//vnnAs9BeQCZjmzYuHGjWoex
+QmPHjnU854svvpA77rgjaMcGoN5Qs2ZNycjIsHpXbAtlyvbt26vb06dPl8WL
+Fxd4zp49e6RixYo37+SmSqRbOWFtArPBDCjj43cb/W7IYmS2thjti1u1apUj
+G1BvOH36tOMxlMFxrGOpX7++ygb47bffVFacOHHC8VyMOcTrg9WhQ4dk9OjR
+6j0jfQcPHlR1xOTkZJfvEuqLRjIf3w8tG6ZOnSpLly51PHbgwAFHvzG2Cbmp
+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
+NpBZmA3BB9cO6dChQ6FeGxMTY/LeUGnFbAguOEciPDxcdu7cWajXs9xAZmE2
+BBe0NfjbN+GM2UBmYTbYC7OBzMJssBdmA5mF2WAvzAYyC7PBXpgNZBZmg70w
+G8gszIaSLSMjw2V+B+dsQJ/H2rVrrdgtsgFmQ8m2dOlS6dy5syxfvlzd17Lh
+888/V+dkzJo1y8rdoxKM2VDyYTzE6NGjZeTIkWqe6WnTpsnAgQPlypUrVu8a
+lWDMBvuYOnWq+jxHjBhh9a6QDTAb7ANzRb399ttq/kmiQDEbiEgPs4GI9DAb
+iEgPs4GI9DAbiEgPs4GI9DAbiEgPs4GI9DAbiEgPs4GI9DAbiAKDseo4HzY2
+NlZatmypu7Ru3Vqef/55OX/+vNW7axizgSgw2dnZsnDhQjlw4IC6xnHTpk2l
+b9++6jaWnJwcmTdvniQnJ7vMtRHsmA1E5sGxX6VKFdmyZYvVuxIwZgOReTZt
+2iTVqlUrUeUDT5gNROYZMGCAdOvWzerdMAWzgcgcaJO86667pHHjxmqePm2Z
+P3++1btWKMwGInOgjaFGjRqyceNGVbfAsnLlSrl8+bLVu1YozIbSpU+fPtKm
+TRtDS9u2bVXbOxnTqVMnmThxotW7YRpmQ+mC63Snp6dLz549VXvZmjVrVH/b
+1atX5dy5c7J7924ZM2aMNG/eXPr16yerVq1SZWXMT9u7d2/ZsGGDbN++XYYM
+GSIpKSlqzlrOQSdy8OBBqVq1qnoP7YLZUPpg/E379u3V7enTp8vixYsLPGfP
+nj1SsWJFlQ24jetcYD77O++8U/XVa+rUqSObN28url0PKmlpaXLo0CF1G7k5
+fPhwi/fIXMyGkge/UYsWLVJjafD7ry1JSUnqN96XixcvOrIBc1NjTJ8GdYi8
+vDx1G9tENmRlZal57lGOwPg+Dea4DwkJkf3795v8FwY/vEcoJ9StW1fN/9+x
+Y0dVJrMTZkPJcfr0aYmLi5NmzZrJ2LFj1fVqtDYvLLt27TK0HW/ZkJiYKOvW
+rVO3ccyfOnXK8Vh4eLgsWLDAcV/ry8f1s0ojjHmcNGmSrF692lAmlzTMhqJ1
+8uRJmTJliqqnu0Pd9PDhw4a2g2MU16XB2NxAj0VP2YA2hwYNGjiywf3fx3fl
++PHjjnXIkfj4eHW7NJYd7I7ZUHR++uknGTVqlFy6dElq1qwpe/fudXn8ueee
+kyeffNLndpAF0dHRjuvaBco9G5A3aFOIiYmRRo0a6WYD6tZ33323y7patWqp
+tsytW7fKsmXLTNk3Ch7MhqKDtin8FqN/G/XyuXPnOh7D8X777bfL0KFDfW5n
+xYoV6rg1i3s21K9fX8LCwiQqKkpdN08vGwYPHiz9+/d3WdeuXTsZN26cyj/2
+VdgPs6Fo5Ofnq2tMAeqjeJ+PHj3qeBxlCKxbv369z22h7O7cNxAovToF6sso
+P4SGhupmA17jfvzjNVq7JdkPs6HoaO1TGF8fERHh8hj6DlGWwDHnC9rA0Q7Q
+pEkTrwt+9wPtp0DdRS8bikpmZqbL34DvI5fgWajooD5RqVIlGT9+vMt61BFa
+tGhhaBvdu3eXJUuWqGPa24L6ixHesgHtBphvoLggy5z/BqLSYtu2bSp/0dan
+QVtD9erVZdiwYYa2MXPmTDW2xizesoGIigfaH5ENzufb7Nu3T63LyMgwtI0L
+Fy6oOolZ/YTMBiLroT6NHDhz5oy6jzI06hNoa0DfplGYdwxjj4yOh/AG29Dm
+GMD4ytmzZwe8TSLyD+oPXbt2VeON0ReJPkv0GUZGRvq9LZy3gPa6QYMGqfOB
+C9NHkJCQoOoztWvXVnOcYnvlypVTuYP2USIqXui/RBsfygoVKlRQZfnCQHvj
+jBkz1LkOmLMUOaMtONbtOHaXyG5Qn8C5zrm5uY51qampaq7Rs2fPWrhnRGQl
+1OlRdj927Ji6jzHUGH+I852JqPT65JNPVDnhxIkTqi+gVatWhsZBEpH9ob9y
+zpw5ag4EzHdARERERERERERERERERERERERERERERERERERERERUUvwXwBNY
+4A==
+     "], {{0, 140}, {263, 0}}, {0, 255},
+     ColorFunction->RGBColor],
+    BoxForm`ImageTag["Byte", ColorSpace -> "RGB", Interleaving -> True],
+    Selectable->False],
+   DefaultBaseStyle->"ImageGraphics",
+   ImageSizeRaw->{263, 140},
+   PlotRange->{{0, 263}, {0, 140}}]], "Input",ExpressionUUID->
+  "f83c7c9a-fadb-4b9d-b7c8-e7977e4e6567"],
+ "\nExample is composed of five parts:\n1) Setting up of values and \
+parameters for example:  Modulus of finite field \[OpenCurlyDoubleQuote]mod\
+\[CloseCurlyDoubleQuote] , number of oil variables \[OpenCurlyDoubleQuote]o\
+\[CloseCurlyDoubleQuote], number of vinegar variables \
+\[OpenCurlyDoubleQuote]v \[CloseCurlyDoubleQuote].\n2) Generation of central \
+map \[OpenCurlyDoubleQuote]F\[CloseCurlyDoubleQuote] and affine map \
+\[OpenCurlyDoubleQuote]T\[CloseCurlyDoubleQuote].\n3) Computation of public \
+key \[OpenCurlyDoubleQuote]P\[CloseCurlyDoubleQuote] by composition of \
+\[OpenCurlyDoubleQuote]F\[CloseCurlyDoubleQuote] and \[OpenCurlyDoubleQuote]T\
+\[CloseCurlyDoubleQuote]: \[OpenCurlyDoubleQuote]P = F o T\
+\[CloseCurlyDoubleQuote]. When apply on signature we will get the hash: \
+\[OpenCurlyDoubleQuote]w = P(z)\[CloseCurlyDoubleQuote]. Private key is a \
+pair of \[OpenCurlyDoubleQuote]F\[CloseCurlyDoubleQuote] and \
+\[OpenCurlyDoubleQuote]T\[CloseCurlyDoubleQuote].\n4) Computation of \
+signature \[OpenCurlyDoubleQuote]z\[CloseCurlyDoubleQuote] from hash \
+\[OpenCurlyDoubleQuote]w\[CloseCurlyDoubleQuote] in two steps:\n\t1] Get \
+pre-image \[OpenCurlyDoubleQuote]y\[CloseCurlyDoubleQuote] of \
+\[OpenCurlyDoubleQuote]w\[CloseCurlyDoubleQuote]: \[OpenCurlyDoubleQuote]y = ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["F", 
+    RowBox[{"-", "1"}]], TraditionalForm]],ExpressionUUID->
+  "5313ec8c-a943-4809-b2c4-17685fa252ea"],
+ "(w)\[CloseCurlyDoubleQuote]\n\t2] Get signature \[OpenCurlyDoubleQuote]z\
+\[CloseCurlyDoubleQuote]: \[OpenCurlyDoubleQuote]z = ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["T", 
+    RowBox[{"-", "1"}]], TraditionalForm]],ExpressionUUID->
+  "8d66dafc-0860-40fa-9110-79f5f651ae5e"],
+ "(y)\[CloseCurlyDoubleQuote]\n5) Check if hash \[OpenCurlyDoubleQuote]w\
+\[CloseCurlyDoubleQuote] is the same as \[OpenCurlyDoubleQuote]w2\
+\[CloseCurlyDoubleQuote]:\n\t\[OpenCurlyDoubleQuote]w == w2\
+\[CloseCurlyDoubleQuote]\n\t\[OpenCurlyDoubleQuote]w == P(z)\
+\[CloseCurlyDoubleQuote] \n\t\t\t=> It should be true because: \
+\[OpenCurlyDoubleQuote]z = ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["T", 
+    RowBox[{"-", "1"}]], TraditionalForm]],ExpressionUUID->
+  "fba1042c-2f96-47a4-a1a5-d1e5044a2489"],
+ "(",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["F", 
+    RowBox[{"-", "1"}]], TraditionalForm]],ExpressionUUID->
+  "dea89d36-9240-446e-b0cb-686330af8e13"],
+ "(w))\[CloseCurlyDoubleQuote] and \[OpenCurlyDoubleQuote]P(z) = F(T(z))\
+\[CloseCurlyDoubleQuote], so: \n\t\t\t\[OpenCurlyDoubleQuote]P(z) = F(T(",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["T", 
+    RowBox[{"-", "1"}]], TraditionalForm]],ExpressionUUID->
+  "b0eab149-a8ad-4437-a982-41c7386b919b"],
+ "(",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["F", 
+    RowBox[{"-", "1"}]], TraditionalForm]],ExpressionUUID->
+  "577b7ce2-4ac2-4f32-8032-5ead139816ce"],
+ "(w)))) = F(",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["F", 
+    RowBox[{"-", "1"}]], TraditionalForm]],ExpressionUUID->
+  "c4a570b4-c258-4959-9d30-9546640d6c91"],
+ "(w)) = w\[CloseCurlyDoubleQuote].\n"
+}], "Text",
+ CellChangeTimes->{
+  3.7975004702418017`*^9, {3.79750062327523*^9, 3.7975006499459305`*^9}, {
+   3.797500693027071*^9, 3.7975007777163115`*^9}, {3.7975012357948527`*^9, 
+   3.797501289768637*^9}, {3.7975013442724056`*^9, 3.797501398533209*^9}, {
+   3.7975026785788836`*^9, 3.7975026837913184`*^9}, {3.7975031979346347`*^9, 
+   3.7975031981258593`*^9}},ExpressionUUID->"990e1809-d659-4d6f-810e-\
+9992e58f7f4c"],
+
 Cell[BoxData[{
- RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"**", " ", "Parameters"}], " ", "***)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"mod", "=", "7"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
@@ -31,9 +223,10 @@ Cell[BoxData[{
    RowBox[{"n", "=", 
     RowBox[{"o", "+", "v"}]}], ";"}], "\[IndentingNewLine]", 
   "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
-   RowBox[{"Generate", " ", "central", " ", "map", " ", "\"\<F\>\""}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "*", " ", "Generate", " ", "central", " ", "map", " ", "\"\<F\>\""}], " ", 
+   "**)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"variablesOfX", " ", "=", "  ", 
    RowBox[{"Append", "[", 
@@ -79,15 +272,16 @@ Cell[BoxData[{
         RowBox[{"tmpF", "[", 
          RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], ";"}]}], 
    "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
+  RowBox[{"(*", 
    RowBox[{
-    RowBox[{"Generate", " ", "regular", " ", "matrix", " ", "\"\<A\>\""}], 
+    RowBox[{
+    "*", " ", "Generate", " ", "regular", " ", "matrix", " ", "\"\<A\>\""}], 
     ",", " ", 
     RowBox[{
      RowBox[{"it", "'"}], "s", " ", "inversion"}], ",", " ", 
     RowBox[{
     "vector", " ", "\"\<b\>\"", " ", "and", " ", "affine", " ", "map", " ", 
-     "\"\<T\>\""}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+     "\"\<T\>\""}]}], " ", "**)"}]}], "\[IndentingNewLine]", 
  RowBox[{"For", "[", 
   RowBox[{",", "True", ",", ",", "\[IndentingNewLine]", "\t", 
    RowBox[{
@@ -208,15 +402,17 @@ Cell[BoxData[{
    3.797252882529229*^9}, {3.7972559870777674`*^9, 3.7972559926455836`*^9}, {
    3.797419078122669*^9, 3.797419093115719*^9}, {3.797431269240835*^9, 
    3.797431271116765*^9}, {3.797431872080751*^9, 3.7974318863081408`*^9}, {
-   3.7974345961519623`*^9, 3.7974345964471655`*^9}, 
-   3.7974353694063287`*^9},ExpressionUUID->"2dde965d-f83e-42f5-9a4e-\
+   3.7974345961519623`*^9, 3.7974345964471655`*^9}, 3.7974353694063287`*^9, {
+   3.797500328536933*^9, 
+   3.7975003619797163`*^9}},ExpressionUUID->"2dde965d-f83e-42f5-9a4e-\
 ddc6b62758d2"],
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"(*", " ", 
-   RowBox[{"Compute", " ", "public", " ", "key", " ", "\"\<P = F o T\>\""}], 
-   " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "*", " ", "Compute", " ", "public", " ", "key", " ", "\"\<P = F o T\>\""}],
+    " ", "**)"}], "\[IndentingNewLine]", 
   RowBox[{
    RowBox[{"P", "=", 
     RowBox[{"PolynomialMod", "[", 
@@ -239,14 +435,16 @@ Cell[BoxData[
    3.797235332725588*^9}, {3.797235362780243*^9, 3.797235397194213*^9}, {
    3.7972376828104935`*^9, 3.7972377186486416`*^9}, {3.7972378849010415`*^9, 
    3.7972378870553074`*^9}, 3.797238269472617*^9, {3.7972528478657565`*^9, 
-   3.7972528726825233`*^9}, {3.797262851229997*^9, 3.7972628537405167`*^9}},
- CellLabel->"In[54]:=",ExpressionUUID->"0a4b47b3-e9bb-41d5-9dab-03f6b52428ca"],
+   3.7972528726825233`*^9}, {3.797262851229997*^9, 3.7972628537405167`*^9}, {
+   3.797500363725149*^9, 
+   3.797500364577061*^9}},ExpressionUUID->"0a4b47b3-e9bb-41d5-9dab-\
+03f6b52428ca"],
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"(*", " ", 
-   RowBox[{"Generate", " ", "hash", " ", "\"\<w\>\""}], " ", "*)"}], 
-  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"*", " ", "Generate", " ", "hash", " ", "\"\<w\>\""}], " ", 
+   "**)"}], "\[IndentingNewLine]", 
   RowBox[{"w", "=", 
    RowBox[{"RandomInteger", "[", 
     RowBox[{
@@ -261,85 +459,94 @@ Cell[BoxData[
    3.797179295497862*^9, 3.79717929672558*^9}, {3.797231631969209*^9, 
    3.797231638832861*^9}, {3.797233620787692*^9, 3.7972336275097218`*^9}, {
    3.7972383095783925`*^9, 3.7972383097179933`*^9}, {3.7972559953098526`*^9, 
-   3.797255995475382*^9}, {3.7974320985639534`*^9, 
-   3.797432098980839*^9}},ExpressionUUID->"4d2ca537-d30a-4806-a7c3-\
+   3.797255995475382*^9}, {3.7974320985639534`*^9, 3.797432098980839*^9}, {
+   3.7975003714781895`*^9, 
+   3.797500372310444*^9}},ExpressionUUID->"4d2ca537-d30a-4806-a7c3-\
 edf01f8c2bde"],
 
-Cell[BoxData[{
+Cell[BoxData[
  RowBox[{
-  RowBox[{"res", "=", 
-   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"For", "[", 
-   RowBox[{",", 
-    RowBox[{
-     RowBox[{"Length", "[", "res", "]"}], "\[Equal]", " ", "0"}], ",", ",", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"*", " ", "Generate", " ", "pre"}], "-", 
+    RowBox[{"image", " ", "\"\<y\>\"", " ", "of", " ", "\"\<w\>\""}]}], " ", 
+   "**)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"res", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"For", "[", 
+    RowBox[{",", 
+     RowBox[{
+      RowBox[{"Length", "[", "res", "]"}], "\[Equal]", " ", "0"}], ",", ",", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "Generate", " ", "first", " ", "part", " ", "of", " ", "\"\<y\>\""}], 
+      " ", "*)"}], "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{"y", "=", 
+       RowBox[{"RandomInteger", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", 
+           RowBox[{"mod", "-", "1"}]}], "}"}], ",", "v"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "Solve", " ", "the", " ", "rest", " ", "of", " ", "\"\<y\>\""}], " ", 
+       "*)"}], "\[IndentingNewLine]", "\t", 
+      RowBox[{"solveList", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"F", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "\[Equal]", " ", 
+           RowBox[{"w", "[", 
+            RowBox[{"[", "i", "]"}], "]"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "o"}], "}"}]}], "]"}], " ", "/.", " ", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           SubscriptBox["x", "i"], " ", "\[Rule]", " ", 
+           RowBox[{"y", "[", 
+            RowBox[{"[", "i", "]"}], "]"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "v"}], "}"}]}], "]"}]}]}], ";", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"res", " ", "=", " ", 
+       RowBox[{"Solve", "[", 
+        RowBox[{"solveList", ",", " ", 
+         RowBox[{"Modulus", "\[Rule]", "mod"}]}], "]"}]}], ";"}]}], 
     "\[IndentingNewLine]", "\t", 
     RowBox[{"(*", " ", 
      RowBox[{
-     "Generate", " ", "first", " ", "part", " ", "of", " ", "\"\<y\>\""}], 
-     " ", "*)"}], "\[IndentingNewLine]", "\t", 
-    RowBox[{
-     RowBox[{"y", "=", 
-      RowBox[{"RandomInteger", "[", 
-       RowBox[{
-        RowBox[{"{", 
-         RowBox[{"0", ",", 
-          RowBox[{"mod", "-", "1"}]}], "}"}], ",", "v"}], "]"}]}], ";", 
-     "\[IndentingNewLine]", "\t", 
-     RowBox[{"(*", " ", 
-      RowBox[{"Solve", " ", "the", " ", "rest", " ", "of", " ", "\"\<y\>\""}],
-       " ", "*)"}], "\[IndentingNewLine]", "\t", 
-     RowBox[{"solveList", " ", "=", " ", 
+      RowBox[{"If", " ", "solution", " ", "not", " ", "possible"}], " ", 
+      "\[Rule]", " ", 
       RowBox[{
-       RowBox[{"Table", "[", 
-        RowBox[{
-         RowBox[{
-          RowBox[{"F", "[", 
-           RowBox[{"[", "i", "]"}], "]"}], "\[Equal]", " ", 
-          RowBox[{"w", "[", 
-           RowBox[{"[", "i", "]"}], "]"}]}], ",", 
-         RowBox[{"{", 
-          RowBox[{"i", ",", "o"}], "}"}]}], "]"}], " ", "/.", " ", 
-       RowBox[{"Table", "[", 
-        RowBox[{
-         RowBox[{
-          SubscriptBox["x", "i"], " ", "\[Rule]", " ", 
-          RowBox[{"y", "[", 
-           RowBox[{"[", "i", "]"}], "]"}]}], ",", 
-         RowBox[{"{", 
-          RowBox[{"i", ",", "v"}], "}"}]}], "]"}]}]}], ";", 
-     "\[IndentingNewLine]", "\t", 
-     RowBox[{"res", " ", "=", " ", 
-      RowBox[{"Solve", "[", 
-       RowBox[{"solveList", ",", " ", 
-        RowBox[{"Modulus", "\[Rule]", "mod"}]}], "]"}]}], ";"}]}], 
-   "\[IndentingNewLine]", "\t", 
+      "Select", " ", "different", " ", "values", " ", "for", " ", 
+       "\"\<y\>\""}]}], " ", "*)"}], "\[IndentingNewLine]", "]"}], 
+   "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
-    RowBox[{
-     RowBox[{"If", " ", "solution", " ", "not", " ", "possible"}], " ", 
-     "\[Rule]", " ", 
-     RowBox[{
-     "Select", " ", "different", " ", "values", " ", "for", " ", 
-      "\"\<y\>\""}]}], " ", "*)"}], "\[IndentingNewLine]", "]"}], 
-  "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
-   RowBox[{"The", " ", "whole", " ", "\"\<y\>\"", " ", 
-    RowBox[{"(", 
-     RowBox[{"pre", "-", "image"}], ")"}]}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{"y", "=", " ", 
-  RowBox[{"Join", "[", 
-   RowBox[{"y", ",", 
-    RowBox[{
-     RowBox[{"Table", "[", 
+    RowBox[{"The", " ", "whole", " ", "\"\<y\>\"", " ", 
+     RowBox[{"(", 
+      RowBox[{"pre", "-", "image"}], ")"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"y", "=", " ", 
+    RowBox[{"Join", "[", 
+     RowBox[{"y", ",", 
       RowBox[{
-       SubscriptBox["x", "i"], ",", 
-       RowBox[{"{", 
-        RowBox[{"i", ",", 
-         RowBox[{"v", "+", "1"}], ",", "n"}], "}"}]}], "]"}], " ", "/.", " ", 
-     RowBox[{"res", "[", 
-      RowBox[{"[", "1", "]"}], "]"}]}]}], "]"}], " "}]}], "Input",
+       RowBox[{"Table", "[", 
+        RowBox[{
+         SubscriptBox["x", "i"], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", 
+           RowBox[{"v", "+", "1"}], ",", "n"}], "}"}]}], "]"}], " ", "/.", 
+       " ", 
+       RowBox[{"res", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], "]"}], " "}]}]}]], "Input",
  CellChangeTimes->{{3.797169118272025*^9, 3.7971691209029894`*^9}, {
    3.797173700552066*^9, 3.7971737417429132`*^9}, {3.7971769536555634`*^9, 
    3.7971769609759893`*^9}, {3.7971772147111993`*^9, 3.7971772179265738`*^9}, 
@@ -349,14 +556,16 @@ Cell[BoxData[{
    3.7972340122508397`*^9, 3.7972340897625303`*^9}, {3.797234132597009*^9, 
    3.797234211214741*^9}, {3.7972346951535883`*^9, 3.7972346955685005`*^9}, {
    3.7972354956429405`*^9, 3.7972355064590383`*^9}, {3.7972383121096234`*^9, 
-   3.7972383122672043`*^9}, {3.797255998935445*^9, 3.7972559991209507`*^9}},
- CellLabel->"In[56]:=",ExpressionUUID->"70544ae1-e5d5-45f1-bb75-f2324391f3b4"],
+   3.7972383122672043`*^9}, {3.797255998935445*^9, 3.7972559991209507`*^9}, {
+   3.797500387068404*^9, 
+   3.7975004085371857`*^9}},ExpressionUUID->"70544ae1-e5d5-45f1-bb75-\
+f2324391f3b4"],
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"(*", " ", 
-   RowBox[{"Compute", " ", "signature", " ", "\"\<z\>\""}], " ", "*)"}], 
-  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"*", " ", "Compute", " ", "signature", " ", "\"\<z\>\""}], " ", 
+   "**)"}], "\[IndentingNewLine]", 
   RowBox[{"z", " ", "=", " ", 
    RowBox[{"Mod", "[", 
     RowBox[{
@@ -366,8 +575,10 @@ Cell[BoxData[
       RowBox[{"(", 
        RowBox[{"y", "-", "b"}], ")"}]}], ",", "mod"}], "]"}]}]}]], "Input",
  CellChangeTimes->{
-  3.7972357140139437`*^9, {3.7972374141120563`*^9, 3.7972374474778037`*^9}},
- CellLabel->"In[59]:=",ExpressionUUID->"8cd57222-da5b-4f2e-98b0-d4d251c5963e"],
+  3.7972357140139437`*^9, {3.7972374141120563`*^9, 3.7972374474778037`*^9}, {
+   3.797500421609949*^9, 
+   3.7975004225316715`*^9}},ExpressionUUID->"8cd57222-da5b-4f2e-98b0-\
+d4d251c5963e"],
 
 Cell[BoxData[
  RowBox[{
@@ -403,7 +614,7 @@ Cell[BoxData[
  CellLabel->"In[60]:=",ExpressionUUID->"8c0e8d4a-c828-4b79-9299-e7ebb984c2da"]
 },
 WindowSize->{822, 782},
-WindowMargins->{{12, Automatic}, {Automatic, 30}},
+WindowMargins->{{13, Automatic}, {Automatic, 12}},
 FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
 StyleDefinitions->"Default.nb"
 ]
@@ -418,12 +629,13 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 9600, 192, 447, "Input",ExpressionUUID->"2dde965d-f83e-42f5-9a4e-ddc6b62758d2"],
-Cell[10161, 214, 1313, 28, 48, "Input",ExpressionUUID->"0a4b47b3-e9bb-41d5-9dab-03f6b52428ca"],
-Cell[11477, 244, 1065, 21, 48, "Input",ExpressionUUID->"4d2ca537-d30a-4806-a7c3-edf01f8c2bde"],
-Cell[12545, 267, 3456, 85, 219, "Input",ExpressionUUID->"70544ae1-e5d5-45f1-bb75-f2324391f3b4"],
-Cell[16004, 354, 558, 15, 48, "Input",ExpressionUUID->"8cd57222-da5b-4f2e-98b0-d4d251c5963e"],
-Cell[16565, 371, 1285, 31, 86, "Input",ExpressionUUID->"8c0e8d4a-c828-4b79-9299-e7ebb984c2da"]
+Cell[558, 20, 10066, 187, 548, "Text",ExpressionUUID->"990e1809-d659-4d6f-810e-9992e58f7f4c"],
+Cell[10627, 209, 9780, 198, 466, "Input",ExpressionUUID->"2dde965d-f83e-42f5-9a4e-ddc6b62758d2"],
+Cell[20410, 409, 1355, 31, 48, "Input",ExpressionUUID->"0a4b47b3-e9bb-41d5-9dab-03f6b52428ca"],
+Cell[21768, 442, 1124, 22, 48, "Input",ExpressionUUID->"4d2ca537-d30a-4806-a7c3-edf01f8c2bde"],
+Cell[22895, 466, 3801, 95, 238, "Input",ExpressionUUID->"70544ae1-e5d5-45f1-bb75-f2324391f3b4"],
+Cell[26699, 563, 599, 17, 48, "Input",ExpressionUUID->"8cd57222-da5b-4f2e-98b0-d4d251c5963e"],
+Cell[27301, 582, 1285, 31, 86, "Input",ExpressionUUID->"8c0e8d4a-c828-4b79-9299-e7ebb984c2da"]
 }
 ]
 *)
