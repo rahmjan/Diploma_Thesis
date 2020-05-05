@@ -175,7 +175,7 @@ It means it is system of nonlinear polynomial equations with coefficients over a
 	p^{(m)}(x_1,\ldots,x_n) = \sum\limits_{i=1}^{n} {\sum\limits_{j=1}^{n} {p_{ij}^{(m)} \cdot x_ix_j}} + \sum\limits_{i=1}^{n} {p_{i}^{(m)} \cdot x_i} + p_0^{(m)}
 \]
  
-If the polynomials are of degree two, they are called multivariate quadratics (MQ). Solving systems of multivariate polynomial equations is proven to be NP hard, so called MQ problem. That is the reason why MC is often considered to be good candidate for post-quantum cryptography.
+If the polynomials are degree of two, they are called multivariate quadratics (MQ). Solving systems of multivariate polynomial equations is proven to be NP hard, so called MQ problem. That is the reason why MC is often considered to be good candidate for post-quantum cryptography.
 
 MC is very fast and requires only moderate computational resources, which makes it attractive for applications in low-cost devices.
 
@@ -625,7 +625,7 @@ By the definition of RB, section \ref{rb-definition}, in this example is used $u
 The file with implementation can be found under name \textit{RB.nb}.
 
 \subsubsection{Generation of instance}
-I also created a version with generation of random instance of RB for the selected parameters. It can be found in the file \textit{RB-gen.nb}. The parameters are the value of modulus, the number of vinegar variables and the list of numbers of oil variables where each of them represent one of the layers.
+I also created a version with generation of random instance of RB for the selected parameters. It can be found in the file \textit{RB-gen.nb}. The parameters are the value of modulus, the number of vinegar variables and the list of numbers of oil variables where each of them represents one of the layers.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -727,7 +727,7 @@ Implementation can be found in folder \textit{src/pc/rb}.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Test file}
-For the testing purpose there is file \textit{test.c} which also serves as main entry point of the final application. Both of the implementation has the same structure and it can by basically described as followed:
+For the testing purpose there is file \textit{test.c} which also serves as main entry point of the final application. Both of the implementation has the same structure and it can be basically described as followed:
 
 \bigskip
 \noindent
@@ -1137,7 +1137,7 @@ The reference implementations with my adjustments were tested on computer with p
 
 \bigskip
 \noindent
-Every measurement was done on message of size 10000B and 10 times. The final results in the graphs below are average values.
+Every measurement was done on message of size 10000B and 10 times. The final results in the figures below are average values.
 
 \bigskip
 \noindent
@@ -1176,7 +1176,7 @@ Category V:
 \end{itemize}
 
 \noindent
-Each of the categories represent a difficulty through how many hardware gates needs to be used to be able to break the security variant.\cite{L-NIST-STANDARD} Overview:
+Each of the categories represents a difficulty through how many hardware gates needs to be used to be able to break the security variant.\cite{L-NIST-STANDARD} Overview:
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -1205,7 +1205,7 @@ With regard to the LUOV parameters, finite field of size 7 is selected because o
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity} \label{time-complex-pc}
-The next two graphs display individual stages of the signature scheme and time it takes to complete each of the stages. Namely generation, signing and verifying. For time measurement I used \textit{clock\_t} from standard header \textit{time.h}. 
+The next two figures display individual stages of the signature scheme and time it takes to complete each of the stages. Namely generation, signing and verifying. For time measurement I used \textit{clock\_t} from standard header \textit{time.h}. 
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/pc-luov.pdf}
@@ -1254,7 +1254,7 @@ To get a human readable output it needs to be used with:
 ms_print massif.out.*
 \end{lstlisting}
 \noindent
-From its output I created next few graphs which show the maximum memory allocation (in bytes) over the whole run of test application. 
+From its output I created next few figures which show the maximum memory allocation (in bytes) over the whole run of test application. 
 
 \bigskip
 \noindent
@@ -1313,7 +1313,7 @@ ESP32 implementations were tested and ported on ESP32-LyraT microcontroller, spe
 
 \bigskip
 \noindent
-Every measurement was done on message of size 1000B and 10 times. The final result in the graphs below is average value.
+Every measurement was done on message of size 1000B and 10 times. The final results in the figures below are average values.
 
 \subsection{Signature variants}
 Variants of signature schemes were selected same as in PC section. But there are some changes. Dividing by security categories there are:
@@ -1352,7 +1352,7 @@ I did few memory optimizations in RB scheme it can be found in section \ref{rb-o
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity}
-Like in the PC measurement before, section \ref{time-complex-pc}, next graphs display individual stages of the signature scheme and time it takes to complete each of the stages. For time measurement I also used \textit{clock\_t} from standard header.
+Like in the PC measurement before, section \ref{time-complex-pc}, next figures display individual stages of the signature scheme and time it takes to complete each of the stages. For time measurement I also used \textit{clock\_t} from standard header.
 
 \bigskip
 \noindent
@@ -1400,7 +1400,7 @@ In this figure can be seen that LUOV variants are faster in signing and RB varia
 
 \bigskip
 \noindent
-If I compare the ESP32 graphs of time results with PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32. Also is visible that verifying stage of all variants of RB got slowdown compared to PC implementations.
+If I compare the ESP32 figures of time results with PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32. Also is visible that verifying stage of all variants of RB got slowdown compared to PC implementations.
 
 \begin{figure}[H]
 \centering
@@ -1415,11 +1415,11 @@ For memory complexity I measured it through a flag \textit{MEM\_MEASUREMENT}, mo
 
 \bigskip
 \noindent
-From the flag output I created next few graphs which show the maximum memory allocation (in bytes) over the whole run of test application.
+From the flag output I created next few figures which show the maximum memory allocation (in bytes) over the whole run of test application.
 
 \bigskip
 \noindent
-But the first figure \ref{mem-luov0} is an exception to previous statement because there was small number of output data from the flag and it was possible to align them that I was able to create graph which visualize memory allocation of LUOV over the whole period of generation (left hill), signing (middle) and verification (right triangle). The peaks represent the moments when the implementation needs to compute public or private key from the seed. Then use it and after the use discard it.
+But the first figure \ref{mem-luov0} is an exception to previous statement because there was small number of output data from the flag and it was possible to align them that I was able to create figure which visualize memory allocation of LUOV over the whole period of generation (left hill), signing (middle) and verification (right triangle). The peaks represent the moments when the implementation needs to compute public or private key from the seed. Then use it and after the use discard it.
 
 \bigskip
 \noindent
@@ -1523,15 +1523,15 @@ Figure \ref{sign-rb} displays size of keys and signature of Rainbow variants. It
 
 \bigskip
 \noindent
-Next two graphs \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB. The first one is comparison between LUOV variants with shorter public key and RB, and the second between LOUV with shorter signature and RB. I split it into two graphs for a better comparison, especially because of the signature.
+Next two figures \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB. The first one is comparison between LUOV variants with shorter public key and RB, and the second between LOUV with shorter signature and RB. I split it into two figures for a better comparison, especially because of the signature.
 
 \bigskip
 \noindent
-On both of the graphs is shown that LOUV use shorter seed for the secret key. In numbers it is 32B for LUOV and 64B for RB. But comparison of the signatures show that RB implementation has them shorter also in both graphs. The size of RB signature is 204B, LOUV with shorter signature it is 440B and with short public key it is 4134B in security category V.
+In both of the figures is shown that LOUV use shorter seed for the secret key. In numbers it is 32B for LUOV and 64B for RB. But comparison of the signatures show that RB implementation has them shorter also in both figures. The size of RB signature is 204B, LOUV with shorter signature it is 440B and with short public key it is 4134B in security category V.
 
 \bigskip
 \noindent
-The public key of LUOV is shorter in both of the graphs quite by a lot. In the first figure it is up to 17 times and in the second figure up to 6 times.
+The public key of LUOV is shorter in both of the figures quite by a lot. In the first figure it is up to 17 times and in the second figure up to 6 times.
 
 \bigskip
 \noindent
@@ -1559,7 +1559,7 @@ The measured values show that the implementation of LOUV is almost better in eve
 
 \bigskip
 \noindent
-Rainbow has shorter signature length how can be seen on the graphs \ref{sign-all1} and \ref{sign-all2} but that is all. It needs much more memory for running (in some cases it allocates all available memory) and is slow if I compare the \textit{cyc} variants with LUOV.
+Rainbow has shorter signature length how can be seen on the figures \ref{sign-all1} and \ref{sign-all2} but that is all. It needs much more memory for running (in some cases it allocates all available memory) and is slow if I compare the \textit{cyc} variants with LUOV.
 
 \bigskip
 \noindent
@@ -1601,11 +1601,11 @@ ECDSA-521 & V & 256 \\ \hline
 \end{figure}
 
 \noindent
-First two graphs \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in generation and verification stages.
+First two figures \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in generation and verification stages.
 
 \bigskip
 \noindent
-RB variants have similar times of generation with RSA and in both cases, it takes a lot of time. Also, the other stages belong to the slow side. On the other side, the variant without using the seed are really fast, faster event then the conventional algorithms. Also, the same difference in security category applies here.
+RB variants have similar times of generation with RSA and in both cases, it takes a lot of time. Also, the other stages belong to the slow side. On the other side, the variant without using the seed are really fast, faster event then the conventional algorithms.
 
 \begin{figure}[H]
 \centering
@@ -1616,15 +1616,15 @@ RB variants have similar times of generation with RSA and in both cases, it take
 
 \bigskip
 \noindent
-The ESP32 supports hardware acceleration of RSA and ECDSA in terms of big number multiplication for up to 4096 bits. I think with this disadvantage the implementation of LUOV and RB are not lagging too much behind and can be used in embedded environment from the time point of view.
+The ESP32 supports hardware acceleration of RSA and ECDSA in terms of big number multiplication for up to 4096 bits. I think with this disadvantage the implementation of LUOV and RB are not lagging too much behind and can be used in embedded environment from the time point of view. But for comparison I measured RSA and ECDSA without the hardware acceleration, these variants are with suffix \textit{sw}. From the results is visible that RSA is heavily depending on the HW support, the variant \textit{RSA-4096-sw} took so long that I decided to skip it, and ECDSA has only minimal to a negligible slowdown.
 
 \bigskip
 \noindent
-Last two graphs \ref{mem-all} and \ref{mem-category-all} are comparison of memory requirements with algorithms selected for this thesis. It shown that most of the implementations needs similar (in KB) amount of memory for its working, except the Rainbow.
+Last two figures \ref{mem-all} and \ref{mem-category-all} are comparison of memory requirements with algorithms selected for this thesis. It shown that most of the implementations needs similar (in KB) amount of memory for its working, except the Rainbow.
 
 \bigskip
 \noindent
-From this comparison it is shown that LOUV implementation is good as conventional algorithms maybe even little bit better because of the hardware acceleration and higher security category.
+From the comparison with conventional algorithms it is shown that LOUV implementation is good as conventional algorithms maybe even little bit better because of the hardware acceleration, high security for embedded devices and small signature.
 
 \begin{figure}[H]
 \centering
@@ -1764,6 +1764,23 @@ BARKER, E.: \textit{NIST Special Publication 800-57 Part 1 Revision 4.} NIST, U.
 
 \begin{table}[]
 \centering
+\begin{tabular}{|l|r|l|r|}
+\hline
+Luov-47-42-182 & 55497 & Rb-16-32-32-32 & 418448 \\ \hline
+Luov-7-57-197                         & 52339                        & Rb-16-32-32-32-cyc                    & 460640                        \\ \hline
+Luov-61-60-261                        & 90701                        & Rb-16-32-32-32-com                    & 367744                        \\ \hline
+Luov-7-83-283                         & 159809                       & Rb-256-68-36-36                       & 1990596                       \\ \hline
+Luov-79-76-341                        & 224939                       & Rb-256-68-36-36-cyc                   & 2151116                       \\ \hline
+Luov-7-110-374                        & 291712                       & Rb-256-68-36-36-com                   & 1639732                       \\ \hline
+                                      &                              & Rb-256-92-48-48                       & 4760028                       \\ \hline
+                                      &                              & Rb-256-92-48-48-cyc                   & 5141804                       \\ \hline
+                                      &                              & Rb-256-92-48-48-com                   & 3914764                       \\ \hline
+\end{tabular}
+\caption{Memory measurement in bytes on PC}
+\end{table}
+
+\begin{table}[]
+\centering
 \begin{tabular}{|l|r|r|r|}
 \hline
                   & \multicolumn{1}{c|}{{ Generation}} & \multicolumn{1}{c|}{{ Signing}} & \multicolumn{1}{c|}{{ Verification}} \\ \hline
@@ -1786,25 +1803,13 @@ BARKER, E.: \textit{NIST Special Publication 800-57 Part 1 Revision 4.} NIST, U.
  RSA-2048            &  2,12                            &  0,35                         &  0,001                             \\ \hline
  RSA-3072            &  24,46                           &  0,852                        &  0,004                             \\ \hline
  RSA-4096            &  66,26                           &  1,641                        &  0,001                             \\ \hline
+ RSA-2048-sw  & 18,16  & 1,68 & 0,03 \\ \hline
+RSA-3072-sw  & 307,82 & 4,61 & 0,06 \\ \hline
+ECDSA-256-sw & 0,37   & 0,15 & 0,55 \\ \hline
+ECDSA-384-sw & 0,48   & 0,18 & 0,72 \\ \hline
+ECDSA-521-sw & 0,82   & 0,3  & 1,19 \\ \hline
 \end{tabular}
 \caption{Time measurement in seconds on ESP32}
-\end{table}
-
-\begin{table}[]
-\centering
-\begin{tabular}{|l|r|l|r|}
-\hline
-Luov-47-42-182 & 55497 & Rb-16-32-32-32 & 418448 \\ \hline
-Luov-7-57-197                         & 52339                        & Rb-16-32-32-32-cyc                    & 460640                        \\ \hline
-Luov-61-60-261                        & 90701                        & Rb-16-32-32-32-com                    & 367744                        \\ \hline
-Luov-7-83-283                         & 159809                       & Rb-256-68-36-36                       & 1990596                       \\ \hline
-Luov-79-76-341                        & 224939                       & Rb-256-68-36-36-cyc                   & 2151116                       \\ \hline
-Luov-7-110-374                        & 291712                       & Rb-256-68-36-36-com                   & 1639732                       \\ \hline
-                                      &                              & Rb-256-92-48-48                       & 4760028                       \\ \hline
-                                      &                              & Rb-256-92-48-48-cyc                   & 5141804                       \\ \hline
-                                      &                              & Rb-256-92-48-48-com                   & 3914764                       \\ \hline
-\end{tabular}
-\caption{Memory measurement in bytes on PC}
 \end{table}
 
 \begin{table}[]
@@ -1831,6 +1836,11 @@ Rb-256-92-48-48-com & 4220771                         & 4219643                 
  RSA-2048  &  81358    &  83898 &  80358      \\ \hline
  RSA-3072  &  192430   &  87354 &  82390      \\ \hline
  RSA-4096  &  191918   &  90818 &  84246      \\ \hline
+ RSA-2048-sw  & 192354 & 86522 & 81154 \\ \hline
+RSA-3072-sw  & 192482 & 91254 & 83394 \\ \hline
+ECDSA-256-sw & 192430 & 81122 & 81122 \\ \hline
+ECDSA-384-sw & 192426 & 87442 & 87442 \\ \hline
+ECDSA-521-sw & 192438 & 90666 & 90666 \\ \hline
 \end{tabular}
 \caption{Memory measurement in bytes on ESP32}
 \end{table}
