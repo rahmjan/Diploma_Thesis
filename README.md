@@ -16,7 +16,7 @@ README.md...........................the file with CD/GIT contents description
 │  ├─ esp...........................the implementations for esp32 platform  
 │  ├─ mathematica...................the implementations in Mathematica  
 │  ├─ offline.......................the offline reference materials  
-│  ├─ pc........................the implementations for PC platform  
+│  ├─ pc............................the implementations for PC platform  
 │  └─ thesis........................the directory of LATEX source codes of the thesis  
 └─ text.............................the thesis text directory  
    └─ thesis.pdf....................the thesis text in PDF format  
