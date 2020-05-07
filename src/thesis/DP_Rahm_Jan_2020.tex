@@ -304,13 +304,13 @@ and the private key consist of $\mathcal{S}$, $\mathcal{F}$ and $\mathcal{T}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Realization}
-The chapter describes implementation of algorithms on selected platforms which are Wolfram Mathematica, PC and microcontroller ESP32. For the last two specified the implementation is in C++.
+The chapter describes the implementation of algorithms on selected platforms which are Wolfram Mathematica, PC and microcontroller ESP32. For the last two specified the implementation is in C++.
 
 \section{Wolfram Mathematica}
 This section describes examples in Wolfram Mathematica and step by step description of algorithms. All of the \textit{hard-coded} values (numbers) are randomly selected, they only have to respect the definition and parameters of the algorithm.  
 
 \subsection{Unbalanced Oil \& Vinegar}
-Here is description of signature scheme of UOV. This example of UOV is in fact example of balanced OV because it simplifies the explanation of the algorithm.
+Here is description of signature scheme of UOV. This example of UOV is in fact the example of balanced OV but there is no difference to UOV.
 
 \bigskip
 \noindent
@@ -469,7 +469,7 @@ The last part is check if two hashes $w$ and $w2$ are the same.
 The file with implementation can be found under the name \textit{UOV.nb}.
 
 \subsubsection{Generation of instance}
-I also created a version with generation of random instance of UOV for the selected parameters. It can be found in the file \textit{UOV-gen.nb}. The parameters are the number of vinegar and oil variables and the value of modulus.
+I also created a version with generation of a random instance of UOV for the selected parameters. It can be found in the file \textit{UOV-gen.nb}. The parameters are the number of vinegar and oil variables and the value of modulus.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Rainbow}
@@ -598,7 +598,7 @@ The \textit{pre-image} of $x$ is $y = (0,1,4,2,0,2)$: $y = \mathcal{F}^{-1}(x)$.
 \begin{mmaCell}{Output}
   \{\{0,1,4,2,0,2\}\}
 \end{mmaCell}
-For the final step of computation of $z$, it needs to be applied $\mathcal{T}$: $z = \mathcal{T}^{-1}(y)$:
+For the final step of the computation of $z$, it needs to be applied $\mathcal{T}$: $z = \mathcal{T}^{-1}(y)$:
 \begin{mmaCell}[moredefined={A, b, S, y, mod, z, T}]{Input}
 \mmaSub{T}{-1} = Inverse[A, Modulus\(\pmb{\to}\)mod]
 z = Mod[\mmaSub{T}{-1}.(y - b),mod]
@@ -625,7 +625,7 @@ By the definition of RB, section \ref{rb-definition}, in this example is used $u
 The file with implementation can be found under name \textit{RB.nb}.
 
 \subsubsection{Generation of instance}
-I also created a version with generation of random instance of RB for the selected parameters. It can be found in the file \textit{RB-gen.nb}. The parameters are the value of modulus, the number of vinegar variables and the list of numbers of oil variables where each of them represents one of the layers.
+I also created a version with generation of a random instance of RB for the selected parameters. It can be found in the file \textit{RB-gen.nb}. The parameters are the value of modulus, the number of vinegar variables and the list of numbers of oil variables where each of them represents one of the layers.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -635,7 +635,11 @@ The section describes reference implementation of the algorithms which are selec
 
 \bigskip
 \noindent
-The reference implementation contains several optimized solutions. But for purpose of this Master's thesis is only relevant solution under the folder of \textit{Reference\_Implementation} because the others are not compatible with the ESP32 microcontroller.
+The reference implementations contain several optimized solutions. But for purpose of this Master's thesis is only relevant solution under the folder of \textit{Reference\_Implementation} because the others are not compatible with the ESP32 microcontroller.
+
+\bigskip
+\noindent
+Both of the reference implementations use Gaussian elimination for the speed up of cumputation of \textit{pre-image} of the \textit{central map} $\mathcal{F}$.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Unbalanced Oil \& Vinegar}
@@ -663,7 +667,7 @@ where $T$ is a $v$-by-$m$ matrix. This solution makes the key generation and the
 Source codes of version $2.1$ were obtained from GitHub repository.
 
 \subsubsection{Adjustments}
-For the testing purpose, I did few adjustments to source files of the LOUV. One is to simplify \textit{Makefile} for easy generation of testing application and setting up of \textit{path} to external library. Removed of some unnecessary files (\textit{PQCgenKAT\_sign.c}) and created \textit{README.md} with building information. The last change is grouping of all different settings of LOUV into one folder with building flags:
+For the testing purpose, I did few adjustments to source files of the LOUV. One is to simplify \textit{Makefile} for easy generation of a testing application and setting up of the \textit{path} to the external library. Removed of some unnecessary files (\textit{PQCgenKAT\_sign.c}) and created \textit{README.md} with building information. The last change is grouping of all different settings of LOUV into one folder with building flags:
 
 \begin{itemize}
 \item	FIELD\_SIZE - Size/degree of finite field.
@@ -701,7 +705,7 @@ This implementation of Rainbow is implementation with two layers and contains tr
 
 
 \subsubsection{Adjustments}
-The adjustments are very similar to the adjustments of LUOV. I simplify the \textit{Makefile} for easy generation of testing application and removed redundant files. I added file \textit{README.md} with building information. This implementation can be now build with flags:
+The adjustments are very similar to the adjustments of LUOV. I simplify the \textit{Makefile} for easy generation of a testing application and removed redundant files. I added file \textit{README.md} with building information. This implementation can be now build with flags:
 
 \begin{itemize}
 \item	\_RAINBOW16\_32\_32\_32 
@@ -727,7 +731,7 @@ Implementation can be found in folder \textit{src/pc/rb}.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Test file}
-For the testing purpose there is file \textit{test.c} which also serves as main entry point of the final application. Both of the implementation has the same structure and it can be basically described as followed:
+For the testing purpose there is the file \textit{test.c} which also serves as main entry point of the final application. Both of the implementations has the same structure and it can be basically described as followed:
 
 \bigskip
 \noindent
@@ -738,21 +742,21 @@ crypto_sign_keypair(pk,sk);
 
 \bigskip
 \noindent
-Generation signature \textit{sm} (it also contains the message) of message $m$:
+Second step is generation of the signature \textit{sm} (it also contains the message) of the message $m$:
 \begin{lstlisting}[frame=single]
 crypto_sign(sm,&smlen,m,message_size,sk);
 \end{lstlisting}
 
 \bigskip
 \noindent
-Verify signature \textit{sm} and put the message from it to $m2$:
+Third step is verification of the signature \textit{sm} and it puts the message from it to the $m2$:
 \begin{lstlisting}[frame=single]
 crypto_sign_open(m2,&smlen,sm smlen,pk);
 \end{lstlisting}
 
 \bigskip
 \noindent
-Final step is verification if the message $m$ is equal to $m2$.
+Final step is verification if the message $m$ is equal to the $m2$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -1031,29 +1035,29 @@ These selected conventional algorithms were also implemented on microcontroller 
 
 \bigskip
 \noindent
-Both of the selected algorithms are implemented, using the esp-idf API, in similar way like previous implementations in this thesis on ESP32. That means their entry point is in file \textit{test.c} which has similar structure to others \textit{test.c} files in previous description. The main difference is in private and public keys which are now in the form of \textit{context} relative to algorithm.
+Both of the selected algorithms are implemented, using the esp-idf API, in similar way like previous implementations in this thesis on ESP32. That means their entry point is in file \textit{test.c} which has similar structure to others \textit{test.c} files in previous description. The main difference is in private and public keys which are now in the form of \textit{context} relative to the algorithm.
 
 \subsection{RSA}
-Test implementation of RSA starts with initialization of context:
+Test implementation of RSA starts with initialization of the \textit{context}:
 \begin{lstlisting}[frame=single]
 mbedtls_rsa_context ctx;
 mbedtls_rsa_init(&ctx,MBEDTLS_RSA_PKCS_V15,0);
 \end{lstlisting}
 
 \noindent
-Second step is generation of keypair:
+Second step is generation of a keypair:
 \begin{lstlisting}[frame=single]
 mbedtls_rsa_gen_key(&ctx,coap_prng_impl,NULL,KEY_SIZE,EXPONENT);
 \end{lstlisting}
 
 \noindent
-Generation \textit{hash} of message $m$:
+Generation of the \textit{hash} of the message $m$:
 \begin{lstlisting}[frame=single]
 mbedtls_sha256(m,message_size,hash,0);
 \end{lstlisting}
 
 \noindent
-Sign \textit{hash} and put signature to \textit{sm}:
+Sign the \textit{hash} and put the signature to the \textit{sm}:
 \begin{lstlisting}[frame=single]
 mbedtls_rsa_pkcs1_sign(&ctx,coap_prng_impl,NULL,
 			MBEDTLS_RSA_PRIVATE,MBEDTLS_MD_SHA256,
@@ -1061,7 +1065,7 @@ mbedtls_rsa_pkcs1_sign(&ctx,coap_prng_impl,NULL,
 \end{lstlisting}
 
 \noindent
-Verify signature \textit{sm} of \textit{hash}:
+Verify the signature \textit{sm} of the \textit{hash}:
 \begin{lstlisting}[frame=single]
 mbedtls_rsa_pkcs1_verify(&ctx,coap_prng_impl,NULL,
 			MBEDTLS_RSA_PUBLIC,MBEDTLS_MD_SHA256,
@@ -1086,26 +1090,26 @@ mbedtls_ecdsa_init(&ctx);
 \end{lstlisting}
 
 \noindent
-Second step is generation of keypair:
+Second step is generation of a keypair:
 \begin{lstlisting}[frame=single]
 mbedtls_ecdsa_genkey(&ctx,EC_CURVE,coap_prng_impl,NULL);
 \end{lstlisting}
 
 \noindent
-Generation \textit{hash} of message $m$:
+Generation of the \textit{hash} of the message $m$:
 \begin{lstlisting}[frame=single]
 mbedtls_sha256(m,message_size,hash,0);
 \end{lstlisting}
 
 \noindent
-Sign \textit{hash} and put signature to \textit{sm}:
+Sign the \textit{hash} and put the signature to the \textit{sm}:
 \begin{lstlisting}[frame=single]
 mbedtls_ecdsa_write_signature(&ctx,MBEDTLS_MD_SHA256,hash,
 			hash_len,sm,&smlen,coap_prng_impl,NULL);
 \end{lstlisting}
 
 \noindent
-Verify signature \textit{sm} of \textit{hash}:
+Verify the signature \textit{sm} of the \textit{hash}:
 \begin{lstlisting}[frame=single]
 mbedtls_ecdsa_read_signature(&ctx,hash,hash_len,sm,smlen);
 \end{lstlisting}
@@ -1125,7 +1129,7 @@ The implementation can be set with flags:
 This chapter contains measurement and testing of algorithms, their comparison and discussion about their implementation. It mainly focuses on time and memory complexity of the selected algorithms and possible usability in an embedded environment.
 
 \section{PC}
-The reference implementations with my adjustments were tested on computer with parameters:
+The reference implementations with my adjustments were tested on the computer with parameters:
 \begin{itemize}
 \item OS: Ubuntu 19.4
 \item CPU: Intel Core i5-7300HQ
@@ -1137,18 +1141,18 @@ The reference implementations with my adjustments were tested on computer with p
 
 \bigskip
 \noindent
-Every measurement was done on message of size 10000B and 10 times. The final results in the figures below are average values.
+Every measurement was done on a message of size 10000B and 10 times. The final results in the figures below are average values.
 
 \bigskip
 \noindent
-Main goal of this measurements and implementations was to have comparable data of reference implementations of LUOV and RB on PC because in reference materials there were measured on different processors and only in number of processor cycles. I chose to make the measurement of time (in seconds) and memory consumption (in bytes).
+Main goal of this measurements and implementations was to have comparable data of reference implementations of LUOV and RB on a PC because in reference materials there were measured on different processors and only in number of processor cycles. I chose to make the measurement of time (in seconds) and memory consumption (in bytes).
 
 \bigskip
 \noindent
 The solutions were compiled with the same (default) setting with flag \textit{-std=c99}.
 
-\subsection{Signature variants}
-For measurement I selected the reference signature variants. The first number indicate finite field $\mathbb{F}_{n}$, second is number of vinegar variables, third is number of oil variables and the fourth (at RB) is number of oil variables in second layer. Dividing by security categories there are:
+\subsection{Signature variants} \label{pc-sign-variants}
+For measurement I selected the reference signature variants. The first number indicate finite field $\mathbb{F}_{n}$, the second is number of vinegar variables, the third is number of oil variables and the fourth (at RB) is number of oil variables in second layer. Dividing by security categories there are:
 
 \bigskip
 \noindent
@@ -1201,7 +1205,7 @@ An algorithm meets the requirements of a specific security category if the best 
 
 \bigskip
 \noindent
-With regard to the LUOV parameters, finite field of size 7 is selected because of small size of generated signature but the size of public key is quite big. The schemes which do not have finite field of size 7 are selected because of small public key.
+With regard to the LUOV parameters, a finite field of size 7 is selected because of the small size of generated signature but the size of public key is quite big. The schemes which do not have the finite field of size 7 are selected because of the small public key.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity} \label{time-complex-pc}
@@ -1214,11 +1218,11 @@ The next two figures display individual stages of the signature scheme and time 
 \end{figure}
 
 \noindent
-How it can be seen on \ref{pc-luov} the stronger the security the more of time is needed for the computation which is the expected result. About the generation stage, the shorter the public key the fastest it is, the same is true for the signing and verifying stages which are again expected results.
+How it can be seen on \ref{pc-luov} the stronger the security the more of time is needed for the computation which is the expected result. About the generation stage, the shorter the public key the fastest it is, the same is true for the signing and the verifying stages which are again the expected results.
 
 \bigskip
 \noindent
-In figure \ref{pc-rb}, it is possible to see that generating the public key (\textit{cyc} versions) and the private key (\textit{com} versions) from the seed is really slow operation. It can be especially seen on signing of \textit{com} variants where the signing stage can be up to 85 times slower (maybe even more) than the classic variants. For the verifying stage is also the fastest then classic variant because there is no generation from the seed.
+In the figure \ref{pc-rb}, it is possible to see that generating the public key (\textit{cyc} versions) and the private key (\textit{com} versions) from the seed is really slow operation. It can be especially seen on signing of \textit{com} variants where the signing stage can be up to 85 times slower (maybe even more) than the classic variants. For the verifying stage is also the fastest then the classic variant because there is no generation from the seed.
 
 \begin{figure}[H]
 \centering
@@ -1228,7 +1232,7 @@ In figure \ref{pc-rb}, it is possible to see that generating the public key (\te
 \end{figure}
 
 \noindent
-Next figure \ref{pc-all} is comparison of LUOV and RB implementation. I only compare the \textit{com} versions of RB with LUOV with short public keys. I selected this LOUV variant because it is faster and this RB variant because it also (like LUOV) generates public and private keys from the seed.
+Next figure \ref{pc-all} is comparison of LUOV and RB implementation. I only compare the \textit{com} versions of RB with LUOV with short public keys. I selected this LOUV variant because it is faster and this RB variant because it also (like LUOV) generates the public and the private keys from the seed.
 There is not the generation stage because on \ref{pc-luov} and \ref{pc-rb} is very well visible that generation times of RB are much slower than LOUV. 
 
 \begin{figure}[H]
@@ -1239,11 +1243,11 @@ There is not the generation stage because on \ref{pc-luov} and \ref{pc-rb} is ve
 \end{figure}
 
 \noindent
-How it can be seen \ref{pc-all} the LOUV implementation is faster at signing but slower at verifying.
+How it can be seen in \ref{pc-all} the LOUV implementation is faster at signing but slower at verifying.
 
 %%%%%%%%%%%%%%%%%%%
-\subsection{Memory complexity}
-Memory complexity deals with the allocation of RAM on heap for the signature schemes. The required memory on stack I did not measure because compare to heap it is negligible (in the magnitude of a few kilobytes). I measured PC implementations with the help of Valgrind. Specifically, with the help of tool \textit{Massif} which is a heap profiler:
+\subsection{Memory complexity}\label{pc-mem-measurement}
+Memory complexity deals with the allocation of RAM on a heap for the signature schemes. The required memory on a stack I did not measure because compare to the heap it is negligible (in the magnitude of a few kilobytes). I measured the PC implementations with the help of Valgrind. Specifically, with the help of tool \textit{Massif} which is a heap profiler:
 \begin{lstlisting}[frame=single]
 valgrind --tool=massif ./test
 \end{lstlisting}
@@ -1254,11 +1258,11 @@ To get a human readable output it needs to be used with:
 ms_print massif.out.*
 \end{lstlisting}
 \noindent
-From its output I created next few figures which show the maximum memory allocation (in bytes) over the whole run of test application. 
+From its output I created next few figures which show the maximum memory allocation (in bytes) over the whole run of the test application. 
 
 \bigskip
 \noindent
-In figure \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows an expected result which is with higher security category the more memory is needed. Also is visible that LOUV variants with shorter public key need less resources.
+In the figure \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows the expected result which is with higher security category the more memory is needed. Also is visible that LOUV variants with the shorter public key need less resources.
 
 \begin{figure}[H]
 \centering
@@ -1268,7 +1272,7 @@ In figure \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows an ex
 \end{figure}
 
 \noindent
-Next is figure \ref{mem-pc-rb} of RB memory allocation. On it is shown again that the higher security category the more resource it needs, which is expected result. But to my surprise the \textit{com} variants of Rainbow need less RAM allocation compared to classic and \textit{cyc} variants. The only explanation I can think of, which can explain this behavior, is the generation of private key from the seed. That is the main difference compared to other variants.
+Next is the figure \ref{mem-pc-rb} of RB memory allocation. There is shown again that higher security category the more resource it needs, which is the expected result. But to my surprise the \textit{com} variants of Rainbow need less RAM allocation compared to the classic and the \textit{cyc} variants. The only explanation I can think of, which can explain this behavior, is the generation of a private key from the seed. That is the main difference compared to other variants.
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-pc-rb.pdf}
@@ -1292,7 +1296,7 @@ The measured values show that the reference implementation of LOUV is almost bet
 
 \bigskip
 \noindent
-The only thing in which is Rainbow better is verification of signature (how can be seen on figure \ref{pc-all}) but that is implication from signature size which is shorter than LUOV, for more details see section \ref{key_sign}.
+The only thing in which is Rainbow better is the verification of signature (how can be seen in the figure \ref{pc-all}) but that is an implication from the signature size which is shorter than LUOV, for more details see section \ref{key_sign}.
 
 \bigskip
 \noindent
@@ -1300,23 +1304,23 @@ From the point of usability, the Rainbow implementation is only optimal if lot o
 
 \bigskip
 \noindent
-But I do not recommend this implementation of RB because there seems to be some kind of implementation bug. It can be seen on \textit{cyc} variant of RB where verification of signed message reports that it is an invalid signature.
+But I do not recommend this implementation of RB because there seems to be some kind of implementation bug. It can be seen in the \textit{cyc} variant of RB where verification of signed message reports that it is an invalid signature.
 
 \bigskip
 \noindent
-If I was faced with the choice of the selection of one of these implementations for general use. I would select the LUOV implementation because, how was already mentioned, it is faster, smaller and does not contain any bug (at least I did not find any).
+If I was faced with choosing one of these implementations for general use. I would select the LUOV implementation because, how was already mentioned, it is faster, smaller and does not contain any bug (at least I did not find any).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{ESP32}
-ESP32 implementations were tested and ported on ESP32-LyraT microcontroller, specification of the microcontroller can be found in section \ref{ESP32_impl}. The reason for port is to test the behavior of the selected algorithms in IoT environment or at least as close as possible to it.
+ESP32 implementations were tested and ported on a ESP32-LyraT microcontroller, specification of the microcontroller can be found in section \ref{ESP32_impl}. The reason for port is to test the behavior of the selected algorithms in IoT environment or at least as close as possible to it.
 
 \bigskip
 \noindent
-Every measurement was done on message of size 1000B and 10 times. The final results in the figures below are average values.
+Every measurement was done on a message of size 1000B and 10 times. The final results in the figures below are average values.
 
 \subsection{Signature variants}
-Variants of signature schemes were selected same as in PC section. But there are some changes. Dividing by security categories there are:
+Variants of signature schemes were selected same as in the PC section \ref{pc-sign-variants}. But there are some changes. Dividing by security categories there are:
 
 \bigskip
 \noindent
@@ -1344,11 +1348,11 @@ Category V:
 \end{itemize}
 
 \noindent
-In category V there is only \textit{com} variant of RB scheme because the other variants (classic and \textit{cyc}) I was not able to make to run because of the limited RAM.
+In the category V there is only the \textit{com} variant of RB scheme because the other variants (classic and \textit{cyc}) I was not able to make to run because of the limited RAM.
 
 \bigskip
 \noindent
-I did few memory optimizations in RB scheme it can be found in section \ref{rb-opti}. These optimizations reduced kind of a lot of memory but when I tried to run \textit{Rb-256-92-48-48-cyc} variant I got a segmentation fault. This behavior I attributed to a bug in the implementation where the signature is failing. 
+I did few memory optimizations in RB scheme it can be found in section \ref{rb-opti}. These optimizations reduced kind of a lot of memory but when I tried to run the \textit{Rb-256-92-48-48-cyc} variant I got a segmentation fault. This behavior I attributed to a bug in the implementation where the signature is failing. 
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Time complexity}
@@ -1356,7 +1360,7 @@ Like in the PC measurement before, section \ref{time-complex-pc}, next figures d
 
 \bigskip
 \noindent
-In figure \ref{time-luov} is comparison of LUOV times which it took for each of the stages. It can be seen that higher the security category the more time for completion of the stage is needed. That is expected result like on the PC implementations but some of the times were in the periods around of 10 seconds. Especially \textit{Luov-7-110-374} or generally the whole security category V is with these time periods unusable in the moment when a lot of messages need to be signed or verified.
+In the figure \ref{time-luov} is comparison of LUOV times which it took for each of the stages. It can be seen that with higher security category the more time for completion of the stage is needed. That is the expected result like on the PC implementations but some of the times were in the periods around of 10 seconds. Especially \textit{Luov-7-110-374} or generally the whole security category V is with these time periods unusable in the moment when a lot of messages need to be signed or verified.
 
 \bigskip
 \noindent
@@ -1374,11 +1378,11 @@ The variants \textit{Luov-47-42-182} and \textit{Luov-7-57-197} of security cate
 \label{time-luov}
 \end{figure}
 
-Next figure \ref{time-rb} is comparison of times of Rainbow scheme. There it can be seen that generation of the public and private keys is very slow but in practical in the most use cases this step needs to be done only once, therefore it has little influence.
+Next figure \ref{time-rb} is comparison of times of Rainbow scheme. There it can be seen that generation of public and private keys is very slow but in practical (in the most) use cases this step needs to be done only once, therefore it has little influence.
 
 \bigskip
 \noindent
-It can also be seen that signing and verifying stages do not belong to fast operations. Especially the \textit{com} versions which are really slow. There is very well visible that generating public and private keys from the seed is not good idea from time point of view. And if there was no generation then there will be very big speedup as can be seen on comparison of \textit{Rb-256-68-36-36} and \textit{Rb-256-68-36-36-com}.
+It can also be seen that signing and verifying stages do not belong to fast operations. Especially the \textit{com} versions which are really slow. There is very well visible that generating public and private keys from the seed is not a good idea from time point of view. And if there was no generation then there will be very big speedup as can be seen on comparison of \textit{Rb-256-68-36-36} and \textit{Rb-256-68-36-36-com}.
 
 \bigskip
 \noindent
@@ -1392,15 +1396,15 @@ Like in LOUV scheme before, also in RB scheme is the best variant from security 
 \end{figure}
 
 \noindent
-Last figure \ref{time-both} of this section is comparison between LUOV and RB. It is only comparison between LOUV variants with shorter public key and RB \textit{com} variants. The reasons for this selection of signature schemes variants are in section \ref{time-complex-pc}.
+Last figure \ref{time-both} of this section is comparison between LUOV and RB. It is only comparison between the LOUV variants with shorter public key and the RB \textit{com} variants. The reasons for this selection of signature schemes variants are in section \ref{time-complex-pc}.
 
 \bigskip
 \noindent
-In this figure can be seen that LUOV variants are faster in signing and RB variant are faster in verification process, except the \textit{Rb-256-68-36-36-com} which got slowdown. There is no comparison of generation stage because LOUV is clearly better in every security category.
+In this figure can be seen that the LUOV variants are faster in signing and the RB variant are faster in verification process, except the \textit{Rb-256-68-36-36-com} which got slowdown. There is no comparison of generation stage because LOUV is clearly better in every security category.
 
 \bigskip
 \noindent
-If I compare the ESP32 figures of time results with PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32. Also is visible that verifying stage of all variants of RB got slowdown compared to PC implementations.
+If I compare the ESP32 figures of time results with the PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32. Also is visible that verifying stage of all the variants of RB got slowdown compared to the PC implementations.
 
 \begin{figure}[H]
 \centering
@@ -1411,11 +1415,11 @@ If I compare the ESP32 figures of time results with PC implementations I can see
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}
-For memory complexity I measured it through a flag \textit{MEM\_MEASUREMENT}, more details can be found at section \ref{esp-luov-memory}. It measures an allocation on the heap which is the external memory extending. The required memory on stack I did not measure because compare to heap it is negligible (in the magnitude of a few kilobytes) and it was set to maximum size of 20000B in LUOV implementation and 5000B in RB implementation.
+For memory complexity I measured it through the flag \textit{MEM\_MEASUREMENT}, more details can be found at section \ref{esp-luov-memory}. It measures an allocation on the heap which is the external memory extending. The required memory on stack I did not measure because compare to the heap it is negligible (in the magnitude of a few kilobytes) and it was set to maximum size of 20000B in LUOV implementation and 5000B in RB implementation.
 
 \bigskip
 \noindent
-From the flag output I created next few figures which show the maximum memory allocation (in bytes) over the whole run of test application.
+From the flag output I created next few figures which show the maximum memory allocation (in bytes) over the whole run of the test application.
 
 \bigskip
 \noindent
@@ -1423,7 +1427,7 @@ But the first figure \ref{mem-luov0} is an exception to previous statement becau
 
 \bigskip
 \noindent
-There is possible to see that with higher security category the more memory is needed. Also is visible that LOUV variants with shorter public key need less resources. It could be also seen in figure \ref{mem-luov} which shows only the maximum allocation of memory. This is the same conclusion as in PC memory measurement. 
+There is possible to see that with higher security category the more memory is needed. Also is visible that LOUV variants with shorter public key need less resources. It could be also seen in figure \ref{mem-luov} which shows only the maximum allocation of memory. This is the same conclusion as in the PC memory measurement, section \ref{pc-mem-measurement}.
 
 \newpage
 \bigskip\bigskip
@@ -1444,7 +1448,7 @@ There is possible to see that with higher security category the more memory is n
 
 \newpage
 \noindent
-In the next figure \ref{mem-rb} is displayed memory allocation of Rainbow scheme. Again, there is displayed that with higher security category the implementation needs more memory but some of the Rainbow variants need suspiciously the same amount of memory, around 4MB, for example \textit{Rb-256-68-36-36-com} or \textit{Rb-256-92-48-48-com}. However, this same allocation of memory can be seen on RB variant \textit{Rb-16-32-32-32-cyc} in the verification stage. 
+In the next figure \ref{mem-rb} is displayed memory allocation of Rainbow scheme. Again, there is displayed that with higher security category the implementation needs more memory but some of the Rainbow variants need suspiciously the same amount of memory, around 4MB, for example \textit{Rb-256-68-36-36-com} or \textit{Rb-256-92-48-48-com}. However, this same allocation of memory can be seen on the RB variant \textit{Rb-16-32-32-32-cyc} in the verification stage. 
 
 \begin{figure}[H]
 \centering
@@ -1457,12 +1461,12 @@ In the next figure \ref{mem-rb} is displayed memory allocation of Rainbow scheme
 I can think only of two possibilities why there is this result:
 \begin{itemize}
 \item	Error in measurement - In my implementation of memory measurement on ESP32 is some kind of error which input this result. But it is only few lines of C++ code which directly use the \textit{esp} API. That is why I am inclined to the second possibility.
-\item	Wrong allocation - The ESP32-LyraT just allocate the rest of free memory in external RAM. This can happen when there was not enough time after free operation and the allocation table was not updated, so it used next free block. Or the segmentation of memory was not optimal and the needed memory block was not able to be allocated in previous blocks because it require bigger capacity.
+\item	Wrong allocation - ESP32-LyraT just allocate the rest of free memory in external RAM. This can happen when there was not enough time after free operation and the allocation table was not updated, so it used next free block. Or the segmentation of memory was not optimal and the needed memory block was not able to be allocated in previous blocks because it require bigger capacity.
 \end{itemize}
 
 \bigskip
 \noindent
-From these results I can assume that minimum of 4MB RAM is needed to safely run the Rainbow implementation on ESP32-LyraT. It is also visible that having public key in the form of seed save some of the memory (comparison of \textit{cyc} and classic variants).
+From these results I can assume that minimum of 4MB RAM is needed to safely run the Rainbow implementation on ESP32-LyraT. It is also visible that having public key in the form of seed save some of the memory (comparison of the \textit{cyc} and the classic variants).
 
 \begin{figure}[H]
 \centering
@@ -1486,19 +1490,19 @@ Compared to figure \ref{mem-rb} now is possible to see more meaningful results o
 
 \bigskip
 \noindent
-In figure \ref{mem-my-alloc} is visible that \textit{cyc} variants of RB are using the seed for the public key because memory needs are lower in the signature stage but high in the verification stage compared to classic variants. Also is beautifully visible the use of the seed for the private key in \textit{com} variants. In the signature stage it needs more memory then \textit{cyc} variant because of generation of the private key from the seed but in the verification stage it saves the memory because the private key is only in the form of small seed.
+In figure \ref{mem-my-alloc} is visible that the \textit{cyc} variants of RB are using the seed for a public key because memory needs are lower in the signature stage but high in the verification stage compared to the classic variants. Also is beautifully visible the use of the seed for a private key in the \textit{com} variants. In the signature stage it needs more memory then the \textit{cyc} variant because of generation of a private key from the seed but in the verification stage it saves the memory because the private key is only in the form of small seed.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Keys \& signature} \label{key_sign}
-In this section is comparison of size of keys for different variants of signature algorithms. Must be said that the size of keys of ESP32 implementations are the same as PC implementations. I noted them from the measurement of ESP32 implementations.
+In this section is comparison of size of keys for different variants of signature algorithms. Must be said that the size of keys of the ESP32 implementations are the same as the PC implementations. I noted them from the measurement of the ESP32 implementations.
 
 \bigskip
 \noindent
-In figure \ref{sign-luov} is shown LOUV sizes of public key, private (secret) key and signature. It is visible that LUOV implementation uses the same length of seed for its secret key. Also, can be seen the variants with shorter signature (\textit{Luov-7}) which can be up to 10 times shorter compared to their LUOV equivalents in NIST security category.
+In figure \ref{sign-luov} is shown LOUV sizes of public key, private (secret) key and signature. It is visible that the LUOV implementation uses the same length of the seed for its secret key. Also, can be seen the variants with shorter signature (\textit{Luov-7}) which can be up to 10 times shorter compared to their LUOV equivalents in the NIST security category.
 
 \bigskip
 \noindent
-On the other side, on the same figure is shown that with shorter signature the variants need much more space for public key which can be longer up to 3 times if I compare the \textit{Luov-7-110-374} and \textit{Luov-79-76-341}.
+On the other side, on the same figure is shown that with shorter signature the variants need much more space for public key which can be longer up to 3 times if I compare \textit{Luov-7-110-374} and \textit{Luov-79-76-341}.
 
 \bigskip
 \noindent
@@ -1519,15 +1523,15 @@ The variants of LUOV shows kind of large difference in these two values that mea
 \end{figure}
 
 \noindent
-Figure \ref{sign-rb} displays size of keys and signature of Rainbow variants. It shows when the seed is used for secret key in \textit{com} variants it saves lot of space, the seed is only the size of 64B. For the public key in the \textit{cyc} variants the memory size was reduced by 2.5 to 3.5 times. The signature is longer (bigger) with the stronger security category but for the variant \textit{Rb-256-92-48-48-com} it is only 204B, that is an amount almost to nothing if is considered that it is spoken about NIST security category V.
+Figure \ref{sign-rb} displays size of keys and signature of Rainbow variants. It shows when the seed is used for secret key in the \textit{com} variants it saves lot of space, the seed is only the size of 64B. For the public key in the \textit{cyc} variants the memory size was reduced by 2.5 to 3.5 times. The signature is longer (bigger) with the stronger security category but for the variant \textit{Rb-256-92-48-48-com} it is only 204B, that is an amount almost to nothing if is considered that it is spoken about the NIST security category V.
 
 \bigskip
 \noindent
-Next two figures \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB. The first one is comparison between LUOV variants with shorter public key and RB, and the second between LOUV with shorter signature and RB. I split it into two figures for a better comparison, especially because of the signature.
+Next two figures \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB. The first one is comparison between the LUOV variants with shorter public key and RB, and the second between the LOUV variants with shorter signature and RB. I split it into two figures for a better comparison, especially because of the signature.
 
 \bigskip
 \noindent
-In both of the figures is shown that LOUV use shorter seed for the secret key. In numbers it is 32B for LUOV and 64B for RB. But comparison of the signatures show that RB implementation has them shorter also in both figures. The size of RB signature is 204B, LOUV with shorter signature it is 440B and with short public key it is 4134B in security category V.
+In both of the figures is shown that LOUV use shorter seed for the secret key. In numbers it is 32B for LUOV and 64B for RB. But comparison of the signatures show that the RB implementation has them shorter also in both figures. The size of RB signature is 204B, LOUV with shorter signature it is 440B and with short public key it is 4134B in security category V.
 
 \bigskip
 \noindent
@@ -1555,7 +1559,7 @@ From these results in this section are evident that the only benefit of Rainbow 
 %%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Conclusion note}
-The measured values show that the implementation of LOUV is almost better in everything compared to RB. And also, the results of time measurements of implementations on ESP32 are similar (if I do not count the general slowdown due to slower processor) to implementations on PC which should be.
+The measured values show that the implementation of LOUV is almost better in everything compared to RB. And also, the results of time measurements of the implementations on ESP32 are similar (if I do not count the general slowdown due to slower processor) to the implementations on PC which should be.
 
 \bigskip
 \noindent
@@ -1567,7 +1571,7 @@ But the variants without generations of key from the seed are fast, even much fa
 
 \bigskip
 \noindent
-What I want to mention is that with higher NIST security category the difference between two variants from the same category are getting bigger and bigger. The reason for this that these variants use more resources which when compared have larger difference. 
+What I want to mention is that with higher NIST security category the difference between two variants from the same category are getting bigger and bigger. The reason for this is that these variants use more resources which when compared have larger difference. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -1601,11 +1605,11 @@ ECDSA-521 & V & 256 \\ \hline
 \end{figure}
 
 \noindent
-First two figures \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in generation and verification stages.
+First two figures \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in the generation and the verification stages.
 
 \bigskip
 \noindent
-RB variants have similar times of generation with RSA and in both cases, it takes a lot of time. Also, the other stages belong to the slow side. On the other side, the variant without using the seed are really fast, faster event then the conventional algorithms.
+RB variants have similar times of generation with RSA and in both cases, it takes a lot of time. Also, the other stages belong to the slow side. On the other side, the variant without using the seed are really fast, faster even then the conventional algorithms.
 
 \begin{figure}[H]
 \centering
@@ -1892,10 +1896,10 @@ Rb-256-92-48-48-com & 3377764                         & 2949444                 
 	\dirtree{%
 		.1 README.md\DTcomment{the file with CD contents description}.
 		.1 src\DTcomment{the directory of source codes}.
-		.2 esp\DTcomment{implementation for esp32 platform}.
-		.2 mathematica\DTcomment{implementation in Mathematica}.
-		.2 offline\DTcomment{offline reference materials}.
-		.2 esp\DTcomment{implementation for PC platform}.
+		.2 esp\DTcomment{the implementations for esp32 platform}.
+		.2 mathematica\DTcomment{the implementations in Mathematica}.
+		.2 offline\DTcomment{the offline reference materials}.
+		.2 pc\DTcomment{the implementations for PC platform}.
 		.2 thesis\DTcomment{the directory of \LaTeX{} source codes of the thesis}.
 		.1 text\DTcomment{the thesis text directory}.
 		.2 thesis.pdf\DTcomment{the thesis text in PDF format}.

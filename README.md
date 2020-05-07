@@ -13,10 +13,10 @@ git clone --recurse-submodules https://github.com/rahmjan/Masters_Thesis.git
 ```
 README.md...........................the file with CD/GIT contents description  
 ├─ src..............................the directory of source codes  
-│  ├─ esp...........................implementation for esp32 platform  
-│  ├─ mathematica...................implementation in Mathematica  
-│  ├─ offline.......................offline reference materials  
-│  ├─ pc............................implementation for PC platform  
+│  ├─ esp...........................the implementations for esp32 platform  
+│  ├─ mathematica...................the implementations in Mathematica  
+│  ├─ offline.......................the offline reference materials  
+│  ├─ pc........................the implementations for PC platform  
 │  └─ thesis........................the directory of LATEX source codes of the thesis  
 └─ text.............................the thesis text directory  
    └─ thesis.pdf....................the thesis text in PDF format  
