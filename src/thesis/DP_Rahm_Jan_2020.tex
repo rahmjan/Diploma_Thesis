@@ -1250,7 +1250,7 @@ How it can be seen in \ref{pc-all} the LOUV implementation is faster at signing 
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}\label{pc-mem-measurement}
-Memory complexity deals with the allocation of RAM on a heap for the signature schemes. The required memory on a stack I did not measure because compare to the heap it is negligible (in the magnitude of a few kilobytes). I measured the PC implementations with the help of Valgrind. Specifically, with the help of tool \textit{Massif} which is a heap profiler:
+Memory complexity deals with the allocation of RAM on a heap for the signature schemes. The required memory on a stack I did not measure because in comparision to the heap it is negligible (in the magnitude of a few kilobytes). I measured the PC implementations with the help of Valgrind. Specifically, with the help of tool \textit{Massif} which is a heap profiler:
 \begin{lstlisting}[frame=single]
 valgrind --tool=massif ./test
 \end{lstlisting}
@@ -1389,7 +1389,7 @@ It can also be seen that signing and verifying stages do not belong to fast oper
 
 \bigskip
 \noindent
-Like in LOUV scheme before, also in RB scheme is the best variant from security category I, the variant \textit{Rb-16-32-32-32}. Which has more than enough security for the common communication on IoT devices.
+As in LOUV scheme before, also in RB scheme is the best variant from security category I, the variant \textit{Rb-16-32-32-32}. Which has more than enough security for the common communication on IoT devices.
 
 \begin{figure}[H]
 \centering
@@ -1407,7 +1407,7 @@ In this figure can be seen that the LUOV variants are faster in signing and the 
 
 \bigskip
 \noindent
-If I compare the ESP32 figures of time results with the PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32. Also is visible that verifying stage of all the variants of RB got slowdown compared to the PC implementations.
+If I compare the ESP32 figures of time results with the PC implementations I can see similar shapes. That means there are no big mistakes in my port of implementation on ESP32. It is also noticeble that the verifying stage of all the variants of RB got slowdown compared to the PC implementations.
 
 \begin{figure}[H]
 \centering
@@ -1418,7 +1418,7 @@ If I compare the ESP32 figures of time results with the PC implementations I can
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Memory complexity}
-Memory complexity I measured through the flag \textit{MEM\_MEASUREMENT}, more details can be found at section \ref{esp-luov-memory}. It measures an allocation on the heap which is the external memory extending. The required memory on stack I did not measure because compare to the heap it is negligible (in the magnitude of a few kilobytes) and it was set to maximum size of 20000B in LUOV implementation and 5000B in RB implementation.
+Memory complexity I measured through the flag \textit{MEM\_MEASUREMENT}, more details can be found at section \ref{esp-luov-memory}. It measures an allocation on the heap which is the external memory extending. The required memory on stack I did not measure because in comparision to the heap it is negligible (in the magnitude of a few kilobytes) and it was set to maximum of 20000B in LUOV implementation and 5000B in RB implementation.
 
 \bigskip
 \noindent
@@ -1426,11 +1426,11 @@ From the flag output I created next few figures which show the maximum memory al
 
 \bigskip
 \noindent
-But the first figure \ref{mem-luov0} is an exception to previous statement because there was small number of output data from the flag and it was possible to align them that I was able to create figure which visualize memory allocation of LUOV over the whole period of generation (left hill), signing (middle) and verification (right triangle). The peaks represent the moments when the implementation needs to compute public or private key from the seed. Then use it and after the use discard it.
+But the first figure \ref{mem-luov0} is an exception to previous statement because there was small number of output data from the flag and it was possible to align them that I was able to create figure which visualizes memory allocation of LUOV over the whole period of generation (left hill), signing (middle) and verification (right triangle). The peaks represent the moments when the implementation needs to compute public or private key from the seed. Then uses it and after the use discards it.
 
 \bigskip
 \noindent
-There is possible to see that with higher security category the more memory is needed. Also is visible that LOUV variants with shorter public key need less resources. It could be also seen in figure \ref{mem-luov} which shows only the maximum allocation of memory. This is the same conclusion as in the PC memory measurement, section \ref{pc-mem-measurement}.
+There is possible to see that with higher security category the more memory is needed. Also, the LOUV variants with shorter public key need less resources. It could be also seen in figure \ref{mem-luov} which shows only the maximum allocation of memory. This is the same conclusion as in the PC memory measurement, section \ref{pc-mem-measurement}.
 
 \newpage
 \bigskip\bigskip
@@ -1461,15 +1461,15 @@ In the next figure \ref{mem-rb} is displayed memory allocation of Rainbow scheme
 \end{figure}
 
 \noindent
-I can think only of two possibilities why there is this result:
+I think only of two possibilities why there is this result:
 \begin{itemize}
 \item	Error in measurement - In my implementation of memory measurement on ESP32 is some kind of error which input this result. But it is only few lines of C++ code which directly use the \textit{esp} API. That is why I am inclined to the second possibility.
-\item	Wrong allocation - ESP32-LyraT just allocate the rest of free memory in external RAM. This can happen when there was not enough time after free operation and the allocation table was not updated, so it used next free block. Or the segmentation of memory was not optimal and the needed memory block was not able to be allocated in previous blocks because it require bigger capacity.
+\item	Wrong allocation - ESP32-LyraT just allocate the rest of free memory in external RAM. This can happen when there was not enough time after free operation and the allocation table was not updated, so it used next free block. Or the segmentation of memory was not optimal and the needed memory block was not able to be allocated in previous blocks because it required bigger capacity.
 \end{itemize}
 
 \bigskip
 \noindent
-From these results I can assume that minimum of 4MB RAM is needed to safely run the Rainbow implementation on ESP32-LyraT. It is also visible that having public key in the form of seed save some of the memory (comparison of the \textit{cyc} and the classic variants).
+From these results I can assume that minimum of 4MB RAM is needed to safely run the Rainbow implementation on ESP32-LyraT. It is also shown that having public key in the form of seed saves some of the memory (comparison of the \textit{cyc} and the classic variants).
 
 \begin{figure}[H]
 \centering
@@ -1489,15 +1489,15 @@ Figure \ref{mem-both} shows comparison of LUOV and RB schemes in memory requirem
 \end{figure}
 
 \noindent
-Compared to figure \ref{mem-rb} now is possible to see more meaningful results of memory allocation but be aware that there are heap allocations of bare implementation without system libraries.
+Now, compared to figure \ref{mem-rb}, is possible to see more meaningful results of memory allocation, but be aware that there are heap allocations of bare implementation without system libraries.
 
 \bigskip
 \noindent
-In figure \ref{mem-my-alloc} is visible that the \textit{cyc} variants of RB are using the seed for a public key because memory needs are lower in the signature stage but high in the verification stage compared to the classic variants. Also is beautifully visible the use of the seed for a private key in the \textit{com} variants. In the signature stage it needs more memory then the \textit{cyc} variant because of generation of a private key from the seed but in the verification stage it saves the memory because the private key is only in the form of small seed.
+In figure \ref{mem-my-alloc} is shown that the \textit{cyc} variants of RB are using the seed for a public key because memory needs are lower in the signature stage but high in the verification stage compared to the classic variants. Also is beautifully shown the use of the seed for a private key in the \textit{com} variants. In the signature stage it needs more memory then the \textit{cyc} variant because of generation of a private key from the seed but in the verification stage it saves the memory because the private key is only in form of small seed.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Keys \& signature} \label{key_sign}
-In this section is comparison of size of keys for different variants of signature algorithms. Must be said that the size of keys of the ESP32 implementations are the same as the PC implementations. I noted them from the measurement of the ESP32 implementations.
+In this section is comparison of sizes of keys for different variants of signature algorithms. Must be said that the sizes of keys of the ESP32 implementations are the same as the PC implementations. I noted them from the measurement of the ESP32 implementations.
 
 \bigskip
 \noindent
@@ -1505,11 +1505,11 @@ In figure \ref{sign-luov} is shown LOUV sizes of public key, private (secret) ke
 
 \bigskip
 \noindent
-On the other side, on the same figure is shown that with shorter signature the variants need much more space for public key which can be longer up to 3 times if I compare \textit{Luov-7-110-374} and \textit{Luov-79-76-341}.
+On the other side, in the same figure is shown that with shorter signature the variants need much more space for public key which can be up to 3 times longer if I compare \textit{Luov-7-110-374} and \textit{Luov-79-76-341}.
 
 \bigskip
 \noindent
-The variants of LUOV shows kind of large difference in these two values that means it depends on the situation which of the variant will be more advantageous to use.  
+The variants of LUOV shows kind of large difference in these two values that means it depends on the situation which of the variants will be more advantageous to use.  
 
 \begin{figure}[H]
 \centering
@@ -1530,11 +1530,11 @@ Figure \ref{sign-rb} displays size of keys and signature of Rainbow variants. It
 
 \bigskip
 \noindent
-Next two figures \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB. The first one is comparison between the LUOV variants with shorter public key and RB, and the second between the LOUV variants with shorter signature and RB. I split it into two figures for a better comparison, especially because of the signature.
+Next two figures \ref{sign-all1} and \ref{sign-all2} show comparison between LOUV and RB. The first one is comparison between the LUOV variants with shorter public key and RB, and the second between the LOUV variants with shorter signature and RB. I splitted it into two figures for a better comparison, especially because of the signature.
 
 \bigskip
 \noindent
-In both of the figures is shown that LOUV use shorter seed for the secret key. In numbers it is 32B for LUOV and 64B for RB. But comparison of the signatures show that the RB implementation has them shorter also in both figures. The size of RB signature is 204B, LOUV with shorter signature it is 440B and with short public key it is 4134B in security category V.
+In both of the figures is shown that LOUV use shorter seed for the secret key. In numbers it is 32B for LUOV and 64B for RB. But comparison of the signatures shows that the RB implementation has them shorter also in both figures. The size of RB signature is 204B, LOUV with shorter signature has 440B and with short public key it is 4134B in security category V.
 
 \bigskip
 \noindent
@@ -1542,7 +1542,7 @@ The public key of LUOV is shorter in both of the figures quite by a lot. In the 
 
 \bigskip
 \noindent
-From these results in this section are evident that the only benefit of Rainbow implementation is short signature which can maybe be very beneficial, for example in some congested networks.
+From these results in this section is evident that the only benefit of Rainbow implementation is short signature which can maybe be very beneficial, for example in some congested networks.
 
 \begin{figure}[H]
 \centering
@@ -1566,11 +1566,11 @@ The measured values show that the implementation of LOUV is almost better in eve
 
 \bigskip
 \noindent
-Rainbow has shorter signature length how can be seen on the figures \ref{sign-all1} and \ref{sign-all2} but that is all. It needs much more memory for running (in some cases it allocates all available memory) and is slow if I compare the \textit{cyc} variants with LUOV.
+Rainbow has shorter signature length, see figures \ref{sign-all1} and \ref{sign-all2} but that is all. It needs much more memory for running (in some cases it allocates all available memory) and is slow if I compare the \textit{cyc} variants with LUOV.
 
 \bigskip
 \noindent
-But the variants without generations of key from the seed are fast, even much faster than LUOV. On the other side, if the LUOV was not using the seed for the keys it will also be faster. It would be interesting to make the comparison of these two variants but the LUOV implementation do not contains this implementation.
+The variants without key generation from the seed are fast, even much faster than the LUOV variants. On the other side, if the LUOV was not using the seed for the keys it would also be faster. It would be interesting to make the comparison of these two variants but the LUOV implementation do not contains this implementation.
 
 \bigskip
 \noindent
@@ -1583,7 +1583,7 @@ One of the important criteria in usability in an embedded environment is compari
 
 \bigskip
 \noindent
-Below is table of variants and its NIST security category for possible comparison. \cite{L-NIST-RECOMM} Variant \textit{RSA-7680} I was not able to measure because the verification of signature is failing (the reason for it could be the maximum support of 4096 bits for hardware big number accelerator) but it is good to have it for illustration of the difference in size of public key between categories I and III and its counterparts in ECDSA.
+Below is table of variants and its NIST security category for possible comparison. \cite{L-NIST-RECOMM}. I was not able to measure the variant \textit{RSA-7680} because the verification of signature was failing (the reason for it could be the maximum support of 4096 bits for hardware "big number" accelerator), but it is good to have it for illustration of the difference in size of public key between categories I and III and its counterparts in ECDSA.
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -1608,7 +1608,7 @@ ECDSA-521 & V & 256 \\ \hline
 \end{figure}
 
 \noindent
-First two figures \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. It shows that ECDSA is faster than RSA except the verification. The LUOV variants shows that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in the generation and the verification stages.
+First two figures \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. They show that ECDSA is faster than RSA except the verification. The LUOV variants show that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in the generation and the verification stages.
 
 \bigskip
 \noindent
@@ -1627,7 +1627,7 @@ The ESP32 supports hardware acceleration of RSA and ECDSA in terms of big number
 
 \bigskip
 \noindent
-Last two figures \ref{mem-all} and \ref{mem-category-all} are comparison of memory requirements with algorithms selected for this thesis. It shown that most of the implementations needs similar (in KB) amount of memory for its working, except the Rainbow.
+Last two figures \ref{mem-all} and \ref{mem-category-all} are comparison of memory requirements with algorithms selected for this thesis. They show that most of the implementations need similar (in KB) amount of memory for its working, except for the Rainbow.
 
 \bigskip
 \noindent
@@ -1652,7 +1652,7 @@ From the comparison with conventional algorithms it is shown that LOUV implement
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Conclusion}
-The goal of this thesis is description of multivariate cryptography and creation of Wolfram Mathematica example for educational purpose of the selected algorithms, specifically: Unbalanced Oil \& Vinegar and Rainbow. It also deals with implementation of the algorithms on PC and microcontroller, ESP32, and evaluate their memory and time complexity. Finally, it compares the implementations with conventional algorithms, RSA and ECDSA. The goal of this Master's thesis was definitely fulfilled.
+The goal of this thesis was description of multivariate cryptography and creation of Wolfram Mathematica example for educational purpose of the selected algorithms, specifically: Unbalanced Oil \& Vinegar and Rainbow. It also deals with implementation of the algorithms on PC and microcontroller, ESP32, and evaluate their memory and time complexity. Finally, it compares the implementations with conventional algorithms, RSA and ECDSA. The goal of this Master's thesis was definitely fulfilled.
 
 \bigskip
 \noindent
@@ -1664,7 +1664,7 @@ The second chapter deals with the referenced implementation of algorithms, step 
 
 \bigskip
 \noindent
-In the third and last chapter there is a description of the testing environment and the means used. It also includes measuring and testing implementations on PC and ESP32. The algorithms were then compared with each other and with other conventional signature scheme implementations.
+In the third and last chapter is description of the testing environment, including measuring and testing of the implementations on PC and ESP32. The algorithms were then compared with each other and with other conventional signature scheme implementations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
