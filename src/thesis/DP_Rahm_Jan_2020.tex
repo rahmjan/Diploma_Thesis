@@ -75,14 +75,14 @@ The chapter describes concepts and algorithms used in the thesis.
 
 \section{Basic terms}
 \subsection{Polynomial}
-Polynomial $p$ is function to which applies
+Polynomial $p$ is a function of the form:
 \[
 	p(x) = \sum\limits_{i=0}^n {\alpha_ix^i} = \alpha_0 + \alpha_1x + \alpha_2x^2 + ... + \alpha_nx^n,
 \]
 where $n \in N_0$ and $\alpha_0, \alpha_1, ..., \alpha_n \in R$. Values $\alpha_0, \alpha_1, ..., \alpha_n$ we call polynomial coefficients of $p$.  
 
 \subsection{Degree of a polynomial}
-The degree of a polynomial is the highest index $i \in N_0$ to which applies that coefficient $\alpha_i \ne 0$. If all coefficients are zero, then the degree of the polynomial is -1.
+The degree of a polynomial is the highest index $i \in N_0$ with the coefficient $\alpha_i \ne 0$. If all coefficients are zero, then the degree of the polynomial is -1.
 
 \subsection{Quantum computer}
 A quantum computer is a device for performing computations, which directly uses the phenomena known from quantum mechanics as superposition or interference. In a classical computer, data is represented by bits, where each bit is either zero or one, while in a quantum computer, qubits (quantum bits) are used, which can be zero, one, or a combination of both.
@@ -261,7 +261,7 @@ Let $\mathbb{F}$ be a finite field, $v,o \in \mathbb{N}$ and $n=v+o$, $V=\{1, \l
 \noindent
 The \textit{central map} $\mathcal{F}:\mathbb{F}^n \rightarrow \mathbb{F}^o$ consist of $o$ quadratic polynomials $f^{(1)}, \ldots, f^{(o)}$:
 \[
-	f^{(k)} = \sum\limits_{i=1}^{v} {\sum\limits_{j=1}^{v} {\alpha_{ij}^{(k)} \cdot x_ix_j}} +  \sum\limits_{i=1}^{v} {\sum\limits_{j=v+1}^{n} {\beta_{ij}^{(k)} \cdot x_ix_j}}+ \sum\limits_{i=1}^{n} {\gamma_{i}^{(k)} \cdot x_i} + \delta^{(k)}
+	f^{(k)} = \sum\limits_{i,j \in V}{\alpha_{ij}^{(k)} \cdot x_ix_j} +  \sum\limits_{i \in V,j \in O}{\beta_{ij}^{(k)} \cdot x_ix_j}+ \sum\limits_{i \in V \cup O}{\gamma_{i}^{(k)} \cdot x_i} + \delta^{(k)}
 \]
 where $\alpha_{ij}^{(k)}$, $\beta_{ij}^{(k)}$, $\gamma_{i}^{(k)}$, $\delta^{(k)} \in \mathbb{F}$ and $1 \leq k \leq o$.
 
@@ -272,6 +272,10 @@ To hide $\mathcal{F}$ in the public key, it is combined with one invertible affi
 	\mathcal{P} = \mathcal{F} \circ \mathcal{T} : \mathbb{F}^n \rightarrow \mathbb{F}^o
 \]
 and the private key consist of $\mathcal{F}$ and $\mathcal{T}$. The second affine map $\mathcal{S}$ is not needed for the security of UOV.
+
+\bigskip
+\noindent
+Note that in the $\mathcal{F}$ only the vinegar variables could have quadratic form and the coefficients of the polynomials could be randomly selected.
 
 \subsection{Security}
 For the security of UOV is required $v \geq 2o$ because of the attack of Kipnis and Shamir on balanced OV.\cite{L-KS98} Besides of that, the UOV scheme resisted (for suitable parameter sets) cryptanalysis for over 20 years. Now it is one of the oldest and best studied cryptosystems and is therefore believed to be of high security.
@@ -303,6 +307,10 @@ To hide $\mathcal{F}$ in the public key, it is combined with two invertible affi
 	\mathcal{P} = \mathcal{S} \circ \mathcal{F} \circ \mathcal{T} : \mathbb{F}^n \rightarrow \mathbb{F}^m
 \]
 and the private key consist of $\mathcal{S}$, $\mathcal{F}$ and $\mathcal{T}$.
+
+\bigskip
+\noindent
+Note that in the $\mathcal{F}$ only the vinegar variables could have quadratic form and the coefficients of the polynomials could be randomly selected.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -406,12 +414,16 @@ It sets the hash to value $w = (3,6,4)$ and also sets values for $y = (y1,y2,y3)
   f2 = PolynomialMod[F2[y1,y2,y3,y4,y5,y6],mod]
   f3 = PolynomialMod[F3[y1,y2,y3,y4,y5,y6],mod]
 \end{mmaCell}
-Here are the results after minimalizing and use of modulo:
+Here is the $\mathcal{F}$ after substitution, minimalizing and use of modulo:
 \begin{mmaCell}{Output}
   f1 = 6+y4+4y5+6y6
   f2 = 4+y4+y5+4y6
   f3 = 5+6y4+4y5+y6
 \end{mmaCell}
+In this result is shown the loss of quadratic variables (vinegar) by the substitution which will give linear equations.
+
+\bigskip
+\noindent
 Next two steps solve linear system $f^{(1)} = w_1 = 3, f^{(2)} = w_2 = 6, f^{(3)} = w_3 = 4$, it can also use, for the solution, the Gaussian elimination:
 \begin{mmaCell}[moredefined={res, f1, w, f2, f3, mod}]{Input}
   res=Solve[\{f1==w[[1]],f2==w[[2]],f3==w[[3]]\},Modulus\(\pmb{\to}\)mod];
@@ -578,11 +590,11 @@ f4 = x3+5x4
 f5 = 3x3+4x4+3x3x4+2x5+x3x5+3x4x5+2x6+2x3x6
 f6 = 1+3x3^2+4x4+5x3x4+x4^2+2x5+4x3x5+6x4x5+5x6+2x3x6+3x4x6
 \end{mmaCell}
-For the second step it is visible from the result that $f^{(3)}$ and $f^{(4)}$ are two equations (first rainbow layer) with two unknown values.
+For the second step it is visible from the result that $f^{(3)}$ and $f^{(4)}$ are two linear equations (first rainbow layer) with two unknown values.
 \begin{mmaCell}[moredefined={res1, f3, f4, x, mod}]{Input}
   res1 = Solve[\{f3==x[[1]],f4==x[[2]]\},Modulus \(\pmb{\to}\) mod];
 \end{mmaCell}
-It solves and with these two values $(x3, x4)$, it is possible to continue the substitution and to compute the final linear system (second rainbow layer):
+It solves and with these two (new vinegar) values $(x3, x4)$, it is possible to continue the substitution and to compute the final linear system (second rainbow layer):
 \begin{mmaCell}[moredefined={res1, y1, y2, mod, F5, F6, f5, f6}]{Input}
   f5 = PolynomialMod[F5[y1,y2,x3,x4,x5,x6]/.res1,mod];
   f6 = PolynomialMod[F6[y1,y2,x3,x4,x5,x6]/.res1,mod];
@@ -625,7 +637,7 @@ Last part of the Mathematica sheet is to check if two hashes $w$ and $w2$ are th
   True
 \end{mmaCell}
 By the definition of RB, section \ref{rb-definition}, in this example is used $u=2, v_1=2, v_2=4, v_3=6=n$. Because $u=2$, it is example of RB with two layers.
-The file with implementation can be found under name \textit{RB.nb}.
+The file with implementation can be found under the name \textit{RB.nb}.
 
 \subsubsection{Generation of instance}
 I also created a version with generation of a random instance of RB for the selected parameters. It can be found in the file \textit{RB-gen.nb}. The parameters are the value of modulus, the number of vinegar variables and the list of numbers of oil variables where each of them represents one of the layers.
@@ -634,15 +646,11 @@ I also created a version with generation of a random instance of RB for the sele
 \newpage
 \lstset{basicstyle=\footnotesize\ttfamily}
 \section{Reference implementation}
-The section describes reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implementations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019, and are written in language C and C++. 
+The section describes reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implementations are possible candidates for the new Cryptography standard, were announced 30. 1. 2019, and are written in language C++. 
 
 \bigskip
 \noindent
 The reference implementations contain several optimized solutions. But for purpose of this Master's thesis is only relevant solution under the folder of \textit{Reference\_Implementation} because the others are not compatible with the ESP32 microcontroller.
-
-\bigskip
-\noindent
-Both of the reference implementations use Gaussian elimination for the speed up of cumputation of \textit{pre-image} of the \textit{central map} $\mathcal{F}$.
 
 %%%%%%%%%%%%%%%%%%%
 \subsection{Unbalanced Oil \& Vinegar}
@@ -757,7 +765,6 @@ Third step is verification of the signature \textit{sm} and it puts the message 
 crypto_sign_open(m2,&smlen,sm smlen,pk);
 \end{lstlisting}
 
-\bigskip
 \noindent
 Final step is verification if the message $m$ is equal to the $m2$.
 
@@ -1221,7 +1228,7 @@ The next two figures display individual stages of the signature scheme and time 
 \end{figure}
 
 \noindent
-How it can be seen on \ref{pc-luov} the stronger the security the more of time is needed for the computation which is the expected result. About the generation stage, the shorter the public key the fastest it is, the same is true for the signing and the verifying stages which are again the expected results.
+How it can be seen on \ref{pc-luov} the stronger the security the more of time is needed for the computation which is the expected result. About the generation stage, the shorter the public key the fastest it is, the same is true for the signing and  verifying stages which are again the expected results.
 
 \bigskip
 \noindent
@@ -1235,7 +1242,7 @@ In the figure \ref{pc-rb}, it is possible to see that generating the public key 
 \end{figure}
 
 \noindent
-Next figure \ref{pc-all} is comparison of LUOV and RB implementation. I only compare the \textit{com} versions of RB with LUOV with short public keys. I selected this LOUV variant because it is faster and this RB variant because it also (like LUOV) generates the public and the private keys from the seed.
+Next figure \ref{pc-all} is comparison of LUOV and RB implementation. I only compare the \textit{com} versions of RB with LUOV with short public keys. I selected this LOUV variant because it is faster and this RB variant because it also (like LUOV) generates the public and private keys from the seed.
 There is not the generation stage because on \ref{pc-luov} and \ref{pc-rb} is very well visible that generation times of RB are much slower than LOUV. 
 
 \begin{figure}[H]
@@ -1275,7 +1282,7 @@ In the figure \ref{mem-pc-luov} is visible memory allocation of LUOV. It shows t
 \end{figure}
 
 \noindent
-Next is the figure \ref{mem-pc-rb} of RB memory allocation. There is shown again that higher security category the more resource it needs, which is the expected result. But to my surprise the \textit{com} variants of Rainbow need less RAM allocation compared to the classic and the \textit{cyc} variants. The only explanation I can think of, which can explain this behavior, is the generation of a private key from the seed. That is the main difference compared to other variants.
+Next is the figure \ref{mem-pc-rb} of RB memory allocation. There is shown again that higher security category the more resource it needs, which is the expected result. But to my surprise the \textit{com} variants of Rainbow need less RAM allocation compared to the classic and \textit{cyc} variants. The only explanation I can think of, which can explain this behavior, is the generation of a private key from the seed. That is the main difference compared to other variants.
 \begin{figure}[H]
 \centering
 \includegraphics[width=13cm,height=7cm]{images/mem-pc-rb.pdf}
@@ -1469,7 +1476,7 @@ I think only of two possibilities why there is this result:
 
 \bigskip
 \noindent
-From these results I can assume that minimum of 4MB RAM is needed to safely run the Rainbow implementation on ESP32-LyraT. It is also shown that having public key in the form of seed saves some of the memory (comparison of the \textit{cyc} and the classic variants).
+From these results I can assume that minimum of 4MB RAM is needed to safely run the Rainbow implementation on ESP32-LyraT. It is also shown that having public key in the form of seed saves some of the memory (comparison of the \textit{cyc} and classic variants).
 
 \begin{figure}[H]
 \centering
@@ -1608,7 +1615,7 @@ ECDSA-521 & V & 256 \\ \hline
 \end{figure}
 
 \noindent
-First two figures \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. They show that ECDSA is faster than RSA except the verification. The LUOV variants show that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in the generation and the verification stages.
+First two figures \ref{time-all} and \ref{time-category-all} are comparison of time with algorithms selected for this thesis. They show that ECDSA is faster than RSA except the verification. The LUOV variants show that they are not too much slower then ECDSA, \textit{Luov-47-42-182} is even faster in the generation and verification stages.
 
 \bigskip
 \noindent
@@ -1750,20 +1757,20 @@ BARKER, E.: \textit{NIST Special Publication 800-57 Part 1 Revision 4.} NIST, U.
 \begin{tabular}{|l|r|r|r|}
 \hline
                     & \multicolumn{1}{l|}{{ Generation}} & \multicolumn{1}{l|}{{ Signing}} & \multicolumn{1}{l|}{{ Verifying}} \\ \hline
- Luov-47-42-182      &  0,007                           &  0,0192                       &  0,0102                         \\ \hline
- Luov-7-57-197       &  0,0074                          &  0,0189                       &  0,01                           \\ \hline
- Luov-61-60-261      &  0,022                           &  0,0652                       &  0,0305                         \\ \hline
+ Luov-47-42-182      &  0,0070                           &  0,0192                       &  0,0102                         \\ \hline
+ Luov-7-57-197       &  0,0074                          &  0,0189                       &  0,0100                           \\ \hline
+ Luov-61-60-261      &  0,0220                           &  0,0652                       &  0,0305                         \\ \hline
  Luov-7-83-283       &  0,0753                          &  0,1164                       &  0,0647                         \\ \hline
- Luov-79-76-341      &  0,089                           &  0,2208                       &  0,1053                         \\ \hline
- Luov-7-110-374      &  0,153                           &  0,2455                       &  0,1347                         \\ \hline
- Rb-16-32-32-32      &  0,0907                          &  0,001                        &  0,0009                         \\ \hline
- Rb-16-32-32-32-cyc  &  0,1004                          &  0,001                        &  0,0019                         \\ \hline
+ Luov-79-76-341      &  0,0890                           &  0,2208                       &  0,1053                         \\ \hline
+ Luov-7-110-374      &  0,1530                           &  0,2455                       &  0,1347                         \\ \hline
+ Rb-16-32-32-32      &  0,0907                          &  0,0010                        &  0,0009                         \\ \hline
+ Rb-16-32-32-32-cyc  &  0,1004                          &  0,0010                        &  0,0019                         \\ \hline
  Rb-16-32-32-32-com  &  0,0932                          &  0,0335                       &  0,0021                         \\ \hline
  Rb-256-68-36-36     &  1,1021                          &  0,0129                       &  0,0116                         \\ \hline
- Rb-256-68-36-36-cyc &  1,1929                          &  0,009                        &  0,0151                         \\ \hline
+ Rb-256-68-36-36-cyc &  1,1929                          &  0,0090                        &  0,0151                         \\ \hline
  Rb-256-68-36-36-com &  1,2262                          &  0,5935                       &  0,0155                         \\ \hline
- Rb-256-92-48-48     &  3,233                           &  0,0219                       &  0,0232                         \\ \hline
- Rb-256-92-48-48-cyc &  3,6522                          &  0,021                        &  0,038                          \\ \hline
+ Rb-256-92-48-48     &  3,2330                           &  0,0219                       &  0,0232                         \\ \hline
+ Rb-256-92-48-48-cyc &  3,6522                          &  0,0210                        &  0,0380                          \\ \hline
  Rb-256-92-48-48-com &  3,6334                          &  1,7513                       &  0,0384                         \\ \hline
 \end{tabular}
 \caption{Time measurement in seconds on PC}
@@ -1791,30 +1798,30 @@ Luov-7-110-374                        & 291712                       & Rb-256-68
 \begin{tabular}{|l|r|r|r|}
 \hline
                   & \multicolumn{1}{c|}{{ Generation}} & \multicolumn{1}{c|}{{ Signing}} & \multicolumn{1}{c|}{{ Verification}} \\ \hline
- Luov-47-42-182      &  0,29                            &  0,6                          &  0,32                              \\ \hline
- Luov-7-57-197       &  0,52                            &  0,81                         &  0,47                              \\ \hline
- Luov-61-60-261      &  0,84                            &  2,29                         &  0,97                              \\ \hline
- Luov-7-83-283       &  3,84                            &  4,88                         &  2,33                              \\ \hline
- Luov-79-76-341      &  4,54                            &  11,24                        &  4,59                              \\ \hline
- Luov-7-110-374      &  8,77                            &  11,15                        &  5,24                              \\ \hline
- Rb-16-32-32-32      &  1,86                            &  0,04                         &  0,03                              \\ \hline
- Rb-16-32-32-32-cyc  &  2,04                            &  0,03                         &  0,29                              \\ \hline
- Rb-16-32-32-32-com  &  2,02                            &  1,02                         &  0,29                              \\ \hline
- Rb-256-68-36-36     &  20,06                           &  0,2                          &  0,2                               \\ \hline
- Rb-256-68-36-36-cyc &  22,31                           &  0,19                         &  1,53                              \\ \hline
- Rb-256-68-36-36-com &  22,33                           &  11,23                        &  1,57                              \\ \hline
- Rb-256-92-48-48-com &  67,9                            &  33,49                        &  3,64                              \\ \hline
- ECDSA-256           &  0,4                             &  0,149                        &  0,556                             \\ \hline
- ECDSA-384           &  0,46                            &  0,18                         &  0,67                              \\ \hline
- ECDSA-521           &  0,76                            &  0,34                         &  1,16                              \\ \hline
- RSA-2048            &  2,12                            &  0,35                         &  0,001                             \\ \hline
+ Luov-47-42-182      &  0,29                            &  0,600                          &  0,320                              \\ \hline
+ Luov-7-57-197       &  0,52                            &  0,810                         &  0,470                              \\ \hline
+ Luov-61-60-261      &  0,84                            &  2,290                         &  0,970                              \\ \hline
+ Luov-7-83-283       &  3,84                            &  4,880                         &  2,330                              \\ \hline
+ Luov-79-76-341      &  4,54                            &  11,240                        &  4,590                              \\ \hline
+ Luov-7-110-374      &  8,77                            &  11,150                        &  5,240                              \\ \hline
+ Rb-16-32-32-32      &  1,86                            &  0,040                         &  0,030                              \\ \hline
+ Rb-16-32-32-32-cyc  &  2,04                            &  0,030                         &  0,290                              \\ \hline
+ Rb-16-32-32-32-com  &  2,02                            &  1,020                         &  0,290                              \\ \hline
+ Rb-256-68-36-36     &  20,06                           &  0,200                          &  0,200                               \\ \hline
+ Rb-256-68-36-36-cyc &  22,31                           &  0,190                         &  1,530                              \\ \hline
+ Rb-256-68-36-36-com &  22,33                           &  11,230                        &  1,570                              \\ \hline
+ Rb-256-92-48-48-com &  67,90                            &  33,490                        &  3,640                              \\ \hline
+ ECDSA-256           &  0,40                             &  0,149                        &  0,556                             \\ \hline
+ ECDSA-384           &  0,46                            &  0,180                         &  0,670                              \\ \hline
+ ECDSA-521           &  0,76                            &  0,340                        &  1,160                              \\ \hline
+ RSA-2048            &  2,12                            &  0,350                         &  0,001                             \\ \hline
  RSA-3072            &  24,46                           &  0,852                        &  0,004                             \\ \hline
  RSA-4096            &  66,26                           &  1,641                        &  0,001                             \\ \hline
- RSA-2048-sw  & 18,16  & 1,68 & 0,03 \\ \hline
-RSA-3072-sw  & 307,82 & 4,61 & 0,06 \\ \hline
-ECDSA-256-sw & 0,37   & 0,15 & 0,55 \\ \hline
-ECDSA-384-sw & 0,48   & 0,18 & 0,72 \\ \hline
-ECDSA-521-sw & 0,82   & 0,3  & 1,19 \\ \hline
+ RSA-2048-sw  & 18,16  & 1,680 & 0,030 \\ \hline
+RSA-3072-sw  & 307,82 & 4,610 & 0,060 \\ \hline
+ECDSA-256-sw & 0,37   & 0,150 & 0,550 \\ \hline
+ECDSA-384-sw & 0,48   & 0,180 & 0,720 \\ \hline
+ECDSA-521-sw & 0,82   & 0,300  & 1,190 \\ \hline
 \end{tabular}
 \caption{Time measurement in seconds on ESP32}
 \end{table}
