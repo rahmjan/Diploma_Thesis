@@ -10,17 +10,17 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     41526,       1006]
-NotebookOptionsPosition[     40138,        981]
-NotebookOutlinePosition[     40512,        997]
-CellTagsIndexPosition[     40469,        994]
+NotebookDataLength[     42107,       1017]
+NotebookOptionsPosition[     40628,        991]
+NotebookOutlinePosition[     40999,       1007]
+CellTagsIndexPosition[     40956,       1004]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 Cell[TextData[{
  "\[OpenCurlyDoubleQuote]Rainbow\[CloseCurlyDoubleQuote] signature scheme is \
-part of Multivariate cryptography. In this sheet is basic example with \
+part of Multivariate cryptography. In this sheet is a basic example with \
 hard-coded values/instance for specific parameters which follows the workflow \
 below, where \[OpenCurlyDoubleQuote]w\[CloseCurlyDoubleQuote] is hash of some \
 message and \[OpenCurlyDoubleQuote]z\[CloseCurlyDoubleQuote] is its \
@@ -154,7 +154,7 @@ EEIIIYQQQgghhBBCCCGEEEIIIYQQQp43/wt1Zh/9
    PlotRange->{{0, 263}, {0, 140}}]], "Input",ExpressionUUID->
   "258428e8-952b-4e7e-91af-0c74f06dfde0"],
  "\nExample is composed of four parts:\n1) Setting up of values and \
-parameters for example:  Finite field \[OpenCurlyDoubleQuote]\
+parameters for the example:  Finite field \[OpenCurlyDoubleQuote]\
 \[DoubleStruckCapitalF] = GF(7)\[CloseCurlyDoubleQuote], number of oil \
 variables ",
  Cell[BoxData[
@@ -173,14 +173,12 @@ were generated central map  \[ScriptCapitalF] (F3,F4,F5,F6), affine map  \
 \[OpenCurlyDoubleQuote]n = v + ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["o", "1"], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+   SubscriptBox["o", "1"], TraditionalForm]],ExpressionUUID->
   "76058ec5-d1e1-4722-b7de-5ec1dfa94ea2"],
  "+ ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["o", "2"], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+   SubscriptBox["o", "2"], TraditionalForm]],ExpressionUUID->
   "eece89f6-3248-46ff-bf6b-1cda369885ae"],
  "\[CloseCurlyDoubleQuote].\n\t ",
  StyleBox["Private key",
@@ -192,12 +190,12 @@ were generated central map  \[ScriptCapitalF] (F3,F4,F5,F6), affine map  \
  " \[ScriptCapitalP] by composition of  \[ScriptCapitalS],  \[ScriptCapitalF] \
 and  \[ScriptCapitalT]:  \[OpenCurlyDoubleQuote]\[ScriptCapitalP] = \
 \[ScriptCapitalS] o \[ScriptCapitalF] o \[ScriptCapitalT]\
-\[CloseCurlyDoubleQuote]. When apply on signature we will get the hash: \
-\[OpenCurlyDoubleQuote]w = \[ScriptCapitalP](z)\[CloseCurlyDoubleQuote].\n3) \
-Computation of signature \[OpenCurlyDoubleQuote]z\[CloseCurlyDoubleQuote] \
-from hash \[OpenCurlyDoubleQuote]w\[CloseCurlyDoubleQuote] in three steps:\n\t\
-1] Get \[OpenCurlyDoubleQuote]x\[CloseCurlyDoubleQuote]: \
-\[OpenCurlyDoubleQuote]x = ",
+\[CloseCurlyDoubleQuote]. When applied to the signature, we will get the \
+hash: \[OpenCurlyDoubleQuote]w = \
+\[ScriptCapitalP](z)\[CloseCurlyDoubleQuote].\n3) Computation of signature \
+\[OpenCurlyDoubleQuote]z\[CloseCurlyDoubleQuote] from hash \
+\[OpenCurlyDoubleQuote]w\[CloseCurlyDoubleQuote] in three steps:\n\t1] Get \
+\[OpenCurlyDoubleQuote]x\[CloseCurlyDoubleQuote]: \[OpenCurlyDoubleQuote]x = ",
  Cell[BoxData[
   FormBox[
    SuperscriptBox["\[ScriptCapitalS]", 
@@ -227,7 +225,7 @@ in two steps (layers) is computed the pre-image.\n\t3] Get signature \
     RowBox[{"-", "1"}]], TraditionalForm]],ExpressionUUID->
   "5287dd09-5763-4f46-8b2a-6ee70a53a05a"],
  "(y)\[CloseCurlyDoubleQuote]\n4) Check if hash \[OpenCurlyDoubleQuote]w\
-\[CloseCurlyDoubleQuote] is the same as \[ScriptCapitalP](z):\n\t\
+\[CloseCurlyDoubleQuote] is is equal to  \[ScriptCapitalP](z):\n\t\
 \[OpenCurlyDoubleQuote]w == \[ScriptCapitalP](z)\[CloseCurlyDoubleQuote] \n\t\
 \t\t=> It should be true because: \[OpenCurlyDoubleQuote]z = ",
  Cell[BoxData[
@@ -297,8 +295,9 @@ in two steps (layers) is computed the pre-image.\n\t3] Get signature \
   3.797503213089959*^9, 3.797503213411642*^9}, {3.797666233879017*^9, 
   3.7976662930562363`*^9}, {3.7976663275461197`*^9, 3.7976665613812885`*^9}, {
   3.797666626005035*^9, 3.7976666280567446`*^9}, {3.7976666971045904`*^9, 
-  3.797666741621546*^9}, {3.79766678386596*^9, 
-  3.79766678386596*^9}},ExpressionUUID->"df10ed9f-b056-41f1-9bc5-\
+  3.797666741621546*^9}, {3.79766678386596*^9, 3.79766678386596*^9}, {
+  3.7987937653979464`*^9, 3.7987937851438274`*^9}, {3.798794434752162*^9, 
+  3.7987944380177484`*^9}},ExpressionUUID->"df10ed9f-b056-41f1-9bc5-\
 ba19d50e8221"],
 
 Cell[BoxData[{
@@ -424,7 +423,8 @@ Cell[BoxData[{
        RowBox[{"x2", " ", "and", " ", "in", " ", "the", " ", "second", " ", 
         RowBox[{"layer", ":", " ", "x1"}]}], ",", "x2", ",", "x3", ",", 
        "x4"}], ")"}], " ", "can", " ", "be", " ", "quadratic", " ", "because",
-      " ", "in", " ", "the", " ", "computation", " ", "of", " ", "pre"}], "-", 
+      " ", "in", " ", "the", " ", "computation", " ", "of", " ", "the", " ", 
+     "pre"}], "-", 
     RowBox[{
     "image", " ", "we", " ", "substitute", " ", "them", " ", "with", " ", 
      "concrete", " ", "value", " ", "and", " ", "we", " ", "get", " ", 
@@ -500,8 +500,8 @@ Cell[BoxData[{
    3.7975015649627147`*^9, 3.7975015863055377`*^9}, 3.7976662685623035`*^9, {
    3.7983536096088266`*^9, 3.798353610014936*^9}, {3.7983537101962976`*^9, 
    3.7983537430028725`*^9}, {3.7983538401009355`*^9, 3.798353845800397*^9}, {
-   3.798363090389226*^9, 
-   3.798363090567749*^9}},ExpressionUUID->"b4b7858b-fbc4-4973-b765-\
+   3.798363090389226*^9, 3.798363090567749*^9}, {3.7988058835783195`*^9, 
+   3.7988058840008745`*^9}},ExpressionUUID->"b4b7858b-fbc4-4973-b765-\
 1f0c8ce5b755"],
 
 Cell[BoxData[
@@ -642,6 +642,28 @@ Cell[BoxData[
 
 Cell[BoxData[
  RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Hash", " ", "\"\<w\>\""}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"w", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", "2", "}"}], ",", 
+      RowBox[{"{", "2", "}"}], ",", 
+      RowBox[{"{", "3", "}"}], ",", 
+      RowBox[{"{", "4", "}"}]}], "}"}]}], ";"}]}]], "Input",
+ CellChangeTimes->{{3.79234224496301*^9, 3.7923422623253307`*^9}, {
+   3.792342340998441*^9, 3.792342353549997*^9}, {3.792342401930235*^9, 
+   3.792342505059268*^9}, {3.792342551518744*^9, 3.792342588975992*^9}, {
+   3.7923426278971796`*^9, 3.792342695407936*^9}, {3.792342727861856*^9, 
+   3.792342746801897*^9}, {3.7933678119688807`*^9, 3.7933678150371647`*^9}, {
+   3.7974321272040825`*^9, 3.797432127621966*^9}, {3.7975016827919703`*^9, 
+   3.7975016996845617`*^9}, 3.7976665761981554`*^9, {3.798806400722561*^9, 
+   3.7988064632550526`*^9}},ExpressionUUID->"045dfbba-fe0f-4098-929c-\
+730016040cb2"],
+
+Cell[BoxData[
+ RowBox[{
   RowBox[{"(*", 
    RowBox[{
     RowBox[{
@@ -650,14 +672,6 @@ Cell[BoxData[
     "\"\<x = \!\(\*SuperscriptBox[\(\[ScriptCapitalS]\), \(-1\)]\)(w)\>\""}], 
    " ", "**)"}], "\[IndentingNewLine]", 
   RowBox[{
-   RowBox[{
-    RowBox[{"w", "=", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"{", "2", "}"}], ",", 
-       RowBox[{"{", "2", "}"}], ",", 
-       RowBox[{"{", "3", "}"}], ",", 
-       RowBox[{"{", "4", "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{
      SubscriptBox["A2", 
@@ -674,15 +688,9 @@ Cell[BoxData[
         RowBox[{"-", "1"}]], ".", 
        RowBox[{"(", 
         RowBox[{"w", "-", "b2"}], ")"}]}], ",", "mod"}], "]"}]}]}]}]], "Input",
- CellChangeTimes->{{3.79234224496301*^9, 3.7923422623253307`*^9}, {
-   3.792342340998441*^9, 3.792342353549997*^9}, {3.792342401930235*^9, 
-   3.792342505059268*^9}, {3.792342551518744*^9, 3.792342588975992*^9}, {
-   3.7923426278971796`*^9, 3.792342695407936*^9}, {3.792342727861856*^9, 
-   3.792342746801897*^9}, {3.7933678119688807`*^9, 3.7933678150371647`*^9}, {
-   3.7974321272040825`*^9, 3.797432127621966*^9}, {3.7975016827919703`*^9, 
-   3.7975016996845617`*^9}, 3.7976665761981554`*^9},
- CellLabel->
-  "In[1032]:=",ExpressionUUID->"045dfbba-fe0f-4098-929c-730016040cb2"],
+ CellChangeTimes->{{3.798806464615385*^9, 
+  3.798806473605192*^9}},ExpressionUUID->"1f1d763f-1413-402e-9377-\
+8a33c104e646"],
 
 Cell[BoxData[
  RowBox[{
@@ -943,8 +951,9 @@ Cell[BoxData[
 Cell[BoxData[
  RowBox[{
   RowBox[{"(*", 
-   RowBox[{"*", " ", "Test", " ", "of", " ", "correctness"}], " ", "**)"}], 
-  "\[IndentingNewLine]", 
+   RowBox[{"*", " ", "Test", " ", "of", " ", 
+    RowBox[{"correctness", "/", "Verification"}], " ", "of", " ", 
+    "signature"}], " ", "**)"}], "\[IndentingNewLine]", 
   RowBox[{
    RowBox[{
     RowBox[{"w2", "=", "w"}], ";"}], "\[IndentingNewLine]", 
@@ -975,12 +984,13 @@ Cell[BoxData[
     RowBox[{"Mod", "[", 
      RowBox[{"w2", ",", "mod"}], "]"}], "\[Equal]", "w"}]}]}]], "Input",
  CellChangeTimes->{{3.79234385299122*^9, 3.79234389365147*^9}, 
-   3.79234393721381*^9, {3.7923442760112424`*^9, 3.7923443501473646`*^9}},
- CellLabel->
-  "In[1048]:=",ExpressionUUID->"90e47ef7-6459-4003-9f9b-1fc8c5003e32"]
+   3.79234393721381*^9, {3.7923442760112424`*^9, 3.7923443501473646`*^9}, {
+   3.7988060710771847`*^9, 3.798806071897752*^9}, 
+   3.798806974303853*^9},ExpressionUUID->"90e47ef7-6459-4003-9f9b-\
+1fc8c5003e32"]
 },
-WindowSize->{1197, 782},
-WindowMargins->{{Automatic, 136}, {Automatic, 13}},
+WindowSize->{858, 782},
+WindowMargins->{{-7, Automatic}, {Automatic, 0}},
 Magnification:>0.9 Inherited,
 FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
 StyleDefinitions->"Default.nb"
@@ -996,18 +1006,19 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 14222, 281, 489, "Text",ExpressionUUID->"df10ed9f-b056-41f1-9bc5-ba19d50e8221"],
-Cell[14783, 303, 7042, 201, 730, "Input",ExpressionUUID->"b4b7858b-fbc4-4973-b765-1f0c8ce5b755"],
-Cell[21828, 506, 5321, 134, 315, "Input",ExpressionUUID->"74fbdeb8-436c-4c96-b6ba-83a14910a94c"],
-Cell[27152, 642, 1623, 42, 81, "Input",ExpressionUUID->"045dfbba-fe0f-4098-929c-730016040cb2"],
-Cell[28778, 686, 1562, 30, 63, "Input",ExpressionUUID->"984a135c-ac22-480a-86bc-e8d76a01d8c9"],
-Cell[30343, 718, 1277, 30, 81, "Input",ExpressionUUID->"076d4c63-501e-464f-a4ef-2162a62358ca"],
-Cell[31623, 750, 1390, 37, 63, "Input",ExpressionUUID->"da7355a4-f739-4489-9771-a23eae823033"],
-Cell[33016, 789, 1163, 30, 63, "Input",ExpressionUUID->"2f3e0565-f4a5-487e-bb37-5fe2c5f6205a"],
-Cell[34182, 821, 1465, 38, 63, "Input",ExpressionUUID->"da5400f8-0310-47ab-af20-65e4dd3f4c6e"],
-Cell[35650, 861, 1731, 37, 45, "Input",ExpressionUUID->"0328917d-e1ad-4b1e-ad9f-c846ea635503"],
-Cell[37384, 900, 1397, 40, 63, "Input",ExpressionUUID->"b055f34a-b0b8-4a63-a634-9a485847eb91"],
-Cell[38784, 942, 1350, 37, 99, "Input",ExpressionUUID->"90e47ef7-6459-4003-9f9b-1fc8c5003e32"]
+Cell[558, 20, 14271, 280, 551, "Text",ExpressionUUID->"df10ed9f-b056-41f1-9bc5-ba19d50e8221"],
+Cell[14832, 302, 7110, 202, 784, "Input",ExpressionUUID->"b4b7858b-fbc4-4973-b765-1f0c8ce5b755"],
+Cell[21945, 506, 5321, 134, 315, "Input",ExpressionUUID->"74fbdeb8-436c-4c96-b6ba-83a14910a94c"],
+Cell[27269, 642, 962, 20, 45, "Input",ExpressionUUID->"045dfbba-fe0f-4098-929c-730016040cb2"],
+Cell[28234, 664, 913, 28, 63, "Input",ExpressionUUID->"1f1d763f-1413-402e-9377-8a33c104e646"],
+Cell[29150, 694, 1562, 30, 63, "Input",ExpressionUUID->"984a135c-ac22-480a-86bc-e8d76a01d8c9"],
+Cell[30715, 726, 1277, 30, 81, "Input",ExpressionUUID->"076d4c63-501e-464f-a4ef-2162a62358ca"],
+Cell[31995, 758, 1390, 37, 63, "Input",ExpressionUUID->"da7355a4-f739-4489-9771-a23eae823033"],
+Cell[33388, 797, 1163, 30, 63, "Input",ExpressionUUID->"2f3e0565-f4a5-487e-bb37-5fe2c5f6205a"],
+Cell[34554, 829, 1465, 38, 63, "Input",ExpressionUUID->"da5400f8-0310-47ab-af20-65e4dd3f4c6e"],
+Cell[36022, 869, 1731, 37, 63, "Input",ExpressionUUID->"0328917d-e1ad-4b1e-ad9f-c846ea635503"],
+Cell[37756, 908, 1397, 40, 63, "Input",ExpressionUUID->"b055f34a-b0b8-4a63-a634-9a485847eb91"],
+Cell[39156, 950, 1468, 39, 99, "Input",ExpressionUUID->"90e47ef7-6459-4003-9f9b-1fc8c5003e32"]
 }
 ]
 *)
