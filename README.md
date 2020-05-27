@@ -1,5 +1,5 @@
 # Master's Thesis
-This Master's thesis deals with selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vinegar and Rainbow. The aim of this work is an implementation of algorithms in Wolfram Mathematica, investigation of existing solutions and their implementation on ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.
+This Master's thesis deals with the selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vinegar and Rainbow. The aim of this work is the implementation of algorithms in Wolfram Mathematica, the investigation of existing solutions and their implementation on the ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.
 
 **Keywords** Multivariate cryptography, Unbalanced Oil & Vinegar, Rainbow, Wolfram Mathematica, ESP32  
 
