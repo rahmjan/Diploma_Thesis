@@ -44,7 +44,7 @@
 \authorWithDegrees{Bc. Jan Rahm} %author's name with academic degrees
 \supervisor{Ing. Jiří Buček, Ph.D.}
 \acknowledgements{I would like to thank Ing. Jiří Buček, Ph.D. for the willingness, consultation and valuable advice he gave me. Also, I would like to thank my family for their support during my studies and in writing of this work.}
-\abstractEN{This Master's thesis deals with the selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vinegar and Rainbow. The aim of this work is the implementation of algorithms in Wolfram Mathematica, the investigation of existing solutions and their implementation on the ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.}
+\abstractEN{This Master's thesis deals with the selected algorithms of multivariate cryptography, especially Unbalanced Oil \& Vinegar and Rainbow. The aim of this work is the implementation of the algorithms in Wolfram Mathematica, the investigation of existing solutions and their implementation on the ESP32 microcontroller. The algorithms are tested and measured against the RSA and ECDSA algorithms.}
 \abstractCS{Diplomová práce se zabývá vybranými algoritmy multivariační kryptografie, zejména Unbalanced Oil \& Vinegar a Rainbow. Cílem práce je implementace algoritmů ve Wolfram Mathematica, prozkoumání již existujících řešeních a jejich implementace na mikrokontroleru ESP32. Algoritmy jsou otestovány a změřeny vůči algoritmům RSA a ECDSA.}
 \placeForDeclarationOfAuthenticity{Prague}
 \keywordsCS{Multivariační kryptografie, Unbalanced Oil \& Vinegar, Rainbow, Wolfram Mathematica, ESP32}
@@ -61,11 +61,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Introduction}
-Cryptography is one of the most needed parts of modern informatics because almost everyone has something they wish to stay private. But today we can see the uprise of the quantum computers able to decrypt the conventional algorithms for cryptology. That is why a new category of post-quantum cryptography was created, one of its representatives being a multivariate cryptography.
+Cryptography is one of the most needed parts of modern informatics, because almost everyone has something they wish to stay private. But today we can see the uprise of quantum computers capable of deciphering conventional algorithms for cryptology. That is why a new category of post-quantum cryptography was created, one of its representatives being multivariate cryptography.
 
 The objective of this work is to describe principles of multivariate cryptography for educational purposes with the creation of a simple example in Wolfram Mathematica. The focus is on Unbalanced Oil \& Vinegar and Rainbow algorithms with examination of reference implementation and their possible implementation on ESP32 and possible use in IoT.
 
-The final part deals with the comparison with chosen conventional algorithms, namely RSA and ECDSA. 
+The final part deals with the comparison with the chosen conventional algorithms, namely RSA and ECDSA. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -315,10 +315,10 @@ Note that in the $\mathcal{F}$ only the vinegar variables could have quadratic f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Implementation}
-This chapter describes the implementation of algorithms on selected platforms, namely Wolfram Mathematica, PC and microcontroller ESP32. For the last two specified, the implementation is in C++.
+This chapter describes the implementation of the algorithms on the selected platforms, namely Wolfram Mathematica, PC and microcontroller ESP32. For the last two specified, the implementation is in C++.
 
 \section{Wolfram Mathematica}
-This section describes examples in Wolfram Mathematica and step by step description of algorithms. All of the \textit{hard-coded} values (numbers) are randomly selected, they only have to respect the definition and parameters of the algorithm.
+This section describes examples in Wolfram Mathematica and step by step description of the algorithms. All of the \textit{hard-coded} values (numbers) are randomly selected, they only have to respect the definition and parameters of the algorithm.
 
 \subsection{Unbalanced Oil \& Vinegar}
 Here is a description of the signature scheme of UOV. This example of UOV is, in fact, the example of balanced OV but there is no difference to UOV.
@@ -646,7 +646,7 @@ I also created a version with a generation of a random instance of RB for select
 \newpage
 \lstset{basicstyle=\footnotesize\ttfamily}
 \section{Reference implementation}
-This section describes the reference implementation of the algorithms which are selected from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implementations are possible candidates for the new Cryptography standard, were announced on 30th January 2019, and are written in C++ language.
+This section describes the reference implementation of the algorithms which are taken from the second round of submissions from NIST Post-Quantum Cryptography Standardization Process.\cite{L-NIST-2ND} These implementations are possible candidates for the new Cryptography standard, were announced on 30th January 2019, and are written in C++ language.
 
 \bigskip
 \noindent
@@ -770,7 +770,7 @@ The final step is the verification, if the message $m$ is equal to the variable 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{ESP32 implementation} \label{ESP32_impl}
-For the implementation of algorithms on a microcontroller, I selected the ESP32-LyraT microcontroller, version 4.3, made by Espressif Systems.
+For the implementation of the algorithms on a microcontroller, I selected the ESP32-LyraT microcontroller, version 4.3, made by Espressif Systems.
 
 \iftrue
 \begin{figure}[H]
@@ -1627,17 +1627,16 @@ RB variants have similar generation times  with RSA. In both cases, these are ra
 \label{time-category-all}
 \end{figure}
 
-\bigskip
 \noindent
 The ESP32 supports hardware acceleration of RSA and ECDSA in terms of big number multiplication for up to 4096 bits. I think with this disadvantage the implementation of LUOV and RB are not lagging too much behind and can be used in an embedded environment from the time point of view. But for comparison, I measured RSA and ECDSA without the hardware acceleration. These variants are with suffix \textit{sw}. From the results, it is visible that RSA is heavily depending on the HW support, the \textit{RSA-4096-sw} variant took so long that I decided to skip it, and ECDSA only has minimal to negligible slowdown. 
 
 \bigskip
 \noindent
-Last two figures \ref{mem-all} and \ref{mem-category-all} illustrate the comparisons of memory requirements with algorithms selected for this thesis. They show that most of the implementations need a similar  amount (in KB) of memory for them to work, with the exception of the Rainbow. 
+Last two figures \ref{mem-all} and \ref{mem-category-all} illustrate the comparisons of memory requirements with the algorithms selected for this thesis. They show that most of the implementations need a similar amount (in KB) of memory for them to work, with the exception of the Rainbow. 
 
 \bigskip
 \noindent
-From the comparison with conventional algorithms, it can be seen that LOUV implementation is as good as conventional algorithms and maybe even a little bit better because of the hardware acceleration, high security for embedded devices and small signature.
+From the comparison with the conventional algorithms, it can be seen that LOUV implementation is as good as conventional algorithms and maybe even a little bit better because of the hardware acceleration, high security for embedded devices and small signature.
 
 \bigskip
 \begin{figure}[H]
@@ -1659,19 +1658,19 @@ From the comparison with conventional algorithms, it can be seen that LOUV imple
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setsecnumdepth{part}
 \chapter{Conclusion}
-The goal of this thesis was to describe multivariate cryptography and create a Wolfram Mathematica example for the educational purpose of the selected algorithms, specifically: Unbalanced Oil \& Vinegar and Rainbow. It also deals with the implementation of the algorithms on PC and microcontroller, ESP32, and evaluates their memory and time complexity. Finally, it compares the implementations with the conventional algorithms, RSA and ECDSA. The goal of this Master's thesis was fulfilled.
+The goal of this thesis was to describe multivariate cryptography and create a Wolfram Mathematica example for the educational purpose of the selected algorithms, specifically: Unbalanced Oil \& Vinegar and Rainbow. It also deals with the implementation of the algorithms on PC and ESP32 and evaluates their memory and time complexity. Finally, it compares the implementations with the conventional algorithms, RSA and ECDSA. The goal of this Master's thesis was fulfilled.
 
 \bigskip
 \noindent
-In the first chapter, the terms used in the thesis are described and defined, which is followed by a description of Multivariate cryptography and algorithms.
+In the first chapter, the terms used in the thesis are described and defined, which is followed by a description of multivariate cryptography and algorithms.
 
 \bigskip
 \noindent
-The second chapter deals with the referenced implementation of algorithms, step by step examples in Wolfram Mathematica and description of ESP32 and its implementation of algorithms.
+The second chapter deals with the referenced implementation of the algorithms, step by step examples in Wolfram Mathematica and description of ESP32 and its implementation of the selected algorithms.
 
 \bigskip
 \noindent
-In the third and last chapter is a description of the testing environment, including measuring and testing of the implementations on PC and ESP32. The algorithms were then compared with each other and with other conventional signature scheme implementations.
+In the third and last chapter is a description of the testing environment, including measuring and testing of the implementations on PC and ESP32. The algorithms were then compared with each other and with the conventional signature scheme implementations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
